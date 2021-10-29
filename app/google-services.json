@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "489798617081",
+    "firebase_url": "https://pfd-server-default-rtdb.firebaseio.com",
+    "project_id": "pfd-server",
+    "storage_bucket": "pfd-server.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:489798617081:android:f1be66a8d883410eeedf28",
+        "android_client_info": {
+          "package_name": "sg.edu.np.pfd_ocbc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "489798617081-s78veo2ithf1r3ll17p6h9rg7e6unsdk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBw9j7CZGCNglfbLzDeY244EUbiADN0rE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "489798617081-s78veo2ithf1r3ll17p6h9rg7e6unsdk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
