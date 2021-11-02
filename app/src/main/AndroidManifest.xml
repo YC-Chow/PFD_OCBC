@@ -24,6 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MobileTransferActivity"
+            android:label="@string/title_activity_mobile_transfer"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
     </application>
 
 </manifest>
