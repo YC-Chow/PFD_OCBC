@@ -4,6 +4,8 @@ import static android.content.ContentValues.TAG;
 
 import android.os.Bundle;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -20,6 +22,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Calendar;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -34,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
         EditText email = findViewById(R.id.email);
         EditText icno = findViewById(R.id.icno);
         EditText password= findViewById(R.id.password);
+
+        Date currentTime = Calendar.getInstance().getTime();
+        Log.d(TAG, currentTime.toString());
 
         Button signup = findViewById(R.id.signup);
 
@@ -52,9 +63,26 @@ public class MainActivity extends AppCompatActivity {
                                if(task.isSuccessful()){
 
                                    FirebaseUser user = mAuth.getCurrentUser();
-                                   TextView test = findViewById(R.id.test);
-                                   test.setText(user.getIdToken(false).toString());
+
+
                                    Log.d(TAG, user.getIdToken(false).getResult().getToken());
+
+
+                                   String postUrl = "https://reqres.in/api/users";
+                                   RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+
+                                   JSONObject postData = new JSONObject();
+
+                                   try{
+                                       postData.put("uid", user.getUid());
+                                       postData.put("email", user.getEmail());
+                                       postData.put("name", user.getDisplayName());
+                                   }
+                                   catch (JSONException e) {
+                                       e.printStackTrace();
+                                   }
+
+
 
                                }
                                else {
