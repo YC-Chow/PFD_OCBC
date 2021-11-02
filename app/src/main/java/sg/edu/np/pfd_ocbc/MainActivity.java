@@ -2,8 +2,15 @@ package sg.edu.np.pfd_ocbc;
 
 import static android.content.ContentValues.TAG;
 
+import android.os.Build;
 import android.os.Bundle;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -11,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
@@ -20,10 +28,24 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
         EditText email = findViewById(R.id.email);
         EditText icno = findViewById(R.id.icno);
         EditText password= findViewById(R.id.password);
+
+        LocalDate today = LocalDate.now();
+
+
+        String formattedDate = today.format(DateTimeFormatter.ofPattern("dd-MM-yy"));
+
+
 
         Button signup = findViewById(R.id.signup);
 
@@ -52,9 +81,49 @@ public class MainActivity extends AppCompatActivity {
                                if(task.isSuccessful()){
 
                                    FirebaseUser user = mAuth.getCurrentUser();
-                                   TextView test = findViewById(R.id.test);
-                                   test.setText(user.getIdToken(false).toString());
+
+
                                    Log.d(TAG, user.getIdToken(false).getResult().getToken());
+
+
+                                   String postUrl = "https://pfd-server.azurewebsites.net/createAccount";
+                                   RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+
+                                   LocalDate today = LocalDate.now();
+                                   String formattedDate = today.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
+
+                                   JSONObject postData = new JSONObject();
+
+                                   try{
+                                       postData.put("uid", user.getUid());
+                                       postData.put("email", user.getEmail());
+                                       postData.put("name", name.getText().toString());
+                                       postData.put("startDate", formattedDate);
+                                       postData.put("icNo", icno.getText().toString());
+                                       postData.put("expiryDate", "1/2/3");
+                                       postData.put("cvv", "123");
+                                       postData.put("jwtToken", user.getIdToken(false).getResult().getToken() );
+                                   }
+                                   catch (JSONException e) {
+                                       e.printStackTrace();
+                                   }
+
+
+                                   JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
+                                       @Override
+                                       public void onResponse(JSONObject response) {
+                                           System.out.println(response);
+                                       }
+                                   }, new Response.ErrorListener() {
+                                       @Override
+                                       public void onErrorResponse(VolleyError error) {
+                                           error.printStackTrace();
+                                       }
+                                   });
+
+                                   requestQueue.add(jsonObjectRequest);
+
+
 
                                }
                                else {

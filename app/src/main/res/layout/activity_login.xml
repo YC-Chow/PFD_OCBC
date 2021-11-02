@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/poppins"
-        android:text="Mobile No"
+        android:text="Email"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="12sp"
@@ -119,7 +119,7 @@
         app:layout_constraintTop_toBottomOf="@+id/pin_input" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/signup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
