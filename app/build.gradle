@@ -4,6 +4,7 @@ plugins {
 
 apply plugin: 'com.google.gms.google-services'
 
+
 android {
     compileSdkVersion 31
     buildToolsVersion "30.0.3"
@@ -14,7 +15,7 @@ android {
         targetSdkVersion 31
         versionCode 1
         versionName "1.0"
-
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
