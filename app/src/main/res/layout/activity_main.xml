@@ -40,14 +40,14 @@
         android:id="@+id/namelabel3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins"
         android:text="Password"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/password"
-        app:layout_constraintStart_toStartOf="@+id/container" />
+        app:layout_constraintStart_toStartOf="@+id/password"
+        app:layout_constraintTop_toBottomOf="@+id/icno" />
 
     <TextView
         android:id="@+id/textView"
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/poppins"
-        android:text="Sign In"
+        android:text="Sign Up"
         android:textColor="#232323"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -68,60 +68,47 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins"
         android:text="Email"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/email"
-        app:layout_constraintStart_toStartOf="@+id/container" />
+        app:layout_constraintStart_toStartOf="@+id/email"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
 
     <TextView
         android:id="@+id/namelabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/poppins"
         android:text="Name"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/name"
-        app:layout_constraintStart_toStartOf="@+id/container" />
+        app:layout_constraintStart_toStartOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/namelabel2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins"
         android:text="IC No"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/icno"
-        app:layout_constraintStart_toStartOf="@+id/container" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/poppins"
-        android:text="Pin"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/pin_input"
-        app:layout_constraintTop_toBottomOf="@+id/mobileNum_input" />
+        app:layout_constraintStart_toStartOf="@+id/icno"
+        app:layout_constraintTop_toBottomOf="@+id/email" />
 
 
     <Button
         android:id="@+id/signup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="124dp"
         android:text="SIGN UP"
         android:textColor="#000000"
@@ -133,61 +120,58 @@
         android:id="@+id/name"
         android:layout_width="270dp"
         android:layout_height="0dp"
-        android:layout_marginTop="312dp"
+        android:layout_marginTop="4dp"
         android:background="#FFFFFF"
         android:fontFamily="@font/poppins"
         android:inputType="textPersonName"
         android:textAlignment="textStart"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.546"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/container"
+        app:layout_constraintStart_toStartOf="@+id/container"
+        app:layout_constraintTop_toBottomOf="@+id/namelabel"
         tools:ignore="TouchTargetSizeCheck" />
 
     <EditText
         android:id="@+id/email"
         android:layout_width="270dp"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="4dp"
         android:background="#FFFFFF"
         android:fontFamily="@font/poppins"
         android:inputType="textPersonName"
         android:textAlignment="textStart"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.546"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
+        app:layout_constraintEnd_toEndOf="@+id/container"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="@+id/container"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <EditText
         android:id="@+id/icno"
         android:layout_width="270dp"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="4dp"
         android:background="#FFFFFF"
         android:fontFamily="@font/poppins"
         android:inputType="textPersonName"
         android:textAlignment="textStart"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.546"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
+        app:layout_constraintEnd_toEndOf="@+id/container"
+        app:layout_constraintStart_toStartOf="@+id/container"
+        app:layout_constraintTop_toBottomOf="@+id/namelabel2" />
 
     <EditText
         android:id="@+id/password"
         android:layout_width="270dp"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="4dp"
         android:background="#FFFFFF"
         android:fontFamily="@font/poppins"
         android:inputType="textPersonName"
         android:textAlignment="textStart"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.546"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/icno" />
+        app:layout_constraintEnd_toEndOf="@+id/container"
+        app:layout_constraintStart_toStartOf="@+id/container"
+        app:layout_constraintTop_toBottomOf="@+id/namelabel3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
