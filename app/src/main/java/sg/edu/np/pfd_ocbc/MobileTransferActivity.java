@@ -30,7 +30,7 @@ public class MobileTransferActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mobile_transfer);
-        customNum.findViewById(R.id.customNumber);
+        customNum = findViewById(R.id.customNumber);
 
         customNum.setOnClickListener(new View.OnClickListener() {
             @Override
