@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PFD_OCBC">
         <activity
+            android:name=".AmountConfirmationActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+        </activity>
+        <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
@@ -28,7 +32,7 @@
             android:name=".MobileTransferActivity"
             android:label="@string/title_activity_mobile_transfer"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
 
 </manifest>
