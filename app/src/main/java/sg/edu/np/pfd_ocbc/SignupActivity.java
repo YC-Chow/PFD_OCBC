@@ -2,6 +2,7 @@ package sg.edu.np.pfd_ocbc;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -25,23 +26,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class SignupActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
@@ -49,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_signup);
 
 
         EditText name = findViewById(R.id.name);
@@ -75,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                String emailtext = email.getText().toString();
                String passwordtext = password.getText().toString();
                mAuth.createUserWithEmailAndPassword(emailtext, passwordtext)
-                       .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                       .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                            @Override
                            public void onComplete(@NonNull Task<AuthResult> task) {
                                if(task.isSuccessful()){
@@ -87,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                                    String postUrl = "https://pfd-server.azurewebsites.net/createAccount";
-                                   RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+                                   RequestQueue requestQueue = Volley.newRequestQueue(SignupActivity.this);
 
                                    LocalDate today = LocalDate.now();
                                    String formattedDate = today.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
@@ -123,13 +117,16 @@ public class MainActivity extends AppCompatActivity {
 
                                    requestQueue.add(jsonObjectRequest);
 
+                                   Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                                   startActivity(intent);
+
 
 
                                }
                                else {
                                    // If sign in fails, display a message to the user.
                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                   Toast.makeText(MainActivity.this, "Authentication failed.",
+                                   Toast.makeText(SignupActivity.this, "Authentication failed.",
                                            Toast.LENGTH_SHORT).show();
 
                                }
@@ -137,6 +134,15 @@ public class MainActivity extends AppCompatActivity {
                        });
 
 
+            }
+        });
+
+        Button login = findViewById(R.id.login);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
 

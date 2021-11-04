@@ -13,12 +13,35 @@
             android:name=".AmountConfirmationActivity"
             android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
+            android:name=".NotificationsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar"/>
+        <activity
+            android:name=".TwoFactorActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar"/>
+        <activity
+            android:name=".PersonalDetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar"/>
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name=".SignupActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
+        <activity
+            android:name=".LoginActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar">
