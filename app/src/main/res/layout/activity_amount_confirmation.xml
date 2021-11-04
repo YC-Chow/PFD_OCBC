@@ -31,7 +31,7 @@
         app:srcCompat="@drawable/arrow_down" />
 
     <TextView
-        android:id="@+id/receiverMobile"
+        android:id="@+id/receiverMobileNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
@@ -55,7 +55,7 @@
         android:textColor="#000000"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/receiverMobile"
+        app:layout_constraintBottom_toTopOf="@+id/receiverMobileNum"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.086"
         app:layout_constraintStart_toEndOf="@+id/receiverProfile"
@@ -66,14 +66,13 @@
         android:id="@+id/receiverProfile"
         android:layout_width="43dp"
         android:layout_height="47dp"
-        android:background="#C66161"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.141"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toHeader"
         app:layout_constraintVertical_bias="0.056"
-        app:srcCompat="@drawable/profile_icon" />
+        app:srcCompat="@drawable/user" />
 
     <TextView
         android:id="@+id/toHeader"
@@ -139,14 +138,13 @@
         android:id="@+id/senderProfile"
         android:layout_width="43dp"
         android:layout_height="47dp"
-        android:background="#C66161"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.141"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
         app:layout_constraintVertical_bias="0.187"
-        app:srcCompat="@drawable/profile_icon" />
+        app:srcCompat="@drawable/user" />
 
     <TextView
         android:id="@+id/textView9"
@@ -204,7 +202,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/receiverMobile"
+        app:layout_constraintTop_toBottomOf="@+id/receiverMobileNum"
         app:layout_constraintVertical_bias="0.631"
         app:srcCompat="@drawable/bordered_button" />
 
@@ -268,7 +266,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.122"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/receiverMobile"
+        app:layout_constraintTop_toBottomOf="@+id/receiverMobileNum"
         app:layout_constraintVertical_bias="0.378" />
 
     <EditText
