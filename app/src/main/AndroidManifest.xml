@@ -10,8 +10,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PFD_OCBC">
         <activity
+            android:name=".NotificationsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar"/>
+        <activity
+            android:name=".TwoFactorActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar"/>
+        <activity
+            android:name=".PersonalDetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar"/>
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
+        <activity
             android:name=".ProfileActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"

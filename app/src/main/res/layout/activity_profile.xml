@@ -12,9 +12,10 @@
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_marginStart="144dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="72dp"
         android:layout_marginEnd="143dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/user" />
@@ -23,30 +24,24 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="177dp"
         android:fontFamily="@font/poppins"
         android:text="Email"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView8"
+        app:layout_constraintStart_toStartOf="@+id/textView8"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="170dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="169dp"
         android:fontFamily="@font/poppins"
         android:text="Mobile No"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView5"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <TextView
@@ -54,12 +49,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="144dp"
         android:fontFamily="@font/poppins"
         android:text="Username"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView6"
+        app:layout_constraintStart_toStartOf="@+id/imageView6"
         app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
 
@@ -75,7 +70,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView9">
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/qrcode"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@drawable/button_shadow"
@@ -104,7 +99,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView9">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/settings"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@drawable/button_shadow"
@@ -133,7 +128,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView9">
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/transactionhistory"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@drawable/button_shadow"
