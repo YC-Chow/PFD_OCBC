@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/page_1"
+        android:checkable="true"
+        android:checked="false"
+        android:enabled="true"
+        android:icon="@drawable/navbarhome"
+        android:title="Home" />
+    <item
+        android:id="@+id/page_2"
+        android:checkable="false"
+        android:enabled="true"
+        android:icon="@drawable/navbartransfer"
+        android:title="Transfer" />
+    <item
+        android:id="@+id/page_3"
+        android:checkable="false"
+        android:enabled="true"
+        android:icon="@drawable/navbarprofile"
+        android:title="Profile" />
+
+
+
+</menu>

@@ -1,33 +1,21 @@
 package sg.edu.np.pfd_ocbc;
 
-import android.content.Intent;
-import android.os.Bundle;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
+public class ProfileActivity extends AppCompatActivity {
 
-public class MobileTransferActivity extends AppCompatActivity {
-
-    ImageView transferBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mobile_transfer);
+        setContentView(R.layout.profile_settings);
 
         //Setting up bottom nav bar
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -35,7 +23,7 @@ public class MobileTransferActivity extends AppCompatActivity {
         for (int i = 0; i < size; i++) {
             navigation.getMenu().getItem(i).setChecked(false);
         }
-        navigation.getMenu().findItem(R.id.page_2).setChecked(true);
+        navigation.getMenu().findItem(R.id.page_3).setChecked(true);
         navigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -43,19 +31,19 @@ public class MobileTransferActivity extends AppCompatActivity {
 
 
                     case R.id.page_1:
-                        Intent a = new Intent(MobileTransferActivity.this, HomeActivity.class);
+                        Intent a = new Intent(ProfileActivity.this, HomeActivity.class);
                         startActivity(a);
 
 
                         break;
 
                     case R.id.page_2:
-
+                        Intent b = new Intent(ProfileActivity.this, MobileTransferActivity.class);
+                        startActivity(b);
                         break;
 
                     case R.id.page_3:
-                        Intent b = new Intent(MobileTransferActivity.this, ProfileActivity.class);
-                        startActivity(b);
+
                         break;
 
 
@@ -65,6 +53,5 @@ public class MobileTransferActivity extends AppCompatActivity {
                 return false;
             }
         });
-
     }
 }
