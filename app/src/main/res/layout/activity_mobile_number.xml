@@ -5,7 +5,20 @@
     android:id="@+id/ConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MobileTransferActivity">
+    tools:context=".MobileNumberActivity">
+
+    <Button
+        android:id="@+id/backBtnMobileNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="back"
+        app:backgroundTint="#fc100d"
+        app:layout_constraintBottom_toTopOf="@+id/imageView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customMobileNum"
+        app:layout_constraintVertical_bias="0.803" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -89,47 +102,108 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/black_line" />
 
-    <SearchView
-        android:id="@+id/contactSearch"
-        android:layout_width="266dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="36dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/contactRecyclerView"
+    <ImageView
+        android:id="@+id/imageView5"
         android:layout_width="match_parent"
-        android:layout_height="429dp"
-        android:layout_marginTop="15dp"
+        android:layout_height="65dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contactSearch" />
+        app:srcCompat="@drawable/red_rectangle" />
+
+    <ImageView
+        android:id="@+id/homeBtn"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+        app:layout_constraintEnd_toStartOf="@+id/transferBtn"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toTopOf="@+id/imageView5"
+        app:srcCompat="@drawable/home_icon" />
+
+    <ImageView
+        android:id="@+id/transferBtn"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:rotation="90"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView5"
+        app:srcCompat="@drawable/transfer_icon" />
+
+    <ImageView
+        android:id="@+id/profileBtn"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="56dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:layout_constraintHorizontal_bias="0.118"
+        app:layout_constraintStart_toEndOf="@+id/transferBtn"
+        app:layout_constraintTop_toTopOf="@+id/imageView5"
+        app:layout_constraintVertical_bias="0.533"
+        app:srcCompat="@drawable/profile_icon" />
 
     <TextView
-        android:id="@+id/customNumber"
+        android:id="@+id/mobileLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
-        android:text="@string/custom_mobile_number"
-        android:textColor="#0F7FBF"
+        android:text="Enter Mobile Number"
+        android:textColor="#000000"
         android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/imageView5"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.182"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contactRecyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintVertical_bias="0.1" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="0dp"
-        android:layout_height="76dp"
-        app:itemBackground="@color/white"
-        app:itemIconTint="@drawable/navbar_selected_item"
-        app:itemTextColor="@drawable/navbar_selected_item"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <EditText
+        android:id="@+id/customMobileNum"
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:fontFamily="@font/poppins"
+        android:inputType="phone"
+        app:layout_constraintBottom_toTopOf="@+id/imageView5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintHorizontal_bias="0.768"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_navigation_menu" />
+        app:layout_constraintTop_toBottomOf="@+id/mobileLabel"
+        app:layout_constraintVertical_bias="0.06" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="54dp"
+        android:layout_height="45dp"
+        android:fontFamily="@font/poppins"
+        android:gravity="center"
+        android:text="+65"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView5"
+        app:layout_constraintEnd_toStartOf="@+id/customMobileNum"
+        app:layout_constraintHorizontal_bias="0.717"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mobileLabel"
+        app:layout_constraintVertical_bias="0.064" />
+
+    <Button
+        android:id="@+id/nextBtnMobileNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="next"
+        app:backgroundTint="#23EF13"
+        app:layout_constraintBottom_toTopOf="@+id/backBtnMobileNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.968" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

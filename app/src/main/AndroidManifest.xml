@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PFD_OCBC">
         <activity
+            android:name=".AmountConfirmationActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+        </activity>
             android:name=".NotificationsActivity"
             android:exported="false"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar"/>
