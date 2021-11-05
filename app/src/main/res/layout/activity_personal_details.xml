@@ -100,6 +100,7 @@
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView4"
         android:layout_width="337dp"
         android:layout_height="72dp"
         android:layout_marginStart="37dp"
@@ -171,4 +172,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/back"
         tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:stateListAnimator="@null"
+        android:text="Save"
+        android:textColor="#000000"
+        app:backgroundTint="#F8F6F6"
+        app:cornerRadius="30dp"
+        app:layout_constraintEnd_toEndOf="@+id/cardView4"
+        app:layout_constraintStart_toStartOf="@+id/cardView4"
+        app:strokeColor="#FA9999"
+        tools:layout_editor_absoluteY="549dp"
+        tools:strokeWidth="2dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
