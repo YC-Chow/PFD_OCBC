@@ -20,6 +20,11 @@
             android:theme="@style/Theme.PFD_OCBC.NoActionBar">
         </activity>
         <activity
+            android:name=".NotificationsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar">
+        </activity>
+        <activity
             android:name=".TwoFactorActivity"
             android:exported="false"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
