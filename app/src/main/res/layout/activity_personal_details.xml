@@ -9,7 +9,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
-        android:layout_width="337dp"
+        android:layout_width="0dp"
         android:layout_height="72dp"
         android:layout_marginStart="37dp"
         android:layout_marginTop="64dp"
@@ -54,10 +54,10 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView3"
-        android:layout_width="337dp"
+        android:layout_width="0dp"
         android:layout_height="72dp"
         android:layout_marginStart="37dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="37dp"
         android:background="#373434"
         app:cardBackgroundColor="#F3F3F3"
@@ -101,10 +101,10 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView4"
-        android:layout_width="337dp"
+        android:layout_width="0dp"
         android:layout_height="72dp"
         android:layout_marginStart="37dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="37dp"
         android:background="#373434"
         app:cardBackgroundColor="#F3F3F3"
@@ -184,6 +184,7 @@
         android:textColor="#000000"
         app:backgroundTint="#FA9999"
         app:cornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/cardView4"
         app:layout_constraintStart_toStartOf="@+id/cardView4"
         app:layout_constraintTop_toBottomOf="@+id/cardView4" />

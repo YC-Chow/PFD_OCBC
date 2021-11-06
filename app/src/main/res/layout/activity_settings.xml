@@ -38,32 +38,32 @@
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="362dp"
+        android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
-        android:layout_marginEnd="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/personaldetails"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/personaldetails"
         app:layout_constraintTop_toBottomOf="@+id/personaldetails"
         app:srcCompat="@drawable/black_line" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="362dp"
+        android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/twofa"
+        app:layout_constraintStart_toStartOf="@+id/twofa"
         app:layout_constraintTop_toBottomOf="@+id/twofa"
         app:srcCompat="@drawable/black_line" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/personaldetails"
-        android:layout_width="401dp"
+        android:layout_width="0dp"
         android:layout_height="41dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="104dp"
@@ -108,7 +108,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/twofa"
-        android:layout_width="401dp"
+        android:layout_width="0dp"
         android:layout_height="41dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="7dp"
@@ -153,7 +153,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/notifications"
-        android:layout_width="401dp"
+        android:layout_width="0dp"
         android:layout_height="41dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="7dp"
@@ -200,13 +200,13 @@
 
     <ImageView
         android:id="@+id/imageView12"
-        android:layout_width="362dp"
+        android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
-        android:layout_marginEnd="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/notifications"
+        app:layout_constraintStart_toStartOf="@+id/notifications"
         app:layout_constraintTop_toBottomOf="@+id/notifications"
         app:srcCompat="@drawable/black_line" />
 

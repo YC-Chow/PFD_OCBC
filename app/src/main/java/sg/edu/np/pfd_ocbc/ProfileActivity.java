@@ -35,6 +35,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                     case R.id.page_1:
                         Intent a = new Intent(ProfileActivity.this, HomeActivity.class);
+                        a.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(a);
 
 
@@ -42,6 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                     case R.id.page_2:
                         Intent b = new Intent(ProfileActivity.this, MobileTransferActivity.class);
+                        b.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(b);
                         break;
 

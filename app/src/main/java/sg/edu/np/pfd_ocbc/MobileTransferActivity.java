@@ -55,6 +55,7 @@ public class MobileTransferActivity extends AppCompatActivity {
 
                     case R.id.page_1:
                         Intent a = new Intent(MobileTransferActivity.this, HomeActivity.class);
+                        a.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(a);
 
 
@@ -66,6 +67,7 @@ public class MobileTransferActivity extends AppCompatActivity {
 
                     case R.id.page_3:
                         Intent b = new Intent(MobileTransferActivity.this, ProfileActivity.class);
+                        b.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(b);
                         break;
 

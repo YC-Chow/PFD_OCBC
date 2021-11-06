@@ -37,11 +37,13 @@ public class HomeActivity extends AppCompatActivity {
 
                     case R.id.page_2:
                         Intent a = new Intent(HomeActivity.this,MobileTransferActivity.class);
+                        a.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(a);
                         break;
 
                     case R.id.page_3:
                         Intent b = new Intent(HomeActivity.this, ProfileActivity.class);
+                        b.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(b);
                         break;
 
