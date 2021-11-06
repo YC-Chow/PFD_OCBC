@@ -1,22 +1,80 @@
 package sg.edu.np.pfd_ocbc;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.MenuItem;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+
+import static android.content.ContentValues.TAG;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private FirebaseAuth mAuth;
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        mAuth =FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        Log.d(TAG, user.getIdToken(false).getResult().getToken());
+
+        String postUrl = "https://pfd-server.azurewebsites.net/getAccountHolder";
+        RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
+
+        LocalDate today = LocalDate.now();
+        String formattedDate = today.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
+
+        JSONObject postData = new JSONObject();
+
+        try{
+            postData.put("uid", user.getUid());
+            postData.put("jwtToken", user.getIdToken(true).getResult().getToken() );
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                System.out.println(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+
         //Setting up bottom nav bar
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         int size = navigation.getMenu().size();

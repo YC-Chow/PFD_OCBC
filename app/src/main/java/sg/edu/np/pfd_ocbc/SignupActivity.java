@@ -96,7 +96,7 @@ public class SignupActivity extends AppCompatActivity {
                                        postData.put("icNo", icno.getText().toString());
                                        postData.put("expiryDate", "1/2/3");
                                        postData.put("cvv", "123");
-                                       postData.put("jwtToken", user.getIdToken(false).getResult().getToken() );
+                                       postData.put("jwtToken", user.getIdToken(true).getResult().getToken() );
                                    }
                                    catch (JSONException e) {
                                        e.printStackTrace();
