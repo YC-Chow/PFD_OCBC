@@ -29,20 +29,19 @@
         <entry key="..\:/Users/Ng Hung Meng/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_two_factor.xml" value="0.29375" />
         <entry key="..\:/Users/Ng Hung Meng/AndroidStudioProjects/PFD_OCBC/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.246875" />
         <entry key="..\:/Users/Ng Hung Meng/AndroidStudioProjects/PFD_OCBC/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2630208333333333" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/drawable/login_box.xml" value="0.3828125" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_amount_confirmation.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_home.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_home_transaction_item.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_login.xml" value="0.28940217391304346" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_mobile_number.xml" value="0.33" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_mobile_transfer.xml" value="0.13802083333333334" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_notification.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_personal_details.xml" value="0.5" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_profile.xml" value="0.5" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_settings.xml" value="0.6114832535885167" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_signup.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_transfer_confirmation.xml" value="0.25104166666666666" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_two_factor.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_amount_confirmation.xml" value="0.275" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_home.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_home_transaction_item.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_login.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_mobile_number.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_mobile_transfer.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_notification.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_personal_details.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_profile.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_settings.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_signup.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_transfer_confirmation.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_two_factor.xml" value="0.28940217391304346" />
       </map>
     </option>
   </component>
