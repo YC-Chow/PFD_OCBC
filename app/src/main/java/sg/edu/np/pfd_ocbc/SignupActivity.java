@@ -31,6 +31,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -46,9 +47,12 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
 
+        EditText cardNo = findViewById(R.id.cardNo);
+        EditText sixpin = findViewById(R.id.sixpin);
         EditText name = findViewById(R.id.name);
+        EditText icNo= findViewById(R.id.icNo);
+        EditText phoneNo = findViewById(R.id.phoneNo);
         EditText email = findViewById(R.id.email);
-        EditText icno = findViewById(R.id.icno);
         EditText password= findViewById(R.id.password);
 
         LocalDate today = LocalDate.now();
@@ -65,76 +69,122 @@ public class SignupActivity extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-               String emailtext = email.getText().toString();
-               String passwordtext = password.getText().toString();
-               mAuth.createUserWithEmailAndPassword(emailtext, passwordtext)
-                       .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
-                           @Override
-                           public void onComplete(@NonNull Task<AuthResult> task) {
-                               if(task.isSuccessful()){
-
-                                   FirebaseUser user = mAuth.getCurrentUser();
-
-
-                                   Log.d(TAG, user.getIdToken(false).getResult().getToken());
-
-
-                                   String postUrl = "https://pfd-server.azurewebsites.net/createAccount";
-                                   RequestQueue requestQueue = Volley.newRequestQueue(SignupActivity.this);
-
-                                   LocalDate today = LocalDate.now();
-                                   String formattedDate = today.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
-
-                                   JSONObject postData = new JSONObject();
-
-                                   try{
-                                       postData.put("uid", user.getUid());
-                                       postData.put("email", user.getEmail());
-                                       postData.put("name", name.getText().toString());
-                                       postData.put("startDate", formattedDate);
-                                       postData.put("icNo", icno.getText().toString());
-                                       postData.put("expiryDate", "1/2/3");
-                                       postData.put("cvv", "123");
-                                       postData.put("jwtToken", user.getIdToken(true).getResult().getToken() );
-                                   }
-                                   catch (JSONException e) {
-                                       e.printStackTrace();
-                                   }
-
-
-                                   JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
-                                       @Override
-                                       public void onResponse(JSONObject response) {
-                                           System.out.println(response);
-                                       }
-                                   }, new Response.ErrorListener() {
-                                       @Override
-                                       public void onErrorResponse(VolleyError error) {
-                                           error.printStackTrace();
-                                       }
-                                   });
-
-                                   requestQueue.add(jsonObjectRequest);
-
-                                   Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-                                   startActivity(intent);
-
-
-
-                               }
-                               else {
-                                   // If sign in fails, display a message to the user.
-                                   Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                   Toast.makeText(SignupActivity.this, "Authentication failed.",
-                                           Toast.LENGTH_SHORT).show();
-
-                               }
-                           }
-                       });
+                Log.d("validateAccount", "click");
+               String cardNoText = cardNo.getText().toString();
+               String sixpinText = sixpin.getText().toString();
+               String nameText = name.getText().toString();
+               String icNoText = icNo.getText().toString();
+               String phoneNoText = phoneNo.getText().toString();
+               String emailText = email.getText().toString();
+               String passwordText = password.getText().toString();
+                Log.d("validateAccount", "cardNoText"+cardNoText.equals(""));
+               if (cardNoText.equals("")||sixpinText.equals("")||nameText.equals("")||icNoText.equals("")||phoneNoText.equals("")||emailText.equals("")||passwordText.equals("")){
+                   Toast.makeText(SignupActivity.this, "All inputs required",
+                           Toast.LENGTH_SHORT).show();
+               }
+                checkAccountStatus(cardNoText, sixpinText, icNoText, phoneNoText, nameText, emailText, passwordText);
+//               mAuth.createUserWithEmailAndPassword(emailtext, passwordtext)
+//                       .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
+//                           @Override
+//                           public void onComplete(@NonNull Task<AuthResult> task) {
+//                               if(task.isSuccessful()){
+//
+//                                   FirebaseUser user = mAuth.getCurrentUser();
+//
+//
+//                                   Log.d(TAG, user.getIdToken(false).getResult().getToken());
+//
+//
+//                                   String postUrl = "https://pfd-server.azurewebsites.net/createAccount";
+//                                   RequestQueue requestQueue = Volley.newRequestQueue(SignupActivity.this);
+//
+//                                   LocalDate today = LocalDate.now();
+//                                   String formattedDate = today.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
+//
+//                                   JSONObject postData = new JSONObject();
+//
+//                                   try{
+//                                       postData.put("uid", user.getUid());
+//                                       postData.put("email", user.getEmail());
+//                                       postData.put("name", name.getText().toString());
+//                                       postData.put("startDate", formattedDate);
+//                                       postData.put("icNo", icno.getText().toString());
+//                                       postData.put("expiryDate", "1/2/3");
+//                                       postData.put("cvv", "123");
+//                                       postData.put("jwtToken", user.getIdToken(true).getResult().getToken() );
+//                                   }
+//                                   catch (JSONException e) {
+//                                       e.printStackTrace();
+//                                   }
+//
+//
+//                                   JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
+//                                       @Override
+//                                       public void onResponse(JSONObject response) {
+//                                           System.out.println(response);
+//                                       }
+//                                   }, new Response.ErrorListener() {
+//                                       @Override
+//                                       public void onErrorResponse(VolleyError error) {
+//                                           error.printStackTrace();
+//                                       }
+//                                   });
+//
+//                                   requestQueue.add(jsonObjectRequest);
+//
+//                                   Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+//                                   startActivity(intent);
+//
+//
+//
+//                               }
+//                               else {
+//                                   // If sign in fails, display a message to the user.
+//                                   Log.w(TAG, "createUserWithEmail:failure", task.getException());
+//                                   Toast.makeText(SignupActivity.this, "Authentication failed.",
+//                                           Toast.LENGTH_SHORT).show();
+//
+//                               }
+//                           }
+//                       });
 
 
             }
         });
+    }
+    void checkAccountStatus(String cardNo, String sixpin, String icNo, String phoneNo, String name, String email, String password){
+        String postUrl = "https://pfd-server.azurewebsites.net/validateAccount";
+        JSONObject postData = new JSONObject();
+        try{
+            postData.put("last8digits", cardNo);
+            postData.put("6pin", sixpin);
+            postData.put("icNo", icNo);
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d("validateAccount", "sending");
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("validateAccount", "onResponse: "+response.toString());
+                Intent intent = new Intent(SignupActivity.this, OtpActivity.class);
+                intent.putExtra("phoneNo", phoneNo);
+                intent.putExtra("email", email);
+                intent.putExtra("name", name);
+                intent.putExtra("icNo", icNo);
+                intent.putExtra("password", password);
+                intent.putExtra("situation", "signup");
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(SignupActivity.this, "Authenthication Error",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(SignupActivity.this);
+        requestQueue.add(jsonObjectRequest);
     }
 }
