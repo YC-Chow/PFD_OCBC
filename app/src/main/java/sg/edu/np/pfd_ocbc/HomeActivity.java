@@ -1,6 +1,7 @@
 package sg.edu.np.pfd_ocbc;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -53,6 +54,13 @@ public class HomeActivity extends AppCompatActivity {
         LocalDate today = LocalDate.now();
         String formattedDate = today.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
 
+        TextView uName = findViewById(R.id.userName);
+        SharedPreferences sharedPref = getSharedPreferences("MySharedPref",MODE_PRIVATE);
+
+        String userName = sharedPref.getString("Name","");
+        uName.setText(userName);
+        Log.v("name",userName);
+
         //Setting up bottom nav bar
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         int size = navigation.getMenu().size();
@@ -94,18 +102,16 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    public void addContentView(View view, ViewGroup.LayoutParams params) {
-        super.addContentView(view, params);
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
-        TextView uName = findViewById(R.id.userName);
 
         String postUrl = "https://pfd-server.azurewebsites.net/getAccountHolder";
 
+        // Storing data into SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",MODE_PRIVATE);
+        // Creating an Editor object to edit(write to the file)
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
         JSONObject postData = new JSONObject();
 
@@ -121,12 +127,12 @@ public class HomeActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-
                     JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
-                                uName.setText(response.get("name").toString());
+                                editor.putString("Name",response.getString("name"));
+                                editor.apply();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
