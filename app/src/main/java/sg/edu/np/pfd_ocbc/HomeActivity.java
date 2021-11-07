@@ -25,6 +25,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,46 +49,9 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         mAuth =FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
-
-        String postUrl = "https://pfd-server.azurewebsites.net/getAccountHolder";
-
 
         LocalDate today = LocalDate.now();
         String formattedDate = today.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
-
-        JSONObject postData = new JSONObject();
-
-        user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-            public void onComplete(@NonNull Task<GetTokenResult> task) {
-                if (task.isSuccessful()) {
-                    String token = task.getResult().getToken();
-                    try{
-                        postData.put("uid", user.getUid());
-                        postData.put("jwtToken", token );
-                    }
-                    catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-
-                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            System.out.println(response);
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            error.printStackTrace();
-                        }
-                    });
-                    RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
-                    requestQueue.add(jsonObjectRequest);
-                }
-            }
-        });
-
 
         //Setting up bottom nav bar
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -125,5 +91,72 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void addContentView(View view, ViewGroup.LayoutParams params) {
+        super.addContentView(view, params);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user = mAuth.getCurrentUser();
+        TextView uName = findViewById(R.id.userName);
+
+        String postUrl = "https://pfd-server.azurewebsites.net/getAccountHolder";
+
+
+        JSONObject postData = new JSONObject();
+
+        user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+            public void onComplete(@NonNull Task<GetTokenResult> task) {
+                if (task.isSuccessful()) {
+                    String token = task.getResult().getToken();
+                    try{
+                        postData.put("uid", user.getUid());
+                        postData.put("jwtToken", token );
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                uName.setText(response.get("name").toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                        }
+                    });
+                    RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
+                    requestQueue.add(jsonObjectRequest);
+                }
+            }
+        });
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }
