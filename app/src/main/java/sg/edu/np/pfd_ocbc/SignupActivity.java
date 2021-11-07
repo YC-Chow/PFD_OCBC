@@ -55,6 +55,17 @@ public class SignupActivity extends AppCompatActivity {
         EditText email = findViewById(R.id.email);
         EditText password= findViewById(R.id.password);
 
+        Button back = findViewById(R.id.signup2);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+            }
+        });
+
         LocalDate today = LocalDate.now();
 
 

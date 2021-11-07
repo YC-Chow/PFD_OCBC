@@ -53,15 +53,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins"
-        android:text="Email"
+        android:text="Mobile Number"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/email_input"
+        app:layout_constraintStart_toStartOf="@+id/mobile_input"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/email_input"
+        android:id="@+id/mobile_input"
         android:layout_width="270dp"
         android:layout_height="0dp"
         android:layout_marginTop="4dp"
@@ -85,7 +85,7 @@
         android:textColor="#000000"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/pin_input"
-        app:layout_constraintTop_toBottomOf="@+id/email_input" />
+        app:layout_constraintTop_toBottomOf="@+id/mobile_input" />
 
     <EditText
         android:id="@+id/pin_input"
