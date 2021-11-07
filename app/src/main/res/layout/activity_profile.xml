@@ -18,31 +18,31 @@
         app:srcCompat="@drawable/user" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/profileemail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/poppins"
         android:text="Email"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView8"
-        app:layout_constraintStart_toStartOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintEnd_toEndOf="@+id/mobileno"
+        app:layout_constraintStart_toStartOf="@+id/mobileno"
+        app:layout_constraintTop_toBottomOf="@+id/mobileno" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/mobileno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/poppins"
         android:text="Mobile No"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView5"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintEnd_toEndOf="@+id/username"
+        app:layout_constraintStart_toStartOf="@+id/username"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -59,12 +59,12 @@
         android:id="@+id/linearLayout"
         android:layout_width="104dp"
         android:layout_height="83dp"
-        android:layout_marginStart="152dp"
         android:layout_marginTop="40dp"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9">
+        app:layout_constraintEnd_toEndOf="@+id/imageView6"
+        app:layout_constraintStart_toStartOf="@+id/imageView6"
+        app:layout_constraintTop_toBottomOf="@+id/profileemail">
 
         <ImageButton
             android:id="@+id/settings"
