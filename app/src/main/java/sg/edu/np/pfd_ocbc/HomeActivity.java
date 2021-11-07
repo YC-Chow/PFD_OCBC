@@ -10,10 +10,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -43,37 +47,45 @@ public class HomeActivity extends AppCompatActivity {
 
         mAuth =FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
-        Log.d(TAG, user.getIdToken(false).getResult().getToken());
 
         String postUrl = "https://pfd-server.azurewebsites.net/getAccountHolder";
-        RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
+
 
         LocalDate today = LocalDate.now();
         String formattedDate = today.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
 
         JSONObject postData = new JSONObject();
 
-        try{
-            postData.put("uid", user.getUid());
-            postData.put("jwtToken", user.getIdToken(true).getResult().getToken() );
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
+        user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+            public void onComplete(@NonNull Task<GetTokenResult> task) {
+                if (task.isSuccessful()) {
+                    String token = task.getResult().getToken();
+                    try{
+                        postData.put("uid", user.getUid());
+                        postData.put("jwtToken", token );
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                System.out.println(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            System.out.println(response);
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                        }
+                    });
+                    RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
+                    requestQueue.add(jsonObjectRequest);
+                }
             }
         });
-        requestQueue.add(jsonObjectRequest);
+
 
         //Setting up bottom nav bar
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
