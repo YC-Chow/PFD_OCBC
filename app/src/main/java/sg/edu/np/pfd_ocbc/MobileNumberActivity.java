@@ -57,6 +57,38 @@ public class MobileNumberActivity extends AppCompatActivity {
             }
         });
 
+        //Setting up transfer option bar
+        BottomNavigationView optionBar = (BottomNavigationView) findViewById(R.id.TopBar);
+        int menuSize = optionBar.getMenu().size();
+        for (int i = 0; i < menuSize; i++)
+        {
+            optionBar.getMenu().getItem(i).setChecked(false);
+        }
+        optionBar.getMenu().findItem(R.id.mobileTransfer).setChecked(true);
+        optionBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId())
+                {
+                    case R.id.cardTransfer:
+                        Intent intent = new Intent(MobileNumberActivity.this, CardTransferActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(intent);
+                        break;
+
+                    case R.id.mobileTransfer:
+                        break;
+
+                    case R.id.nricTransfer:
+                        Intent b = new Intent(MobileNumberActivity.this, NricTransferActivity.class);
+                        b.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(b);
+                        break;
+                }
+                return false;
+            }
+        });
+
         //Setting up bottom nav bar
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         int size = navigation.getMenu().size();
