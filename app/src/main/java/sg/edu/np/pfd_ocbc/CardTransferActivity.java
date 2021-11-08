@@ -15,7 +15,7 @@ public class CardTransferActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bank_transfer);
+        setContentView(R.layout.activity_card_transfer);
 
 
         //Setting up transfer option bar
