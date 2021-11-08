@@ -101,7 +101,7 @@ public class HomeActivity extends AppCompatActivity {
                         break;
 
                     case R.id.page_2:
-                        Intent a = new Intent(HomeActivity.this,MobileTransferActivity.class);
+                        Intent a = new Intent(HomeActivity.this,CardTransferActivity.class);
                         a.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(a);
                         break;

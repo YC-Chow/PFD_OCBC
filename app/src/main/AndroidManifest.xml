@@ -15,11 +15,12 @@
         </activity>
         <activity
             android:name=".CardTransferActivity"
-            android:theme="@style/Theme.PFD_OCBC.NoActionBar">
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
-        <activity
-            android:name=".SettingOtpActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".SettingOtpActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".OtpActivity"
             android:exported="false" />
