@@ -19,6 +19,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.reflect.TypeToken;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -30,12 +33,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
@@ -54,12 +62,17 @@ public class HomeActivity extends AppCompatActivity {
         LocalDate today = LocalDate.now();
         String formattedDate = today.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
 
+        // username when enter home
         TextView uName = findViewById(R.id.userName);
         SharedPreferences sharedPref = getSharedPreferences("MySharedPref",MODE_PRIVATE);
-
         String userName = sharedPref.getString("Name","");
         uName.setText(userName);
         Log.v("name",userName);
+
+        //card details
+        TextView last4Digit = findViewById(R.id.last4Digit);
+        String fourDigit = sharedPref.getString("CardNum","");
+        last4Digit.setText(fourDigit);
 
         //Setting up bottom nav bar
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -107,6 +120,7 @@ public class HomeActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
 
         String postUrl = "https://pfd-server.azurewebsites.net/getAccountHolder";
+        String postUrlAccounts = "https://pfd-server.azurewebsites.net/getAccounts";
 
         // Storing data into SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",MODE_PRIVATE);
@@ -115,6 +129,7 @@ public class HomeActivity extends AppCompatActivity {
 
         JSONObject postData = new JSONObject();
 
+        //get userName
         user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
             public void onComplete(@NonNull Task<GetTokenResult> task) {
                 if (task.isSuccessful()) {
@@ -149,6 +164,43 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        //get Accounts
+        user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+            public void onComplete(@NonNull Task<GetTokenResult> task) {
+                if (task.isSuccessful()) {
+                    String token = task.getResult().getToken();
+                    try{
+                        postData.put("uid", user.getUid());
+                        postData.put("jwtToken", token );
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlAccounts, postData, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            //System.out.println(response);
+                            Type mapTokenType = new TypeToken<Map<String,Map<String,Object>>>(){}.getType();
+                            Map<String, Map<String,Object>> jsonMap = new Gson().fromJson(response.toString(), mapTokenType);
+                            System.out.println(jsonMap);
+
+                            for (Map<String,Object> value : jsonMap.values()) {
+                                System.out.println(value.get("cardNumber"));
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                        }
+                    });
+                    RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
+                    requestQueue.add(jsonObjectRequest);
+                }
+            }
+        });
     }
 
     @Override
