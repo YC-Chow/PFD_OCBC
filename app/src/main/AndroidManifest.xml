@@ -10,20 +10,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PFD_OCBC">
         <activity
+            android:name=".SettingOtpActivity"
+            android:exported="false" />
+        <activity
             android:name=".OtpActivity"
             android:exported="false" />
         <activity
             android:name=".TransferConfirmationActivity"
             android:exported="true"
-            android:theme="@style/Theme.PFD_OCBC.NoActionBar"></activity>
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
         <activity
             android:name=".AmountConfirmationActivity"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".NotificationsActivity"
             android:exported="true"
-            android:theme="@style/Theme.PFD_OCBC.NoActionBar"></activity>
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
         <activity
             android:name=".TwoFactorActivity"
             android:exported="false"
@@ -63,10 +66,10 @@
             android:name=".MobileTransferActivity"
             android:label="@string/title_activity_mobile_transfer"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".MobileNumberActivity"
-            android:theme="@style/Theme.PFD_OCBC.NoActionBar"></activity>
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
     </application>
 
 </manifest>
