@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id = "@+id/cardTransfer"
+        android:title="Card"
+        android:checkable="false"
+        android:enabled="true">
+    </item>
+    <item
+        android:id="@+id/mobileTransfer"
+        android:title="Mobile"
+        android:checkable="false"
+        android:enabled="true">
+    </item>
+    <item
+        android:id="@+id/nricTransfer"
+        android:title="NRIC"
+        android:checkable="false"
+        android:enabled="true">
+    </item>
+</menu>
