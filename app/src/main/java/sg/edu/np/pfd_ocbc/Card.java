@@ -44,10 +44,7 @@ public class Card {
     public Card() {
     }
 
-    public Card(String nameOnCard, String cardNo, String cvv, Date expiryDate) {
-        this.nameOnCard = nameOnCard;
+    public Card(String cardNo) {
         this.cardNo = cardNo;
-        this.cvv = cvv;
-        this.expiryDate = expiryDate;
     }
 }

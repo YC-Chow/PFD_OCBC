@@ -31,6 +31,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -58,7 +59,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         mAuth =FirebaseAuth.getInstance();
-
         LocalDate today = LocalDate.now();
         String formattedDate = today.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
 
@@ -67,12 +67,20 @@ public class HomeActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences("MySharedPref",MODE_PRIVATE);
         String userName = sharedPref.getString("Name","");
         uName.setText(userName);
-        Log.v("name",userName);
+        //Log.v("name",userName);
 
         //card details
         TextView last4Digit = findViewById(R.id.last4Digit);
-        String fourDigit = sharedPref.getString("CardNum","");
-        last4Digit.setText(fourDigit);
+        String fourDigit = sharedPref.getString("last4digits","");
+        last4Digit.setText("* " + fourDigit);
+
+        //card type or issuingNetwork
+        ImageView issuer = findViewById(R.id.cardType);
+        String issuingNetwork = sharedPref.getString("IssuingNetwork","");
+        //Log.v("",issuingNetwork);
+        if(issuingNetwork.equals("Visa")){
+            issuer.setImageResource(R.drawable.visa_icon);
+        }
 
         //Setting up bottom nav bar
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -121,6 +129,7 @@ public class HomeActivity extends AppCompatActivity {
 
         String postUrl = "https://pfd-server.azurewebsites.net/getAccountHolder";
         String postUrlAccounts = "https://pfd-server.azurewebsites.net/getAccounts";
+        String postUrlTransactions = "https://pfd-server.azurewebsites.net/getTransactions";
 
         // Storing data into SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",MODE_PRIVATE);
@@ -128,17 +137,15 @@ public class HomeActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         JSONObject postData = new JSONObject();
-
         //get userName
         user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
             public void onComplete(@NonNull Task<GetTokenResult> task) {
                 if (task.isSuccessful()) {
                     String token = task.getResult().getToken();
-                    try{
+                    try {
                         postData.put("uid", user.getUid());
-                        postData.put("jwtToken", token );
-                    }
-                    catch (JSONException e) {
+                        postData.put("jwtToken", token);
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
@@ -146,7 +153,8 @@ public class HomeActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
-                                editor.putString("Name",response.getString("name"));
+                                String Name = response.getString("name");
+                                editor.putString("Name", Name);
                                 editor.apply();
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -164,7 +172,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        //get Accounts
+        //get Account details
         user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
             public void onComplete(@NonNull Task<GetTokenResult> task) {
                 if (task.isSuccessful()) {
@@ -185,9 +193,23 @@ public class HomeActivity extends AppCompatActivity {
                             Type mapTokenType = new TypeToken<Map<String,Map<String,Object>>>(){}.getType();
                             Map<String, Map<String,Object>> jsonMap = new Gson().fromJson(response.toString(), mapTokenType);
                             System.out.println(jsonMap);
-
                             for (Map<String,Object> value : jsonMap.values()) {
-                                System.out.println(value.get("cardNumber"));
+                                String cardNum = value.get("cardNumber").toString();
+
+                                String lastFourDigits = "";     //substring containing last 4 characters
+                                if (cardNum.length() > 4)
+                                {
+                                    lastFourDigits = cardNum.substring(cardNum.length() - 4);
+                                }
+                                editor.putString("last4digits",lastFourDigits);
+
+                                //checking if visa
+                                String issuingNetwork = value.get("issuingNetwork").toString();
+
+                                editor.putString("IssuingNetwork",issuingNetwork);
+                                editor.apply();
+                                //System.out.println(lastFourDigits);
+                                //System.out.println(value.get("cardNumber"));
                             }
                         }
                     }, new Response.ErrorListener() {
@@ -201,8 +223,44 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
-    }
 
+        //get transaction details
+        /*user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+            public void onComplete(@NonNull Task<GetTokenResult> task) {
+                if (task.isSuccessful()) {
+                    String token = task.getResult().getToken();
+                    try{
+                        postData.put("cardNo", card.getCardNo());
+                        postData.put("jwtToken", token );
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlTransactions, postData, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            //System.out.println(response);
+                            Type mapTokenType = new TypeToken<Map<String,Map<String,Object>>>(){}.getType();
+                            Map<String, Map<String,Object>> jsonMap = new Gson().fromJson(response.toString(), mapTokenType);
+                            System.out.println(jsonMap);
+                            for (Map<String,Object> value : jsonMap.values()) {
+                                System.out.println(value);
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                        }
+                    });
+                    RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
+                    requestQueue.add(jsonObjectRequest);
+                }
+            }
+        });*/
+    }
     @Override
     protected void onStop() {
         super.onStop();
