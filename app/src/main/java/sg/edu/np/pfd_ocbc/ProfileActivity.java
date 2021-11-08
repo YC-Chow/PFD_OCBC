@@ -85,7 +85,9 @@ public class ProfileActivity extends AppCompatActivity {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
+                Intent intent = new Intent(ProfileActivity.this, SettingOtpActivity.class);
+                intent.putExtra("situation", "settings");
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
         });
