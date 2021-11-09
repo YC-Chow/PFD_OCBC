@@ -6,6 +6,7 @@ public class Transaction {
     private String toPhoneNum;
     private String toIC;
     private String toBankNum;
+    private double transactionAmt;
     private Date transactionDate;
     private String transactionId;
 
@@ -49,13 +50,18 @@ public class Transaction {
         this.transactionId = transactionId;
     }
 
+    public double getTransactionAmt() { return transactionAmt; }
+
+    public void setTransactionAmt(double transactionAmt) { this.transactionAmt = transactionAmt; }
+
     public Transaction() {
     }
 
-    public Transaction(String toPhoneNum, Date transactionDate, String transactionId) {
+    public Transaction(String toPhoneNum, Date transactionDate, String transactionId, int transactionAmt) {
         this.toPhoneNum = toPhoneNum;
         this.transactionDate = transactionDate;
         this.transactionId = transactionId;
+        this.transactionAmt = transactionAmt;
     }
 
 
