@@ -83,7 +83,7 @@
             android:layout_marginStart="70dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/poppins"
-            android:text="Mobile No"
+            android:text="Mobile No(+65)"
             android:textColor="#090909"
             android:textStyle="bold" />
 
