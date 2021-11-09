@@ -45,6 +45,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.text.ParseException;
@@ -84,22 +85,24 @@ public class HomeActivity extends AppCompatActivity {
         String formattedDate = today.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
 
         //Initialize Account obj
-        SharedPreferences profilePref = getSharedPreferences("Profile", MODE_PRIVATE);
+        SharedPreferences profilePref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
         userAccount = new Account();
         userAccount.setName(profilePref.getString("Name",""));
         userAccount.setphoneNo(profilePref.getString("Phone",""));
         userAccount.setEmail(profilePref.getString("Email",""));
         userAccount.setIcNo(profilePref.getString("icNo",""));
         cardList = new ArrayList<Card>();
+        userAccount.setCardList(cardList);
 
         // username when enter home
         TextView uName = findViewById(R.id.userName);
-        SharedPreferences sharedPref = getSharedPreferences("MySharedPref",MODE_PRIVATE);
-        String userName = sharedPref.getString("Name","");
+        SharedPreferences AHsharedPref = getSharedPreferences("AccountHolder",MODE_PRIVATE);
+        String userName = AHsharedPref.getString("Name","");
         uName.setText(userName);
         //Log.v("name",userName);
 
         //card details
+        SharedPreferences sharedPref = getSharedPreferences("MySharedPref",MODE_PRIVATE);
         TextView last4Digit = findViewById(R.id.last4Digit);
         String fourDigit = sharedPref.getString("last4digits","");
         last4Digit.setText("* " + fourDigit);
@@ -140,6 +143,11 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.page_2:
                         Intent a = new Intent(HomeActivity.this,CardTransferActivity.class);
                         a.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        for (int i =0; i < userAccount.getCardList().size(); i++)
+                        {
+                            a.putExtra("cardNum" + i, userAccount.getCardList().get(i).getCardNo());
+                        }
+                        a.putExtra("numOfCard", userAccount.getCardList().size());
                         startActivity(a);
                         break;
 
@@ -174,40 +182,44 @@ public class HomeActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         JSONObject postData = new JSONObject();
-        //get userName
-        user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-            public void onComplete(@NonNull Task<GetTokenResult> task) {
-                if (task.isSuccessful()) {
-                    String token = task.getResult().getToken();
-                    try {
-                        postData.put("uid", user.getUid());
-                        postData.put("jwtToken", token);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            try {
-                                String Name = response.getString("name");
-                                editor.putString("Name", Name);
-                                editor.apply();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            error.printStackTrace();
-                        }
-                    });
-                    RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
-                    requestQueue.add(jsonObjectRequest);
-                }
-            }
-        });
+//        //get userName
+//        user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+//            public void onComplete(@NonNull Task<GetTokenResult> task) {
+//                if (task.isSuccessful()) {
+//                    String token = task.getResult().getToken();
+//                    try {
+//                        postData.put("uid", user.getUid());
+//                        postData.put("jwtToken", token);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
+//                        @Override
+//                        public void onResponse(JSONObject response) {
+//                            try {
+//                                editor.putString("Name", response.getString("name"));
+//                                editor.putString("Phone", response.getString("phoneNo"));
+//                                editor.putString("Email", response.getString("email"));
+//                                editor.putString("icNo", response.getString("icNo"));
+//                                editor.putString("startDate", response.getString("startDate"));
+//
+//                                editor.apply();
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    }, new Response.ErrorListener() {
+//                        @Override
+//                        public void onErrorResponse(VolleyError error) {
+//                            error.printStackTrace();
+//                        }
+//                    });
+//                    RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
+//                    requestQueue.add(jsonObjectRequest);
+//                }
+//            }
+//        });
 
 
         //get Account details
@@ -271,7 +283,7 @@ public class HomeActivity extends AppCompatActivity {
                         public void run() {
                             //Log.v(TAG, "The address output is:" + userAccount.getCardList());
                         }
-                    },10000);
+                    },5000);
                 }
             }
         });

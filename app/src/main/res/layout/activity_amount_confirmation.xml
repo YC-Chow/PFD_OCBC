@@ -6,278 +6,218 @@
     android:layout_height="match_parent"
     tools:context=".AmountConfirmationActivity">
 
-    <ImageView
-        android:id="@+id/imageView11"
-        android:layout_width="65dp"
-        android:layout_height="57dp"
-        app:layout_constraintBottom_toTopOf="@+id/toHeader"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/senderAccNum"
-        app:layout_constraintVertical_bias="0.615"
-        app:srcCompat="@drawable/arrow_down" />
-
-    <ImageView
-        android:id="@+id/imageView10"
-        android:layout_width="65dp"
-        android:layout_height="57dp"
-        app:layout_constraintBottom_toTopOf="@+id/toHeader"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/senderAccNum"
-        app:layout_constraintVertical_bias="0.315"
-        app:srcCompat="@drawable/arrow_down" />
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/poppins"
+        android:text="Transfer"
+        android:textColor="#000"
+        android:textSize="16sp"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/receiverMobileNum"
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:fontFamily="@font/poppins"
+        android:text="From:"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.104"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView5" />
+
+    <ImageView
+        android:id="@+id/senderProf"
+        android:layout_width="52dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="36dp"
+        android:background="@android:color/holo_blue_bright"
+        app:layout_constraintBottom_toTopOf="@+id/imageView20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9"
+        app:layout_constraintVertical_bias="0.48"
+        app:srcCompat="@drawable/navbarprofile" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/poppins"
+        android:text="Your Account"
+        android:textColor="#000"
+        android:textSize="16sp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@id/senderProf"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/senderCardNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
-        android:text="mobile"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.314"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toHeader"
-        app:layout_constraintVertical_bias="0.129" />
+        android:text="cardNum"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/imageView20"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@id/senderProf"
+        app:layout_constraintRight_toLeftOf="@id/senderBal"
+        app:layout_constraintTop_toBottomOf="@id/textView10"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/receiverName"
-        android:layout_width="wrap_content"
+        android:id="@+id/senderBal"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginRight="40dp"
         android:fontFamily="@font/poppins"
-        android:text="Receiver Name"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/receiverMobileNum"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.086"
-        app:layout_constraintStart_toEndOf="@+id/receiverProfile"
-        app:layout_constraintTop_toBottomOf="@+id/senderAccNum"
-        app:layout_constraintVertical_bias="1.0" />
+        android:text="TextView"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/imageView20"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView10"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
-        android:id="@+id/receiverProfile"
-        android:layout_width="43dp"
-        android:layout_height="47dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/imageView20"
+        android:layout_width="44dp"
+        android:layout_height="78dp"
+        android:layout_marginTop="52dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.141"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toHeader"
-        app:layout_constraintVertical_bias="0.056"
-        app:srcCompat="@drawable/user" />
+        app:layout_constraintTop_toBottomOf="@+id/textView10"
+        app:srcCompat="@drawable/down_arrow" />
 
     <TextView
-        android:id="@+id/toHeader"
+        android:id="@+id/textView23"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
         android:text="To:"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.099"
+        app:layout_constraintHorizontal_bias="0.152"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/senderProfile"
-        app:layout_constraintVertical_bias="0.264" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView20" />
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#CF1E2F"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/receiverProfile"
+        android:layout_width="52dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="36dp"
+        android:background="@android:color/holo_blue_bright"
+        app:layout_constraintBottom_toTopOf="@+id/textView30"
+        app:layout_constraintRight_toLeftOf="@id/receiverName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView23"
+        app:layout_constraintVertical_bias="0.236"
+        app:srcCompat="@drawable/navbarprofile" />
+
+    <TextView
+        android:id="@+id/receiverName"
+        android:layout_width="325dp"
+        android:layout_height="26dp"
+        android:fontFamily="@font/poppins"
+        android:text="Name"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView30"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/red_rectangle" />
+        app:layout_constraintLeft_toRightOf="@id/receiverProfile"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView20"
+        app:layout_constraintVertical_bias="0.362" />
 
     <TextView
-        android:id="@+id/transferHeader"
+        android:id="@+id/textView30"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:fontFamily="@font/poppins"
-        android:text="Transfer"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.457" />
-
-    <TextView
-        android:id="@+id/fromHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
-        android:text="From:"
-        android:textColor="#000000"
-        android:textSize="20sp"
+        android:text="Enter Amount - SGD"
+        android:textColor="@color/black"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/senderProfile"
+        app:layout_constraintBottom_toTopOf="@+id/enterTransferAmt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.031"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.802" />
+        app:layout_constraintHorizontal_bias="0.111"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/senderProfile"
-        android:layout_width="43dp"
-        android:layout_height="47dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.141"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.187"
-        app:srcCompat="@drawable/user" />
-
-    <TextView
-        android:id="@+id/profileemail"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/enterTransferAmt"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
-        android:text="Your Account"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/senderAccNum"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/nextBtnAmtConfirm"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
-        app:layout_constraintStart_toEndOf="@+id/senderProfile"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/senderAccNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
-        android:text="Bank Number"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.086"
-        app:layout_constraintStart_toEndOf="@+id/senderProfile"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.219" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
-        android:text="$0.00"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.708"
-        app:layout_constraintStart_toEndOf="@+id/senderAccNum"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.218" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/nextBtnAmtConfirm"
-        android:layout_width="240dp"
-        android:layout_height="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/cancelBtnAmtConfirm"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/receiverMobileNum"
-        app:layout_constraintVertical_bias="0.631"
         app:srcCompat="@drawable/bordered_button" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/textView33"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
         android:text="Next"
-        android:textColor="#000000"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="@id/nextBtnAmtConfirm"
         app:layout_constraintBottom_toBottomOf="@id/nextBtnAmtConfirm"
         app:layout_constraintLeft_toLeftOf="@id/nextBtnAmtConfirm"
         app:layout_constraintRight_toRightOf="@id/nextBtnAmtConfirm"
-        app:layout_constraintTop_toTopOf="@id/nextBtnAmtConfirm" />
+        tools:layout_editor_absoluteX="177dp"
+        tools:layout_editor_absoluteY="624dp" />
 
     <ImageView
         android:id="@+id/cancelBtnAmtConfirm"
-        android:layout_width="136dp"
-        android:layout_height="40dp"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginEnd="120dp"
+        android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextBtnAmtConfirm"
-        app:layout_constraintVertical_bias="0.2"
         app:srcCompat="@drawable/cancel_button" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/textView34"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
         android:text="Cancel"
         android:textColor="@color/white"
+        android:fontFamily="@font/poppins"
+        app:layout_constraintTop_toTopOf="@id/cancelBtnAmtConfirm"
         app:layout_constraintBottom_toBottomOf="@id/cancelBtnAmtConfirm"
         app:layout_constraintLeft_toLeftOf="@id/cancelBtnAmtConfirm"
         app:layout_constraintRight_toRightOf="@id/cancelBtnAmtConfirm"
-        app:layout_constraintTop_toTopOf="@id/cancelBtnAmtConfirm" />
-
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="65dp"
-        android:layout_height="57dp"
-        app:layout_constraintBottom_toTopOf="@+id/toHeader"
-        app:layout_constraintHorizontal_bias="0.52"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/senderAccNum"
-        app:layout_constraintVertical_bias="0.316"
-        app:srcCompat="@drawable/arrow_down" />
-
-    <TextView
-        android:id="@+id/amountHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
-        android:text="Amount - SGD"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/nextBtnAmtConfirm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.122"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/receiverMobileNum"
-        app:layout_constraintVertical_bias="0.378" />
-
-    <EditText
-        android:id="@+id/senderAmt"
-        android:layout_width="311dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        app:layout_constraintBottom_toTopOf="@+id/nextBtnAmtConfirm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/amountHeader" />
+        tools:layout_editor_absoluteX="174dp"
+        tools:layout_editor_absoluteY="694dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
