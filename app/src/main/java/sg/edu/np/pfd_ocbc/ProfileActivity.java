@@ -82,15 +82,15 @@ public class ProfileActivity extends AppCompatActivity {
 
         ImageButton settings = findViewById(R.id.settings);
 
-//        settings.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(ProfileActivity.this, SettingOtpActivity.class);
-//                intent.putExtra("situation", "settings");
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-//                startActivity(intent);
-//            }
-//        });
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProfileActivity.this, SettingOtpActivity.class);
+                intent.putExtra("situation", "settings");
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+            }
+        });
 
         TextView name = findViewById(R.id.username);
         TextView phone = findViewById(R.id.mobileno);

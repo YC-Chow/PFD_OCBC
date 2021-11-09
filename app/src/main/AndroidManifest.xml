@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PFD_OCBC">
         <activity
+            android:name=".SettingOtpActivity"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar">
+        </activity>
+        <activity
             android:name=".NricTransferActivity"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar">
         </activity>

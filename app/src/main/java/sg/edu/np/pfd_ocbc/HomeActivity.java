@@ -78,13 +78,14 @@ public class HomeActivity extends AppCompatActivity {
         String formattedDate = today.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
 
         //Initialize Account obj
-        SharedPreferences profilePref = getSharedPreferences("Profile", MODE_PRIVATE);
+        SharedPreferences profilePref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
         userAccount = new Account();
         userAccount.setName(profilePref.getString("Name",""));
         userAccount.setphoneNo(profilePref.getString("Phone",""));
         userAccount.setEmail(profilePref.getString("Email",""));
         userAccount.setIcNo(profilePref.getString("icNo",""));
         cardList = new ArrayList<Card>();
+        userAccount.setCardList(cardList);
 
         // username when enter home
         TextView uName = findViewById(R.id.userName);

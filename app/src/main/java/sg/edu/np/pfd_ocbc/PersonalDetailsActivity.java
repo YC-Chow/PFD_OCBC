@@ -104,7 +104,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                                 JsonObjectRequest phoneObjectRequest = new JsonObjectRequest(Request.Method.POST, updatephoneno, phoneData, new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                        SharedPreferences sharedPref = getSharedPreferences("Profile", MODE_PRIVATE);
+                                        SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedPref.edit();
                                         try {
                                             editor.putString("Phone", response.getString("phoneNo"));
@@ -132,7 +132,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                                     public void onResponse(JSONObject response) {
                                         Toast.makeText(PersonalDetailsActivity.this, "Details Updated",
                                                 Toast.LENGTH_SHORT).show();
-                                        SharedPreferences sharedPref = getSharedPreferences("Profile", MODE_PRIVATE);
+                                        SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedPref.edit();
                                         try {
                                             editor.putString("Name", response.getString("name"));
@@ -160,7 +160,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                                     public void onResponse(JSONObject response) {
                                         Toast.makeText(PersonalDetailsActivity.this, "Details Updated",
                                                 Toast.LENGTH_SHORT).show();
-                                        SharedPreferences sharedPref = getSharedPreferences("Profile", MODE_PRIVATE);
+                                        SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedPref.edit();
                                         try {
                                             editor.putString("Phone", response.getString("phoneNo"));
@@ -189,7 +189,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                                     public void onResponse(JSONObject response) {
                                         Toast.makeText(PersonalDetailsActivity.this, "Details Updated",
                                                 Toast.LENGTH_SHORT).show();
-                                        SharedPreferences sharedPref = getSharedPreferences("Profile", MODE_PRIVATE);
+                                        SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedPref.edit();
                                         try {
                                             editor.putString("Name", response.getString("name"));

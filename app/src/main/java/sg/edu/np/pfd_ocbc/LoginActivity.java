@@ -177,7 +177,7 @@ public class LoginActivity extends AppCompatActivity {
                                                     public void run() {
                                                         startActivity(intent);;
                                                     }
-                                                }, 1000);   //Login delayed by 1 second to give sharedpreferences 1 second to load
+                                                }, 2000);   //Login delayed by 1 second to give sharedpreferences 1 second to load
 
 
                                             }
