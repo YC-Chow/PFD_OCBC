@@ -2,6 +2,7 @@ package sg.edu.np.pfd_ocbc;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -9,7 +10,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,6 +30,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,19 +42,30 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import static android.content.ContentValues.TAG;
 
 public class HomeActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private Account userAccount;
+    private ArrayList<Card> cardList;
+    private static final String TAG = "HomeActivity";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -61,6 +76,15 @@ public class HomeActivity extends AppCompatActivity {
         mAuth =FirebaseAuth.getInstance();
         LocalDate today = LocalDate.now();
         String formattedDate = today.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
+
+        //Initialize Account obj
+        SharedPreferences profilePref = getSharedPreferences("Profile", MODE_PRIVATE);
+        userAccount = new Account();
+        userAccount.setName(profilePref.getString("Name",""));
+        userAccount.setphoneNo(profilePref.getString("Phone",""));
+        userAccount.setEmail(profilePref.getString("Email",""));
+        userAccount.setIcNo(profilePref.getString("icNo",""));
+        cardList = new ArrayList<Card>();
 
         // username when enter home
         TextView uName = findViewById(R.id.userName);
@@ -102,8 +126,13 @@ public class HomeActivity extends AppCompatActivity {
                         break;
 
                     case R.id.page_2:
-                        Intent a = new Intent(HomeActivity.this,MobileTransferActivity.class);
+                        Intent a = new Intent(HomeActivity.this,CardTransferActivity.class);
                         a.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        for (int i =0; i < userAccount.getCardList().size(); i++)
+                        {
+                            a.putExtra("cardNum" + i, userAccount.getCardList().get(i).getCardNo());
+                        }
+                        a.putExtra("numOfCard", userAccount.getCardList().size());
                         startActivity(a);
                         break;
 
@@ -177,7 +206,9 @@ public class HomeActivity extends AppCompatActivity {
 //            }
 //        });
 
+
         //get Account details
+
         user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
             public void onComplete(@NonNull Task<GetTokenResult> task) {
                 if (task.isSuccessful()) {
@@ -194,12 +225,15 @@ public class HomeActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONObject response) {
 
+
                             //System.out.println(response);
                             Type mapTokenType = new TypeToken<Map<String,Map<String,Object>>>(){}.getType();
                             Map<String, Map<String,Object>> jsonMap = new Gson().fromJson(response.toString(), mapTokenType);
                             System.out.println(jsonMap);
+
                             for (Map<String,Object> value : jsonMap.values()) {
                                 String cardNum = value.get("cardNumber").toString();
+                                AddToCardList(cardNum);
 
                                 String lastFourDigits = "";     //substring containing last 4 characters
                                 if (cardNum.length() > 4)
@@ -215,7 +249,11 @@ public class HomeActivity extends AppCompatActivity {
                                 editor.apply();
                                 //System.out.println(lastFourDigits);
                                 //System.out.println(value.get("cardNumber"));
+
+
                             }
+                            userAccount.setCardList(cardList);
+                            Log.v(TAG, "" + userAccount.getCardList());
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -225,9 +263,19 @@ public class HomeActivity extends AppCompatActivity {
                     });
                     RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
                     requestQueue.add(jsonObjectRequest);
+
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.v(TAG, "" + userAccount.getCardList().size());
+                        }
+                    },5000);
                 }
             }
         });
+
+
 
         //get transaction details
         /*user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
@@ -280,4 +328,10 @@ public class HomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
     }
+
+    public void AddToCardList(String cardNum)
+    {
+        cardList.add(new Card(cardNum));
+    }
+
 }

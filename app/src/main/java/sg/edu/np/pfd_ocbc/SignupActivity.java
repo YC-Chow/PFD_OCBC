@@ -17,6 +17,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -35,6 +37,8 @@ import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -88,12 +92,24 @@ public class SignupActivity extends AppCompatActivity {
                String phoneNoText = phoneNo.getText().toString();
                String emailText = email.getText().toString();
                String passwordText = password.getText().toString();
+//                String cardNoText = "71726994";
+//                String sixpinText = "417369";
+//                String nameText = "Wen Kang";
+//                String icNoText = "T12345678Z";
+//                String phoneNoText = "85751563";
+//                String emailText = "wk123@gmail.com";
+//                String passwordText = "123456";
                 Log.d("validateAccount", "cardNoText"+cardNoText.equals(""));
                if (cardNoText.equals("")||sixpinText.equals("")||nameText.equals("")||icNoText.equals("")||phoneNoText.equals("")||emailText.equals("")||passwordText.equals("")){
                    Toast.makeText(SignupActivity.this, "All inputs required",
                            Toast.LENGTH_SHORT).show();
+               }else if (passwordText.length() <6){
+                   Toast.makeText(SignupActivity.this, "Password too weak",
+                           Toast.LENGTH_SHORT).show();
+               } else{
+                   checkAccountStatus(cardNoText, sixpinText, icNoText, phoneNoText, nameText, emailText, passwordText);
                }
-                checkAccountStatus(cardNoText, sixpinText, icNoText, phoneNoText, nameText, emailText, passwordText);
+
 //               mAuth.createUserWithEmailAndPassword(emailtext, passwordtext)
 //                       .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
 //                           @Override
@@ -170,6 +186,8 @@ public class SignupActivity extends AppCompatActivity {
             postData.put("last8digits", cardNo);
             postData.put("6pin", sixpin);
             postData.put("icNo", icNo);
+            postData.put("phoneNo", phoneNo);
+            postData.put("email", email);
         }catch (JSONException e) {
             e.printStackTrace();
         }
@@ -191,8 +209,42 @@ public class SignupActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(SignupActivity.this, "Authenthication Error",
-                        Toast.LENGTH_SHORT).show();
+                String body;
+                //get status code here
+                String statusCode = String.valueOf(error.networkResponse.statusCode);
+                //get response body and parse with appropriate encoding
+                if(error.networkResponse.data!=null) {
+                    try {
+                        body = new String(error.networkResponse.data,"UTF-8");
+                        Map<String, String> hashMap = new Gson().fromJson(
+                                body.toString(), new TypeToken<HashMap<String, Object>>() {}.getType()
+                        );
+                        String myError = hashMap.get("error_message");
+                        Log.d("ERRRRRRRORRR", "onErrorResponse: "+myError);
+                        if (myError.equals("Email already in database")){
+                            Toast.makeText(SignupActivity.this, "Email already in database",
+                                    Toast.LENGTH_SHORT).show();
+                        }else if(myError.equals("Phone Number already in database")){
+                            Toast.makeText(SignupActivity.this, "Phone Number already in database",
+                                    Toast.LENGTH_SHORT).show();
+                        }else if(myError.equals("No account found")){
+                            Toast.makeText(SignupActivity.this, "No account found",
+                                    Toast.LENGTH_SHORT).show();
+                        }else if(myError.equals("icNo already in database")){
+                            Toast.makeText(SignupActivity.this, "Ic number already in database",
+                                    Toast.LENGTH_SHORT).show();
+                        }else if(myError.equals("Passcode or icNo is wrong")){
+                            Toast.makeText(SignupActivity.this, "Passcode or IC number is wrong",
+                                    Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(SignupActivity.this, "Authenthication Error",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (UnsupportedEncodingException e) {
+                        Toast.makeText(SignupActivity.this, "Authenthication Error",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
         RequestQueue requestQueue = Volley.newRequestQueue(SignupActivity.this);

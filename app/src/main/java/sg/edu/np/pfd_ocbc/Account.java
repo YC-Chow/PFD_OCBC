@@ -8,8 +8,8 @@ public class Account {
     private String icNo;
     private String name;
     private Date startDate;
-    private String uid;
-    private Card card;
+    private String phoneNo;
+    private ArrayList<Card> cardList;
     private ArrayList<Transaction> transactions;
 
     public String getEmail() {
@@ -44,20 +44,20 @@ public class Account {
         this.startDate = startDate;
     }
 
-    public String getUid() {
-        return uid;
+    public String getphoneNo() {
+        return phoneNo;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setphoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
     }
 
-    public Card getCard() {
-        return card;
+    public ArrayList<Card> getCardList() {
+        return cardList;
     }
 
-    public void setCard(Card card) {
-        this.card = card;
+    public void setCardList(ArrayList<Card> cardList) {
+        this.cardList = cardList;
     }
 
     public ArrayList<Transaction> getTransactions() {
@@ -71,12 +71,18 @@ public class Account {
     public Account() {
     }
 
-    public Account(String email, String icNo, String name, Date startDate, String uid, Card card) {
+
+    public Account(String email, String icNo, String name, Date startDate, String phoneNo,ArrayList<Card> cardList) {
         this.email = email;
         this.icNo = icNo;
         this.name = name;
         this.startDate = startDate;
-        this.uid = uid;
-        this.card = card;
+        this.phoneNo = phoneNo;
+        this.cardList = cardList;
+    }
+
+    public void AddToCardList(Card card)
+    {
+        this.cardList.add(card);
     }
 }

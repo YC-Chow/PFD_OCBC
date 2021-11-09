@@ -10,8 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PFD_OCBC">
         <activity
-            android:name=".SettingOtpActivity"
-            android:exported="false" />
+            android:name=".NricTransferActivity"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar">
+        </activity>
+        <activity
+            android:name=".CardTransferActivity"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+        </activity>
+<!--        <activity-->
+<!--            android:name=".SettingOtpActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".OtpActivity"
             android:exported="false" />
