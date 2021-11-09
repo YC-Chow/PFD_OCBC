@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -30,6 +31,7 @@ import com.google.gson.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class CardTransferActivity extends AppCompatActivity {
@@ -45,6 +47,15 @@ public class CardTransferActivity extends AppCompatActivity {
         ImageView nextBtn = (ImageView) findViewById(R.id.nextBtnBankTransfer);
 
         mAuth = FirebaseAuth.getInstance();
+
+        ArrayList<Card> cardArrayList = new ArrayList<Card>();
+        int numOfCard = getIntent().getIntExtra("numOfCard",0);
+        for (int i = 0; i < numOfCard; i++)
+        {
+            cardArrayList.add(new Card(getIntent().getStringExtra("cardNum" + i)));
+        }
+
+
 
         //Setting up transfer option bar
         BottomNavigationView optionBar = (BottomNavigationView) findViewById(R.id.TopBar);
@@ -141,9 +152,10 @@ public class CardTransferActivity extends AppCompatActivity {
                                         try {
                                             if (response.has("cardNumber"))
                                             {
-                                                String cardNumber = response.getString("cardNumber");
+                                                String receiverCardNumber = response.getString("cardNumber");
                                                 Intent intent = new Intent(CardTransferActivity.this, AmountConfirmationActivity.class);
-                                                intent.putExtra("cardNumber", cardNumber);
+                                                intent.putExtra("receiverCardNumber", receiverCardNum);
+                                                intent.putExtra("senderCardNumber", cardArrayList.get(0).getCardNo());
                                                 startActivity(intent);
                                             }
                                             else 
