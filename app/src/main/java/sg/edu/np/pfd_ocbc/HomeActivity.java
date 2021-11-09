@@ -42,6 +42,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.text.ParseException;
@@ -126,6 +127,11 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.page_2:
                         Intent a = new Intent(HomeActivity.this,CardTransferActivity.class);
                         a.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        for (int i =0; i < userAccount.getCardList().size(); i++)
+                        {
+                            a.putExtra("cardNum" + i, userAccount.getCardList().get(i).getCardNo());
+                        }
+                        a.putExtra("numOfCard", userAccount.getCardList().size());
                         startActivity(a);
                         break;
 
@@ -259,7 +265,7 @@ public class HomeActivity extends AppCompatActivity {
                         public void run() {
                             Log.v(TAG, "" + userAccount.getCardList().size());
                         }
-                    },10000);
+                    },5000);
                 }
             }
         });
