@@ -1,5 +1,6 @@
 package sg.edu.np.pfd_ocbc;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.nfc.Tag;
@@ -29,6 +30,8 @@ import com.google.gson.reflect.TypeToken;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.util.Log;
@@ -63,7 +66,11 @@ public class HomeActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private Account userAccount;
+    RecyclerView recyclerView;
+    HomeTransactionAdapter TransactionAdapter;
+    Context mContext;
     private ArrayList<Card> cardList;
+    private ArrayList<Transaction> transactionList;
     private static final String TAG = "HomeActivity";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -96,6 +103,9 @@ public class HomeActivity extends AppCompatActivity {
         TextView last4Digit = findViewById(R.id.last4Digit);
         String fourDigit = sharedPref.getString("last4digits","");
         last4Digit.setText("* " + fourDigit);
+        TextView cardBalanceAmt = findViewById(R.id.balanceAmt);
+        String cardBalance = sharedPref.getString("balanceAmt","");
+        cardBalanceAmt.setText(cardBalance);
 
         //card type or issuingNetwork
         ImageView issuer = findViewById(R.id.cardType);
@@ -104,6 +114,10 @@ public class HomeActivity extends AppCompatActivity {
         if(issuingNetwork.equals("Visa")){
             issuer.setImageResource(R.drawable.visa_icon);
         }
+
+        recyclerView = findViewById(R.id.transactionRV);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        transactionList = new ArrayList<>();
 
         //Setting up bottom nav bar
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -197,7 +211,6 @@ public class HomeActivity extends AppCompatActivity {
 
 
         //get Account details
-
         user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
             public void onComplete(@NonNull Task<GetTokenResult> task) {
                 if (task.isSuccessful()) {
@@ -214,7 +227,6 @@ public class HomeActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONObject response) {
 
-
                             //System.out.println(response);
                             Type mapTokenType = new TypeToken<Map<String,Map<String,Object>>>(){}.getType();
                             Map<String, Map<String,Object>> jsonMap = new Gson().fromJson(response.toString(), mapTokenType);
@@ -222,6 +234,7 @@ public class HomeActivity extends AppCompatActivity {
 
                             for (Map<String,Object> value : jsonMap.values()) {
                                 String cardNum = value.get("cardNumber").toString();
+                                String cardBalance = value.get("balance").toString();
                                 AddToCardList(cardNum);
 
                                 String lastFourDigits = "";     //substring containing last 4 characters
@@ -230,6 +243,7 @@ public class HomeActivity extends AppCompatActivity {
                                     lastFourDigits = cardNum.substring(cardNum.length() - 4);
                                 }
                                 editor.putString("last4digits",lastFourDigits);
+                                editor.putString("balanceAmt",cardBalance);
 
                                 //checking if visa
                                 String issuingNetwork = value.get("issuingNetwork").toString();
@@ -238,8 +252,6 @@ public class HomeActivity extends AppCompatActivity {
                                 editor.apply();
                                 //System.out.println(lastFourDigits);
                                 //System.out.println(value.get("cardNumber"));
-
-
                             }
                             userAccount.setCardList(cardList);
                             Log.v(TAG, "" + userAccount.getCardList());
@@ -257,38 +269,58 @@ public class HomeActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Log.v(TAG, "" + userAccount.getCardList().size());
+                            //Log.v(TAG, "The address output is:" + userAccount.getCardList());
                         }
                     },10000);
                 }
             }
         });
 
-
-
         //get transaction details
-        /*user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+        user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
             public void onComplete(@NonNull Task<GetTokenResult> task) {
                 if (task.isSuccessful()) {
                     String token = task.getResult().getToken();
+
                     try{
-                        postData.put("cardNo", card.getCardNo());
+                        //how to freaking put the card number into the post
+                        postData.put("cardNo", "4716954771726994" );
                         postData.put("jwtToken", token );
                     }
                     catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                     JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlTransactions, postData, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-
                             //System.out.println(response);
+
                             Type mapTokenType = new TypeToken<Map<String,Map<String,Object>>>(){}.getType();
                             Map<String, Map<String,Object>> jsonMap = new Gson().fromJson(response.toString(), mapTokenType);
-                            System.out.println(jsonMap);
+                            //System.out.println(jsonMap);
+
                             for (Map<String,Object> value : jsonMap.values()) {
-                                System.out.println(value);
+                                //System.out.println(value.get("transactionId"));
+
+                                String from = value.get("from").toString();
+                                String to = value.get("to").toString();
+                                String amount = value.get("amount").toString();
+                                String date = value.get("date").toString();
+                                Transaction t = new Transaction();
+                                t.setToIC(from);
+                                t.setTransactionAmt(amount);
+                                t.setTransactionDate(date);
+                                transactionList.add(t);
+
+                                editor.putString("from",from);
+                                editor.putString("to",to);
+                                editor.putString("amount",amount);
+                                editor.putString("date",date.toString());
+                                editor.apply();
+
+                                editor.putString("from",from);
+                                HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
+                                recyclerView.setAdapter(homeTransactionAdapter);
                             }
                         }
                     }, new Response.ErrorListener() {
@@ -301,8 +333,9 @@ public class HomeActivity extends AppCompatActivity {
                     requestQueue.add(jsonObjectRequest);
                 }
             }
-        });*/
+        });
     }
+
     @Override
     protected void onStop() {
         super.onStop();
