@@ -96,7 +96,7 @@ public class ProfileActivity extends AppCompatActivity {
         TextView phone = findViewById(R.id.mobileno);
         TextView email = findViewById(R.id.profileemail);
 
-        SharedPreferences sharedPref = getSharedPreferences("Profile", MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
 
         String username = sharedPref.getString("Name", "");
         String userphone = sharedPref.getString("Phone", "");

@@ -64,12 +64,13 @@ public class HomeActivity extends AppCompatActivity {
 
         // username when enter home
         TextView uName = findViewById(R.id.userName);
-        SharedPreferences sharedPref = getSharedPreferences("MySharedPref",MODE_PRIVATE);
-        String userName = sharedPref.getString("Name","");
+        SharedPreferences AHsharedPref = getSharedPreferences("AccountHolder",MODE_PRIVATE);
+        String userName = AHsharedPref.getString("Name","");
         uName.setText(userName);
         //Log.v("name",userName);
 
         //card details
+        SharedPreferences sharedPref = getSharedPreferences("MySharedPref",MODE_PRIVATE);
         TextView last4Digit = findViewById(R.id.last4Digit);
         String fourDigit = sharedPref.getString("last4digits","");
         last4Digit.setText("* " + fourDigit);
@@ -137,40 +138,44 @@ public class HomeActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         JSONObject postData = new JSONObject();
-        //get userName
-        user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-            public void onComplete(@NonNull Task<GetTokenResult> task) {
-                if (task.isSuccessful()) {
-                    String token = task.getResult().getToken();
-                    try {
-                        postData.put("uid", user.getUid());
-                        postData.put("jwtToken", token);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            try {
-                                String Name = response.getString("name");
-                                editor.putString("Name", Name);
-                                editor.apply();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            error.printStackTrace();
-                        }
-                    });
-                    RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
-                    requestQueue.add(jsonObjectRequest);
-                }
-            }
-        });
+//        //get userName
+//        user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+//            public void onComplete(@NonNull Task<GetTokenResult> task) {
+//                if (task.isSuccessful()) {
+//                    String token = task.getResult().getToken();
+//                    try {
+//                        postData.put("uid", user.getUid());
+//                        postData.put("jwtToken", token);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
+//                        @Override
+//                        public void onResponse(JSONObject response) {
+//                            try {
+//                                editor.putString("Name", response.getString("name"));
+//                                editor.putString("Phone", response.getString("phoneNo"));
+//                                editor.putString("Email", response.getString("email"));
+//                                editor.putString("icNo", response.getString("icNo"));
+//                                editor.putString("startDate", response.getString("startDate"));
+//
+//                                editor.apply();
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    }, new Response.ErrorListener() {
+//                        @Override
+//                        public void onErrorResponse(VolleyError error) {
+//                            error.printStackTrace();
+//                        }
+//                    });
+//                    RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
+//                    requestQueue.add(jsonObjectRequest);
+//                }
+//            }
+//        });
 
         //get Account details
         user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {

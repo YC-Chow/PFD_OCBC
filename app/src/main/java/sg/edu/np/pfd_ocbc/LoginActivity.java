@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -52,9 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         Button login = findViewById(R.id.login);
 
         mAuth.signOut();
-        SharedPreferences sharedPref = getSharedPreferences("Profile", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.clear().apply();
+
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +142,8 @@ public class LoginActivity extends AppCompatActivity {
                                                             public void onResponse(JSONObject response) {
                                                                 System.out.println(response);
                                                                 try {
-
+                                                                    SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
+                                                                    SharedPreferences.Editor editor = sharedPref.edit();
                                                                     editor.putString("Name", response.getString("name"));
                                                                     editor.putString("Phone", response.getString("phoneNo"));
                                                                     editor.putString("Email", response.getString("email"));
@@ -172,7 +172,13 @@ public class LoginActivity extends AppCompatActivity {
                                                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                startActivity(intent);
+                                                Handler handler = new Handler();
+                                                handler.postDelayed(new Runnable() {
+                                                    public void run() {
+                                                        startActivity(intent);;
+                                                    }
+                                                }, 1000);   //Login delayed by 1 second to give sharedpreferences 1 second to load
+
 
                                             }
                                             else {
@@ -221,6 +227,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        //Clear account holder info
+        SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.clear().apply();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
