@@ -7,7 +7,7 @@ public class Transaction {
     private String toIC;
     private String toBankNum;
     private double transactionAmt;
-    private Date transactionDate;
+    private String transactionDate;
     private String transactionId;
 
     public String getToPhoneNum() {
@@ -22,7 +22,7 @@ public class Transaction {
         return toBankNum;
     }
 
-    public Date getTransactionDate() {
+    public String getTransactionDate() {
         return transactionDate;
     }
 
@@ -42,7 +42,7 @@ public class Transaction {
         this.toBankNum = toBankNum;
     }
 
-    public void setTransactionDate(Date transactionDate) {
+    public void setTransactionDate(String transactionDate) {
         this.transactionDate = transactionDate;
     }
 
@@ -53,17 +53,22 @@ public class Transaction {
     public double getTransactionAmt() { return transactionAmt; }
 
     public void setTransactionAmt(double transactionAmt) { this.transactionAmt = transactionAmt; }
+    public void setTransactionAmt(String transactionAmt) {
+        this.transactionDate = transactionDate;
+    }
+
+
 
     public Transaction() {
     }
 
-    public Transaction(String toPhoneNum, Date transactionDate, String transactionId, int transactionAmt) {
+
+    public Transaction(String toPhoneNum, String transactionDate, String transactionId, double transactionAmt) {
         this.toPhoneNum = toPhoneNum;
         this.transactionDate = transactionDate;
         this.transactionId = transactionId;
         this.transactionAmt = transactionAmt;
     }
-
 
 
 

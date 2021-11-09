@@ -83,7 +83,7 @@
             android:layout_marginStart="70dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/poppins"
-            android:text="Mobile No"
+            android:text="Mobile No(+65)"
             android:textColor="#090909"
             android:textStyle="bold" />
 
@@ -129,7 +129,7 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/save"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginTop="60dp"

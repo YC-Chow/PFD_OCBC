@@ -47,4 +47,8 @@ public class Card {
     public Card(String cardNo) {
         this.cardNo = cardNo;
     }
+    @Override
+    public String toString() {
+        return cardNo;
+    }
 }
