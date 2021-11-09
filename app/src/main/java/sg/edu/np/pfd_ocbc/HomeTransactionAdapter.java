@@ -35,7 +35,7 @@ public class HomeTransactionAdapter extends RecyclerView.Adapter<HomeTransaction
     public void onBindViewHolder(@NonNull HomeTransactionVH holder, int position) {
         Transaction transaction = transactionArrayList.get(position);
         holder.TransactionTo.setText(transaction.getToIC());
-        holder.TransactionAmt.setText(transaction.getTransactionAmt());
+        holder.TransactionAmt.setText(String.valueOf(transaction.getTransactionAmt()));
         holder.TransactionDate.setText(transaction.getTransactionDate());
 
     }
