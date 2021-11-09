@@ -67,8 +67,24 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                 SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
                 String username = sharedPref.getString("Name", "");
                 String userphone = sharedPref.getString("Phone", "");
+                Log.d("hi", String.valueOf(changename.getText().toString().length() ));
                 if(changemobileno.getText().toString().equals(userphone) && changename.getText().toString().equals(username)){
                     Toast.makeText(PersonalDetailsActivity.this, "Personal Details Have Not Been Edited",
+                            Toast.LENGTH_SHORT).show();
+                }
+                //if user left name or phone number empty
+                else if(changemobileno.getText().toString().equals("") || changename.getText().toString().equals("")){
+                    Toast.makeText(PersonalDetailsActivity.this, "Name Or Mobile Number Cannot be Empty",
+                            Toast.LENGTH_SHORT).show();
+                }
+                //if user tries to change phone number to something a alphabet
+                else if(changename.getText().toString().matches(".*[a-zA-Z]+.*")){
+                    Toast.makeText(PersonalDetailsActivity.this, "Mobile Number Cannot Have Alphabets",
+                            Toast.LENGTH_SHORT).show();
+                }
+                //if user tries to change phone number to something with more/less than 8 digits
+                else if(changename.getText().toString().length() != 8){
+                    Toast.makeText(PersonalDetailsActivity.this, "Mobile Number Nedds To Be 8 Digits",
                             Toast.LENGTH_SHORT).show();
                 }
                 else {
