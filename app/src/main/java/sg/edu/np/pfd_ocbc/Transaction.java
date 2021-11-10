@@ -53,10 +53,6 @@ public class Transaction {
     public double getTransactionAmt() { return transactionAmt; }
 
     public void setTransactionAmt(double transactionAmt) { this.transactionAmt = transactionAmt; }
-    public void setTransactionAmt(String transactionAmt) {
-        this.transactionDate = transactionDate;
-    }
-
 
 
     public Transaction() {

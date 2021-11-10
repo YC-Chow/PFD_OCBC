@@ -316,7 +316,7 @@ public class HomeActivity extends AppCompatActivity {
 
                                 String from = value.get("from").toString();
                                 String to = value.get("to").toString();
-                                String amount = value.get("amount").toString();
+                                Double amount = (Double) value.get("amount");
                                 String date = value.get("date").toString();
                                 Transaction t = new Transaction();
                                 t.setToIC(from);
@@ -326,7 +326,7 @@ public class HomeActivity extends AppCompatActivity {
 
                                 editor.putString("from",from);
                                 editor.putString("to",to);
-                                editor.putString("amount",amount);
+                                editor.putString("amount",amount.toString());
                                 editor.putString("date",date.toString());
                                 editor.apply();
 
