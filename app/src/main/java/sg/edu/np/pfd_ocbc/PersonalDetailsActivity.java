@@ -78,21 +78,21 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
                 //if user tries to change phone number to something a alphabet
-                else if(changename.getText().toString().matches("[a-zA-Z]+")){
+                else if(changemobileno.getText().toString().matches("[a-zA-Z]+")){
                     Toast.makeText(PersonalDetailsActivity.this, "Mobile Number Cannot Have Alphabets",
                             Toast.LENGTH_SHORT).show();
                 }
                 //if user tries to change phone number to something with more/less than 8 digits
-                else if(changename.getText().toString().length() != 8){
+                else if(changemobileno.getText().toString().length() != 8){
                     Toast.makeText(PersonalDetailsActivity.this, "Mobile Number Nedds To Be 8 Digits",
                             Toast.LENGTH_SHORT).show();
                 }
                 else {
                     FirebaseUser user = mAuth.getCurrentUser();
                     String updatename = "https://pfd-server.azurewebsites.net/updateName";
-                    String updatephoneno = "https://pfd-server.azurewebsites.net/updatePhoneNo";
+
                     JSONObject nameData = new JSONObject();
-                    JSONObject phoneData = new JSONObject();
+
 
                     user.getIdToken(true).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
                         @Override
@@ -103,9 +103,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                                 nameData.put("name", changename.getText().toString());
                                 nameData.put("jwtToken", idToken);
 
-                                phoneData.put("uid", user.getUid());
-                                phoneData.put("phoneNo", changemobileno.getText().toString());
-                                phoneData.put("jwtToken", idToken);
+
 
 
                             } catch (JSONException e) {
@@ -115,47 +113,26 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                             //If user changed both name and phone number
                             if(!changemobileno.getText().toString().equals(userphone) && !changename.getText().toString().equals(username)){
 
-
-                                //POST api to update phone number
-                                JsonObjectRequest phoneObjectRequest = new JsonObjectRequest(Request.Method.POST, updatephoneno, phoneData, new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
-                                        SharedPreferences.Editor editor = sharedPref.edit();
-                                        try {
-                                            editor.putString("Phone", response.getString("phoneNo"));
-                                            editor.apply();
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-
-
-                                    }
-                                }, new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Toast.makeText(PersonalDetailsActivity.this, "Error: Phone Number Belongs to Another Account Holder",
-                                                Toast.LENGTH_SHORT).show();
-                                        changemobileno.setText(userphone);
-                                    }
-                                });
-                                RequestQueue phonerequestQueue = Volley.newRequestQueue(PersonalDetailsActivity.this);
-                                phonerequestQueue.add(phoneObjectRequest);
-
                                 //POST api to update name
                                 JsonObjectRequest nameObjectRequest = new JsonObjectRequest(Request.Method.POST, updatename, nameData, new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                        Toast.makeText(PersonalDetailsActivity.this, "Details Updated",
-                                                Toast.LENGTH_SHORT).show();
+
                                         SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedPref.edit();
                                         try {
                                             editor.putString("Name", response.getString("name"));
                                             editor.apply();
+
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
+
+                                        //Send otp to updated number to verify that the user owns the phone number
+                                        Intent intent = new Intent(PersonalDetailsActivity.this, PersonalDetailsOtpActivity.class);
+                                        intent.putExtra("phoneNo", changemobileno.getText().toString());
+                                        intent.putExtra("situation", "updatephoneNo");
+                                        startActivity(intent);
 
                                     }
                                 }, new Response.ErrorListener() {
@@ -167,35 +144,18 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                                 });
                                 RequestQueue namerequestQueue = Volley.newRequestQueue(PersonalDetailsActivity.this);
                                 namerequestQueue.add(nameObjectRequest);
+
+
+
                             }
 
                             //if user only changed phone number
                             else if(!changemobileno.getText().toString().equals(userphone)){
-                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, updatephoneno, phoneData, new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        Toast.makeText(PersonalDetailsActivity.this, "Details Updated",
-                                                Toast.LENGTH_SHORT).show();
-                                        SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
-                                        SharedPreferences.Editor editor = sharedPref.edit();
-                                        try {
-                                            editor.putString("Phone", response.getString("phoneNo"));
-                                            editor.apply();
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-
-                                    }
-                                }, new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Toast.makeText(PersonalDetailsActivity.this, "Error: Phone Number Belongs to Another Account Holder",
-                                                Toast.LENGTH_SHORT).show();
-                                        changemobileno.setText(userphone);
-                                    }
-                                });
-                                RequestQueue requestQueue = Volley.newRequestQueue(PersonalDetailsActivity.this);
-                                requestQueue.add(jsonObjectRequest);
+                                //Send otp to updated number to verify that the user owns the phone number
+                                Intent intent = new Intent(PersonalDetailsActivity.this, PersonalDetailsOtpActivity.class);
+                                intent.putExtra("phoneNo", changemobileno.getText().toString());
+                                intent.putExtra("situation", "updatephoneNo");
+                                startActivity(intent);
                             }
 
                             //if user only changed name
