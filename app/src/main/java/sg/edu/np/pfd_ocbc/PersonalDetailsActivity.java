@@ -78,7 +78,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
                 //if user tries to change phone number to something a alphabet
-                else if(changename.getText().toString().matches(".*[a-zA-Z]+.*")){
+                else if(changename.getText().toString().matches("[a-zA-Z]+")){
                     Toast.makeText(PersonalDetailsActivity.this, "Mobile Number Cannot Have Alphabets",
                             Toast.LENGTH_SHORT).show();
                 }

@@ -39,7 +39,7 @@ public class SettingOtpActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String situation = intent.getStringExtra("situation");
-        SharedPreferences sharedPref = getSharedPreferences("Profile", MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
         String phoneNo = sharedPref.getString("Phone", "");
 
         TextView paragraph = findViewById(R.id.otptext);
@@ -59,7 +59,7 @@ public class SettingOtpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!opt.getText().toString().equals("")){
-                    //submitSettingOTP(phoneNo,opt.getText().toString(),situation);
+                    submitSettingOTP(phoneNo,opt.getText().toString(),situation);
                 }
             }
         });
