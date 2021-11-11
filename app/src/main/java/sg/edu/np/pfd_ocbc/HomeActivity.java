@@ -6,9 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -35,15 +37,18 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
@@ -64,20 +69,20 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         SharedPreferences profilePref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                while(profilePref.getBoolean("reload", true) == true){ // reload home page to display all information
-                    finish();
-                    Intent intent = getIntent();
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(intent);
-                    SharedPreferences.Editor editor = profilePref.edit();
-                    editor.putBoolean("reload", false);
-                    editor.apply();
-                }
-            }
-        }, 2000);   //Reaload home page delayed by 2 seconds
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            public void run() {
+//                while(profilePref.getBoolean("reload", true) == true){ // reload home page to display all information
+//                    finish();
+//                    Intent intent = getIntent();
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                    startActivity(intent);
+//                    SharedPreferences.Editor editor = profilePref.edit();
+//                    editor.putBoolean("reload", false);
+//                    editor.apply();
+//                }
+//            }
+//        }, 2000);   //Reaload home page delayed by 2 seconds
 
 
 
@@ -274,6 +279,65 @@ public class HomeActivity extends AppCompatActivity {
                             editor.putString("IssuingNetwork", card1.getIssuingNetwork());
                             editor.apply();
                             //Log.v(TAG, "" + userAccount.getCardList());
+                            String token = task.getResult().getToken();
+                            try{
+                                postData.put("accNo", sharedPreferences.getString("accNo", ""));
+                                postData.put("jwtToken", token );
+                            }
+                            catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Log.d("lololol", "acc onResponse: "+sharedPreferences.getString("accNo", ""));
+                            Log.d("lololol", "token onResponse: "+token);
+                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlTransactions, postData, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    System.out.println(response);
+                                    Log.d("lololol", "onResponse: "+response.toString());
+                                    Type mapTokenType = new TypeToken<Map<String,Map<String,Object>>>(){}.getType();
+                                    Map<String, Map<String,Object>> jsonMap = new Gson().fromJson(response.toString(), mapTokenType);
+                                    //System.out.println(jsonMap);
+
+                                    for (Map<String,Object> value : jsonMap.values()) {
+                                        //System.out.println(value.get("transactionId"));
+                                        System.out.println(value);
+                                    }
+                                    HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
+                                    recyclerView.setAdapter(homeTransactionAdapter);
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    error.printStackTrace();
+//                                    String body;
+//                                    //get status code here
+//                                    String statusCode = String.valueOf(error.networkResponse.statusCode);
+//                                    //get response body and parse with appropriate encoding
+//                                    if(error.networkResponse.data!=null) {
+//                                        try{
+//                                            body = new String(error.networkResponse.data,"UTF-8");
+//                                            Log.d("lololol", "onErrorResponse: "+body);
+//
+//                                        } catch (UnsupportedEncodingException e) {
+//                                            Log.d("lololol", "onError");
+//                                        }
+//                                    }
+                                }
+                            });
+                            RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
+                            RetryPolicy policy = new DefaultRetryPolicy(5000,
+                                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                            jsonObjectRequest.setRetryPolicy(policy);
+                            requestQueue.add(jsonObjectRequest);
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //Log.v(TAG, "The address output is:" + userAccount.getCardList());
+                                }
+                            },5000);
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -297,53 +361,6 @@ public class HomeActivity extends AppCompatActivity {
 
         //Log.v("selected acc num is",sharedPreferences.getString("accNo", ""));
         //get transaction details
-        user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-            public void onComplete(@NonNull Task<GetTokenResult> task) {
-                if (task.isSuccessful()) {
-                    String token = task.getResult().getToken();
-                    try{
-                        postData.put("accNo", sharedPreferences.getString("accNo", ""));
-                        postData.put("jwtToken", token );
-                    }
-                    catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlTransactions, postData, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            System.out.println(response);
-
-                            Type mapTokenType = new TypeToken<Map<String,Map<String,Object>>>(){}.getType();
-                            Map<String, Map<String,Object>> jsonMap = new Gson().fromJson(response.toString(), mapTokenType);
-                            //System.out.println(jsonMap);
-
-                            for (Map<String,Object> value : jsonMap.values()) {
-                                //System.out.println(value.get("transactionId"));
-                                System.out.println(value);
-                            }
-                            HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
-                            recyclerView.setAdapter(homeTransactionAdapter);
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            error.printStackTrace();
-                        }
-                    });
-                    RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
-                    requestQueue.add(jsonObjectRequest);
-
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Log.v(TAG, "The address output is:" + userAccount.getCardList());
-                        }
-                    },5000);
-
-                }
-            }
-        });
 
         TextView cardseeall = findViewById(R.id.cardseeall);
 
