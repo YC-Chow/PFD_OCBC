@@ -246,7 +246,7 @@ public class HomeActivity extends AppCompatActivity {
                             //System.out.println(response);
                             Type mapTokenType = new TypeToken<Map<String,Map<String,Object>>>(){}.getType();
                             Map<String, Map<String,Object>> jsonMap = new Gson().fromJson(response.toString(), mapTokenType);
-                            System.out.println(jsonMap);
+                            //System.out.println(jsonMap);
 
                             for (Map<String,Object> value : jsonMap.values()) {
                                 String cardNum = value.get("cardNumber").toString();
@@ -254,7 +254,6 @@ public class HomeActivity extends AppCompatActivity {
                                 String accNo = value.get("accNo").toString();
                                 //checking if visa
                                 String issuingNetwork = value.get("issuingNetwork").toString();
-
 
                                 AddToCardList(cardNum, sharedPreferences.getString("name", ""), issuingNetwork, cardBalance, accNo);
                                 //System.out.println(lastFourDigits);
@@ -274,7 +273,7 @@ public class HomeActivity extends AppCompatActivity {
                             editor.putString("accNo", card1.getAccNo());
                             editor.putString("IssuingNetwork", card1.getIssuingNetwork());
                             editor.apply();
-                            Log.v(TAG, "" + userAccount.getCardList());
+                            //Log.v(TAG, "" + userAccount.getCardList());
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -296,15 +295,14 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        //Log.v("selected acc num is",sharedPreferences.getString("accNo", ""));
         //get transaction details
         user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
             public void onComplete(@NonNull Task<GetTokenResult> task) {
                 if (task.isSuccessful()) {
                     String token = task.getResult().getToken();
-
                     try{
-                        //how to freaking put the card number into the post
-                        postData.put("accNo", sharedPreferences.getString("accNo", "") );
+                        postData.put("accNo", sharedPreferences.getString("accNo", ""));
                         postData.put("jwtToken", token );
                     }
                     catch (JSONException e) {
@@ -313,7 +311,7 @@ public class HomeActivity extends AppCompatActivity {
                     JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlTransactions, postData, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            //System.out.println(response);
+                            System.out.println(response);
 
                             Type mapTokenType = new TypeToken<Map<String,Map<String,Object>>>(){}.getType();
                             Map<String, Map<String,Object>> jsonMap = new Gson().fromJson(response.toString(), mapTokenType);
@@ -321,27 +319,8 @@ public class HomeActivity extends AppCompatActivity {
 
                             for (Map<String,Object> value : jsonMap.values()) {
                                 //System.out.println(value.get("transactionId"));
-
-                                String from = value.get("from").toString();
-                                String to = value.get("to").toString();
-                                Double amount = (Double) value.get("amount");
-                                String date = value.get("date").toString();
-                                Transaction t = new Transaction();
-                                t.setToIC(from);
-                                t.setTransactionAmt(amount);
-                                t.setTransactionDate(date);
-                                transactionList.add(t);
-
-                                editor.putString("from",from);
-                                editor.putString("to",to);
-                                editor.putString("amount",amount.toString());
-                                editor.putString("date",date.toString());
-                                editor.apply();
-
-                                editor.putString("from",from);
-
+                                System.out.println(value);
                             }
-                            Log.v("transaction List", transactionList.toString());
                             HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
                             recyclerView.setAdapter(homeTransactionAdapter);
                         }
@@ -353,6 +332,15 @@ public class HomeActivity extends AppCompatActivity {
                     });
                     RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
                     requestQueue.add(jsonObjectRequest);
+
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Log.v(TAG, "The address output is:" + userAccount.getCardList());
+                        }
+                    },5000);
+
                 }
             }
         });
