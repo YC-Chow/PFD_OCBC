@@ -49,6 +49,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
@@ -68,24 +69,20 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         SharedPreferences profilePref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
-
-//        Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            public void run() {
-//                while(profilePref.getBoolean("reload", true) == true){ // reload home page to display all information
-//                    finish();
-//                    Intent intent = getIntent();
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-//                    startActivity(intent);
-//                    SharedPreferences.Editor editor = profilePref.edit();
-//                    editor.putBoolean("reload", false);
-//                    editor.apply();
-//                }
-//            }
-//        }, 2000);   //Reaload home page delayed by 2 seconds
-
-
-
+/*
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                // reload home page to display all information
+                finish();
+                Intent intent = getIntent();
+                finish();
+                overridePendingTransition( 0, 0);
+                startActivity(intent);
+                overridePendingTransition( 0, 0);
+            }
+        }, 2000);   //Reaload home page delayed by 2 seconds
+        */
         mAuth =FirebaseAuth.getInstance();
         LocalDate today = LocalDate.now();
         String formattedDate = today.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
@@ -278,7 +275,7 @@ public class HomeActivity extends AppCompatActivity {
                             editor.putString("accNo", card1.getAccNo());
                             editor.putString("IssuingNetwork", card1.getIssuingNetwork());
                             editor.apply();
-                            //Log.v(TAG, "" + userAccount.getCardList());
+                            Log.v(TAG, "" + userAccount.getCardList());
                             String token = task.getResult().getToken();
                             try{
                                 postData.put("accNo", sharedPreferences.getString("accNo", ""));
@@ -287,20 +284,35 @@ public class HomeActivity extends AppCompatActivity {
                             catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            Log.d("lololol", "acc onResponse: "+sharedPreferences.getString("accNo", ""));
+                            //Log.d("lololol", "acc onResponse: "+sharedPreferences.getString("accNo", ""));
                             Log.d("lololol", "token onResponse: "+token);
                             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlTransactions, postData, new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
                                     System.out.println(response);
-                                    Log.d("lololol", "onResponse: "+response.toString());
+                                    //Log.d("lololol", "onResponse: "+response.toString());
                                     Type mapTokenType = new TypeToken<Map<String,Map<String,Object>>>(){}.getType();
                                     Map<String, Map<String,Object>> jsonMap = new Gson().fromJson(response.toString(), mapTokenType);
                                     //System.out.println(jsonMap);
 
+                                    String DebitOrCredit = "+";
                                     for (Map<String,Object> value : jsonMap.values()) {
                                         //System.out.println(value.get("transactionId"));
-                                        System.out.println(value);
+                                        //System.out.println(value);
+
+                                        String AccTo = value.get("toAccount").toString();
+                                        String to = value.get("to").toString();
+                                        Double amt = (Double) value.get("amount");
+                                        //String amtDebitOrCredit = debit + amt;
+                                        String date = value.get("date").toString();
+
+
+                                        Transaction t = new Transaction();
+                                        t.setTransactionDate(date);
+                                        t.setTransactionAmt(amt);
+                                        t.setToBankNum(to);
+                                        //t.setDebitOrCredit(DebitOrCredit);
+                                        transactionList.add(t);
                                     }
                                     HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
                                     recyclerView.setAdapter(homeTransactionAdapter);
@@ -324,6 +336,7 @@ public class HomeActivity extends AppCompatActivity {
 //                                    }
                                 }
                             });
+
                             RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
                             RetryPolicy policy = new DefaultRetryPolicy(5000,
                                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,

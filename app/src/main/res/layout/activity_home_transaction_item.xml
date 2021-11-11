@@ -15,12 +15,12 @@
             android:id="@+id/transactionTo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="32dp"
             android:fontFamily="@font/poppins"
             android:maxLines="2"
             android:text="TextView"
             android:textColor="#202020"
-            android:textSize="20sp"
+            android:textSize="17sp"
             app:layout_constraintEnd_toStartOf="@+id/transactionAmt"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +30,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="32dp"
+            android:fontFamily="@font/poppins"
             android:text="TextView"
             app:layout_constraintEnd_toStartOf="@+id/transactionAmt"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,10 +42,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
+            android:fontFamily="@font/poppins"
             android:text="TextView"
             app:layout_constraintBottom_toBottomOf="@+id/transactionDateTime"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/transactionTo" />
+
+        <TextView
+            android:id="@+id/DebitOrCredit"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:fontFamily="@font/poppins"
+            app:layout_constraintBottom_toBottomOf="@+id/transactionAmt"
+            app:layout_constraintEnd_toStartOf="@+id/transactionAmt"
+            app:layout_constraintTop_toTopOf="@+id/transactionAmt" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

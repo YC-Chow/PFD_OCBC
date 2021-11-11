@@ -6,12 +6,17 @@ public class Transaction {
     private String toPhoneNum;
     private String toIC;
     private String toBankNum;
-    private double transactionAmt;
+    private Double transactionAmt;
     private String transactionDate;
     private String transactionId;
+    private String DebitOrCredit;
 
     public String getToPhoneNum() {
         return toPhoneNum;
+    }
+
+    public String getDebitOrCredit() {
+        return DebitOrCredit;
     }
 
     public String getToIC() {
@@ -52,20 +57,20 @@ public class Transaction {
 
     public double getTransactionAmt() { return transactionAmt; }
 
-    public void setTransactionAmt(double transactionAmt) { this.transactionAmt = transactionAmt; }
+    public void setTransactionAmt(Double transactionAmt) { this.transactionAmt = transactionAmt; }
 
+    public void setDebitOrCredit(String debitOrCredit) {
+        DebitOrCredit = debitOrCredit;
+    }
 
     public Transaction() {
     }
 
 
-    public Transaction(String toPhoneNum, String transactionDate, String transactionId, double transactionAmt) {
+    public Transaction(String toPhoneNum, String transactionDate, String transactionId, Double transactionAmt) {
         this.toPhoneNum = toPhoneNum;
         this.transactionDate = transactionDate;
         this.transactionId = transactionId;
         this.transactionAmt = transactionAmt;
     }
-
-
-
 }

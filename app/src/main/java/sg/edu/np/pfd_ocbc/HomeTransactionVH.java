@@ -10,11 +10,13 @@ public class HomeTransactionVH extends RecyclerView.ViewHolder{
     TextView TransactionTo;
     TextView TransactionDate;
     TextView TransactionAmt;
+    TextView TransactionDebitOrCredit;
 
     public HomeTransactionVH(View itemView) {
         super(itemView);
         TransactionTo = itemView.findViewById(R.id.transactionTo);
         TransactionDate= itemView.findViewById(R.id.transactionDateTime);
         TransactionAmt = itemView.findViewById(R.id.transactionAmt);
+        TransactionDebitOrCredit = itemView.findViewById(R.id.DebitOrCredit);
     }
 }
