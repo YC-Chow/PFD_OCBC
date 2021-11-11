@@ -86,7 +86,7 @@ public class HomeActivity extends AppCompatActivity {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
-                while(profilePref.getBoolean("reload", true) == true){
+                while(profilePref.getBoolean("reload", true) == true){ // reload home page to display all information
                     finish();
                     Intent intent = getIntent();
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -96,7 +96,7 @@ public class HomeActivity extends AppCompatActivity {
                     editor.apply();
                 }
             }
-        }, 2000);   //Login delayed by 1 second to give sharedpreferences 1 second to load
+        }, 2000);   //Reaload home page delayed by 2 seconds
 
 
 
