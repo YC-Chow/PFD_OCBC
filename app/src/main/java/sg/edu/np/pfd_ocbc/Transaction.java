@@ -3,6 +3,7 @@ package sg.edu.np.pfd_ocbc;
 import java.util.Date;
 
 public class Transaction {
+    private String senderAccNo;
     private String toPhoneNum;
     private String toIC;
     private String toBankNum;
@@ -10,6 +11,10 @@ public class Transaction {
     private String transactionDate;
     private String transactionId;
     private String DebitOrCredit;
+
+    public String getSenderAccNo() { return senderAccNo; }
+
+    public void setSenderAccNo(String senderAccNo) { this.senderAccNo = senderAccNo; }
 
     public String getToPhoneNum() {
         return toPhoneNum;
