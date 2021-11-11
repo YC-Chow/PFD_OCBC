@@ -60,6 +60,7 @@ public class HomeActivity extends AppCompatActivity {
     HomeTransactionAdapter TransactionAdapter;
     Context mContext;
     private ArrayList<Card> cardList;
+    private ArrayList<String> accountList;
     private ArrayList<Transaction> transactionList;
     private static final String TAG = "HomeActivity";
 
@@ -96,6 +97,7 @@ public class HomeActivity extends AppCompatActivity {
         userAccount.setIcNo(profilePref.getString("icNo",""));
         cardList = new ArrayList<Card>();
         userAccount.setCardList(cardList);
+        accountList = new ArrayList<String>();
 
         // username when enter home
         TextView uName = findViewById(R.id.userName);
@@ -150,9 +152,9 @@ public class HomeActivity extends AppCompatActivity {
                         a.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         for (int i =0; i < userAccount.getCardList().size(); i++)
                         {
-                            a.putExtra("cardNum" + i, userAccount.getCardList().get(i).getCardNo());
+                            a.putExtra("accNo" + i, accountList.get(i));
                         }
-                        a.putExtra("numOfCard", userAccount.getCardList().size());
+                        a.putExtra("numOfAcc", userAccount.getCardList().size());
                         startActivity(a);
                         break;
 

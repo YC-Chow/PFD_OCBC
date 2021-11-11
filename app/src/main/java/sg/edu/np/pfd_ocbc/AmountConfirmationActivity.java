@@ -3,13 +3,10 @@ package sg.edu.np.pfd_ocbc;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.DownloadManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,8 +32,8 @@ public class AmountConfirmationActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     EditText senderAmount;
     ImageView nextBtn, cancelBtn;
-    TextView receiverName, senderCardNo, senderBal;
-    private String receiverCardNum, senderCardNum, token;
+    TextView receiverName, senderAccNo, senderBal;
+    private String receiverAccNum, senderAccNum, token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +44,14 @@ public class AmountConfirmationActivity extends AppCompatActivity {
         nextBtn = findViewById(R.id.nextBtnAmtConfirm);
         cancelBtn = findViewById(R.id.cancelBtnAmtConfirm);
         receiverName = findViewById(R.id.receiverName);
-        senderCardNo = findViewById(R.id.senderCardNo);
+        senderAccNo = findViewById(R.id.senderAccNo);
         senderBal = findViewById(R.id.senderBal);
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
 
-        receiverCardNum = getIntent().getStringExtra("receiverCardNumber");
-        senderCardNum = getIntent().getStringExtra("senderCardNumber");
+        receiverAccNum = getIntent().getStringExtra("receiverCardNumber");
+        senderAccNum = getIntent().getStringExtra("senderCardNumber");
 
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -77,8 +74,8 @@ public class AmountConfirmationActivity extends AppCompatActivity {
                 else
                 {
                     Intent intent = new Intent(AmountConfirmationActivity.this, TransferConfirmationActivity.class);
-                    intent.putExtra("from", senderCardNum);
-                    intent.putExtra("to", receiverCardNum);
+                    intent.putExtra("from", senderAccNum);
+                    intent.putExtra("to", receiverAccNum);
                     intent.putExtra("amount", amount);
                     startActivity(intent);
                 }
@@ -87,9 +84,7 @@ public class AmountConfirmationActivity extends AppCompatActivity {
 
         //getting receiver information
         RequestQueue requestQueue = Volley.newRequestQueue(AmountConfirmationActivity.this);
-        String getAccountByCardNo = "https://pfd-server.azurewebsites.net/getAccount";
-        JSONObject postData = new JSONObject();
-        JSONObject jsonObject = new JSONObject();
+
         user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
             @Override
             public void onComplete(@NonNull Task<GetTokenResult> task) {
@@ -97,32 +92,9 @@ public class AmountConfirmationActivity extends AppCompatActivity {
                 {
                     token = task.getResult().getToken();
 
-                    try {
-                        postData.put("cardNo", receiverCardNum);
-                        postData.put("jwtToken",token);
-                    }catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
+                    setReceiverName(requestQueue, receiverAccNum);
+                    setSenderInfo(requestQueue, senderAccNum);
 
-                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getAccountByCardNo, postData, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            try {
-                                String receiverIC = response.getString("icNo");
-                                getAccountByIcNo(requestQueue, receiverIC);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            error.printStackTrace();
-                        }
-                    });
-                    requestQueue.add(jsonObjectRequest);
                 }
             }
         });
@@ -140,18 +112,18 @@ public class AmountConfirmationActivity extends AppCompatActivity {
 
     }
 
-    private void getAccountByIcNo(RequestQueue queue, String icNo)
+    private void setReceiverName(RequestQueue queue, String accNo)
     {
-        String getAccountHolderByIC = "https://pfd-server.azurewebsites.net/getAccountHolderUsingIcNo";
+        String requestUrl = "https://pfd-server.azurewebsites.net/getAccount";
         JSONObject postData = new JSONObject();
         try {
-            postData.put("icNo", icNo);
+            postData.put("accNo", accNo);
             postData.put("jwtToken",token);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, getAccountHolderByIC, postData, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, requestUrl, postData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -170,5 +142,38 @@ public class AmountConfirmationActivity extends AppCompatActivity {
         });
 
         queue.add(request);
+    }
+
+    private void setSenderInfo(RequestQueue queue, String accNo)
+    {
+        String requestUrl = "https://pfd-server.azurewebsites.net/getAccount";
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("accNo", accNo);
+            postData.put("jwtToken", token);
+        }catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, requestUrl, postData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    int responseSenderBal = response.getInt("balance");
+                    senderAccNo.setText(senderAccNum);
+                    senderBal.setText(String.valueOf(responseSenderBal));
+                }catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+
+        queue.add(jsonObjectRequest);
     }
 }

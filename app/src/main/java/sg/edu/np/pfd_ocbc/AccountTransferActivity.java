@@ -40,16 +40,16 @@ public class AccountTransferActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_transfer);
 
-        EditText enterCardNum = (EditText) findViewById(R.id.enterCardNum);
+        EditText enterAccNum = (EditText) findViewById(R.id.enterCardNum);
         ImageView nextBtn = (ImageView) findViewById(R.id.nextBtnBankTransfer);
 
         mAuth = FirebaseAuth.getInstance();
 
-        ArrayList<Card> cardArrayList = new ArrayList<Card>();
-        int numOfCard = getIntent().getIntExtra("numOfCard",0);
+        ArrayList<String> accArrayList = new ArrayList<String>();
+        int numOfCard = getIntent().getIntExtra("numOfAcc",0);
         for (int i = 0; i < numOfCard; i++)
         {
-            cardArrayList.add(new Card(getIntent().getStringExtra("cardNum" + i)));
+            accArrayList.add(getIntent().getStringExtra("accNo" + i));
         }
 
 
@@ -121,8 +121,8 @@ public class AccountTransferActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String receiverCardNum = enterCardNum.getText().toString();
-                if(receiverCardNum != "" && (Pattern.matches("^[4]\\d{15}$",receiverCardNum)))
+                String receiverCardNum = enterAccNum.getText().toString();
+                if(receiverCardNum != "")
                 {
                     String postUrl = "https://pfd-server.azurewebsites.net/getAccount";
 
@@ -136,7 +136,7 @@ public class AccountTransferActivity extends AppCompatActivity {
                                 String token = task.getResult().getToken();
                                 try
                                 {
-                                    postData.put("cardNo", receiverCardNum);
+                                    postData.put("accNo", receiverCardNum);
                                     postData.put("jwtToken", token);
                                 }catch (JSONException e)
                                 {
@@ -147,12 +147,12 @@ public class AccountTransferActivity extends AppCompatActivity {
                                     @Override
                                     public void onResponse(JSONObject response) {
                                         try {
-                                            if (response.has("cardNumber"))
+                                            if (response.has("accNo"))
                                             {
-                                                String receiverCardNumber = response.getString("cardNumber");
+                                                String receiverAccNo = response.getString("accNo");
                                                 Intent intent = new Intent(AccountTransferActivity.this, AmountConfirmationActivity.class);
-                                                intent.putExtra("receiverCardNumber", receiverCardNum);
-                                                intent.putExtra("senderCardNumber", cardArrayList.get(0).getCardNo());
+                                                intent.putExtra("receiverAccNo", receiverAccNo);
+                                                intent.putExtra("senderAccNo", accArrayList.get(0));
                                                 startActivity(intent);
                                             }
                                             else 

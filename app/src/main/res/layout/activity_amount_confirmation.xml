@@ -62,11 +62,11 @@
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <TextView
-        android:id="@+id/senderCardNo"
+        android:id="@+id/senderAccNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
-        android:text="cardNum"
+        android:text="accNum"
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/imageView20"
         app:layout_constraintHorizontal_bias="0.0"
@@ -163,7 +163,7 @@
         android:layout_marginEnd="70dp"
         android:layout_marginBottom="16dp"
         android:ems="10"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         app:layout_constraintBottom_toTopOf="@+id/nextBtnAmtConfirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
