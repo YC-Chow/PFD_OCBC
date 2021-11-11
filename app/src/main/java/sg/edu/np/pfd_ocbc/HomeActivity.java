@@ -34,8 +34,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -79,13 +81,31 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        SharedPreferences profilePref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                while(profilePref.getBoolean("reload", true) == true){
+                    finish();
+                    Intent intent = getIntent();
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
+                    SharedPreferences.Editor editor = profilePref.edit();
+                    editor.putBoolean("reload", false);
+                    editor.apply();
+                }
+            }
+        }, 2000);   //Login delayed by 1 second to give sharedpreferences 1 second to load
+
+
 
         mAuth =FirebaseAuth.getInstance();
         LocalDate today = LocalDate.now();
         String formattedDate = today.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
 
         //Initialize Account obj
-        SharedPreferences profilePref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
+
         userAccount = new Account();
         userAccount.setName(profilePref.getString("Name",""));
         userAccount.setphoneNo(profilePref.getString("Phone",""));
@@ -121,6 +141,8 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.transactionRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         transactionList = new ArrayList<>();
+
+
 
         //Setting up bottom nav bar
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -170,6 +192,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         FirebaseUser user = mAuth.getCurrentUser();
 
         String postUrl = "https://pfd-server.azurewebsites.net/getAccountHolder";
@@ -247,25 +270,29 @@ public class HomeActivity extends AppCompatActivity {
                             for (Map<String,Object> value : jsonMap.values()) {
                                 String cardNum = value.get("cardNumber").toString();
                                 String cardBalance = value.get("balance").toString();
-                                AddToCardList(cardNum);
-
-                                String lastFourDigits = "";     //substring containing last 4 characters
-                                if (cardNum.length() > 4)
-                                {
-                                    lastFourDigits = cardNum.substring(cardNum.length() - 4);
-                                }
-                                editor.putString("last4digits",lastFourDigits);
-                                editor.putString("balanceAmt",cardBalance);
-
+                                String accNo = value.get("accNo").toString();
                                 //checking if visa
                                 String issuingNetwork = value.get("issuingNetwork").toString();
 
-                                editor.putString("IssuingNetwork",issuingNetwork);
-                                editor.apply();
+
+                                AddToCardList(cardNum, sharedPreferences.getString("name", ""), issuingNetwork, cardBalance, accNo);
                                 //System.out.println(lastFourDigits);
                                 //System.out.println(value.get("cardNumber"));
                             }
                             userAccount.setCardList(cardList);
+                            Card card1 = cardList.get(0);
+
+                            String lastFourDigits = "";     //substring containing last 4 characters
+                            if (card1.getCardNo().length() > 4)
+                            {
+                                lastFourDigits = card1.getCardNo().substring(card1.getCardNo().length() - 4);
+                            }
+
+                            editor.putString("last4digits", lastFourDigits);
+                            editor.putString("balanceAmt", card1.getBalance());
+                            editor.putString("accNo", card1.getAccNo());
+                            editor.putString("IssuingNetwork", card1.getIssuingNetwork());
+                            editor.apply();
                             Log.v(TAG, "" + userAccount.getCardList());
                         }
                     }, new Response.ErrorListener() {
@@ -296,7 +323,7 @@ public class HomeActivity extends AppCompatActivity {
 
                     try{
                         //how to freaking put the card number into the post
-                        postData.put("cardNo", "4716954771726994" );
+                        postData.put("accNo", sharedPreferences.getString("accNo", "") );
                         postData.put("jwtToken", token );
                     }
                     catch (JSONException e) {
@@ -331,9 +358,11 @@ public class HomeActivity extends AppCompatActivity {
                                 editor.apply();
 
                                 editor.putString("from",from);
-                                HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
-                                recyclerView.setAdapter(homeTransactionAdapter);
+
                             }
+                            Log.v("transaction List", transactionList.toString());
+                            HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
+                            recyclerView.setAdapter(homeTransactionAdapter);
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -344,6 +373,24 @@ public class HomeActivity extends AppCompatActivity {
                     RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
                     requestQueue.add(jsonObjectRequest);
                 }
+            }
+        });
+
+        TextView cardseeall = findViewById(R.id.cardseeall);
+
+        cardseeall.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(HomeActivity.this, SeeAllCardActivity.class);
+                intent.putExtra("user", userAccount);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        startActivity(intent);
+                    }
+                }, 2000);   //delayed by 1 second to give recycler view time to load
+
+                return false;
             }
         });
     }
@@ -363,9 +410,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    public void AddToCardList(String cardNum)
+    public void AddToCardList(String cardNum, String name, String issuingNetwork, String balance, String accNo)
     {
-        cardList.add(new Card(cardNum));
+        cardList.add(new Card(cardNum, name, issuingNetwork, balance, accNo));
     }
 
 }

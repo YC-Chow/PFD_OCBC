@@ -44,6 +44,12 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         EditText mobile = findViewById(R.id.mobile_input);
+        //Clear account info
+        SharedPreferences mysharedPref = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        SharedPreferences.Editor myeditor = mysharedPref.edit();
+        myeditor.clear().apply();
+        myeditor.putBoolean("reload", true);
+        myeditor.apply();
 
 
 
@@ -112,6 +118,8 @@ public class LoginActivity extends AppCompatActivity {
                                                 // Sign in success, update UI with the signed-in user's information
                                                 Log.d(TAG, "signInWithEmail:success");
                                                 FirebaseUser user = mAuth.getCurrentUser();
+
+
 
 
 
@@ -231,6 +239,7 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.clear().apply();
+
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){

@@ -2,8 +2,9 @@ package sg.edu.np.pfd_ocbc;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.io.Serializable;
 
-public class Account {
+public class Account implements Serializable{
     private String email;
     private String icNo;
     private String name;
