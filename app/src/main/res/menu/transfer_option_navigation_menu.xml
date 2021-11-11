@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id = "@+id/cardTransfer"
-        android:title="Card"
+        android:title="Account"
         android:checkable="false"
         android:enabled="true">
     </item>

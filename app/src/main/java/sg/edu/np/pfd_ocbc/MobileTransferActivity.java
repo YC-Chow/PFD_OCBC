@@ -5,21 +5,14 @@ import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 
 public class MobileTransferActivity extends AppCompatActivity {
@@ -54,7 +47,7 @@ public class MobileTransferActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.cardTransfer:
-                        Intent intent = new Intent(MobileTransferActivity.this, CardTransferActivity.class);
+                        Intent intent = new Intent(MobileTransferActivity.this, AccountTransferActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(intent);
                         break;

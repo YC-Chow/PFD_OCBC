@@ -4,9 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -26,7 +24,6 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
-import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,14 +31,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-public class CardTransferActivity extends AppCompatActivity {
+public class AccountTransferActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_card_transfer);
+        setContentView(R.layout.activity_account_transfer);
 
         EditText enterCardNum = (EditText) findViewById(R.id.enterCardNum);
         ImageView nextBtn = (ImageView) findViewById(R.id.nextBtnBankTransfer);
@@ -74,13 +71,13 @@ public class CardTransferActivity extends AppCompatActivity {
                         break;
 
                     case R.id.mobileTransfer:
-                        Intent intent = new Intent(CardTransferActivity.this, MobileTransferActivity.class);
+                        Intent intent = new Intent(AccountTransferActivity.this, MobileTransferActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(intent);
                         break;
 
                     case R.id.nricTransfer:
-                        Intent b = new Intent(CardTransferActivity.this, NricTransferActivity.class);
+                        Intent b = new Intent(AccountTransferActivity.this, NricTransferActivity.class);
                         b.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(b);
                         break;
@@ -101,7 +98,7 @@ public class CardTransferActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.page_1:
-                        Intent a = new Intent(CardTransferActivity.this, HomeActivity.class);
+                        Intent a = new Intent(AccountTransferActivity.this, HomeActivity.class);
                         a.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(a);
 
@@ -112,7 +109,7 @@ public class CardTransferActivity extends AppCompatActivity {
                         break;
 
                     case R.id.page_3:
-                        Intent b = new Intent(CardTransferActivity.this, ProfileActivity.class);
+                        Intent b = new Intent(AccountTransferActivity.this, ProfileActivity.class);
                         b.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(b);
                         break;
@@ -153,14 +150,14 @@ public class CardTransferActivity extends AppCompatActivity {
                                             if (response.has("cardNumber"))
                                             {
                                                 String receiverCardNumber = response.getString("cardNumber");
-                                                Intent intent = new Intent(CardTransferActivity.this, AmountConfirmationActivity.class);
+                                                Intent intent = new Intent(AccountTransferActivity.this, AmountConfirmationActivity.class);
                                                 intent.putExtra("receiverCardNumber", receiverCardNum);
                                                 intent.putExtra("senderCardNumber", cardArrayList.get(0).getCardNo());
                                                 startActivity(intent);
                                             }
                                             else 
                                             {
-                                                Toast.makeText(CardTransferActivity.this, "Invalid Card Number",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(AccountTransferActivity.this, "Invalid Card Number",Toast.LENGTH_SHORT).show();
                                             }
                                         } catch (JSONException e) {
                                             e.printStackTrace();
@@ -169,11 +166,11 @@ public class CardTransferActivity extends AppCompatActivity {
                                 }, new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-                                        Toast.makeText(CardTransferActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(AccountTransferActivity.this, "Error!", Toast.LENGTH_SHORT).show();
                                         error.printStackTrace();
                                     }
                                 });
-                                RequestQueue requestQueue = Volley.newRequestQueue(CardTransferActivity.this);
+                                RequestQueue requestQueue = Volley.newRequestQueue(AccountTransferActivity.this);
                                 requestQueue.add(jsonObjectRequest);
                             }
                         }
@@ -182,7 +179,7 @@ public class CardTransferActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast.makeText(CardTransferActivity.this, "Please enter a valid card number",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AccountTransferActivity.this, "Please enter a valid card number",Toast.LENGTH_SHORT).show();
                 }
             }
         });

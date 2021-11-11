@@ -136,7 +136,7 @@
         app:layout_constraintVertical_bias="0.525" />
 
     <TextView
-        android:id="@+id/senderAccountNum"
+        android:id="@+id/senderCardNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -188,7 +188,7 @@
         app:layout_constraintVertical_bias="0.555" />
 
     <TextView
-        android:id="@+id/receiverMobileNum"
+        android:id="@+id/receiverCardNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+65"

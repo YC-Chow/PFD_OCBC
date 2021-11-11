@@ -31,7 +31,7 @@ public class NricTransferActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.cardTransfer:
-                        Intent intent = new Intent(NricTransferActivity.this, CardTransferActivity.class);
+                        Intent intent = new Intent(NricTransferActivity.this, AccountTransferActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(intent);
                         break;

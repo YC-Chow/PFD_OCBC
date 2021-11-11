@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 public class TransferConfirmationActivity extends AppCompatActivity {
 
-    TextView transferAmt, receiverMobileNum;
+    TextView transferAmt, receiverCardNumber, senderCardNumber;
     ImageView confirmBtn, backBtn;
 
     @Override
@@ -19,12 +19,20 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_transfer_confirmation);
 
         transferAmt = findViewById(R.id.transferAmt);
-        receiverMobileNum = findViewById(R.id.receiverMobileNum);
+        receiverCardNumber = findViewById(R.id.receiverCardNo);
         confirmBtn = findViewById(R.id.confirmBtnTransactionConfirm);
         backBtn = findViewById(R.id.backBtnTransactionConfirm);
+        senderCardNumber = findViewById(R.id.senderCardNo);
 
-        transferAmt.setText("S$"+ getIntent().getIntExtra("amount", 0));
-        receiverMobileNum.setText(getIntent().getStringExtra("receiverMobileNum"));
+
+
+        String receiverCardNo = getIntent().getStringExtra("to");
+        String senderCardNo = getIntent().getStringExtra("from");
+        int amount = getIntent().getIntExtra("amount", 0);
+
+        transferAmt.setText("S$"+ amount);
+        senderCardNumber.setText(senderCardNo);
+        receiverCardNumber.setText(receiverCardNo);
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override

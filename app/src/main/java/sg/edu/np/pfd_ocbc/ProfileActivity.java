@@ -3,32 +3,18 @@ package sg.edu.np.pfd_ocbc;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -63,7 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
                         break;
 
                     case R.id.page_2:
-                        Intent b = new Intent(ProfileActivity.this, CardTransferActivity.class);
+                        Intent b = new Intent(ProfileActivity.this, AccountTransferActivity.class);
                         b.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(b);
                         break;

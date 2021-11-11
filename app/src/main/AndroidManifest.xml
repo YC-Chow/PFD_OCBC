@@ -19,7 +19,7 @@
             android:name=".NricTransferActivity"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar"></activity>
         <activity
-            android:name=".CardTransferActivity"
+            android:name=".AccountTransferActivity"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity> <!-- <activity -->
         <!-- android:name=".SettingOtpActivity" -->

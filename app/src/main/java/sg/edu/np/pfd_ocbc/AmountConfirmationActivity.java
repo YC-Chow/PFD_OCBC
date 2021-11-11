@@ -51,6 +51,7 @@ public class AmountConfirmationActivity extends AppCompatActivity {
         senderBal = findViewById(R.id.senderBal);
 
         mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
 
         receiverCardNum = getIntent().getStringExtra("receiverCardNumber");
         senderCardNum = getIntent().getStringExtra("senderCardNumber");
@@ -76,24 +77,19 @@ public class AmountConfirmationActivity extends AppCompatActivity {
                 else
                 {
                     Intent intent = new Intent(AmountConfirmationActivity.this, TransferConfirmationActivity.class);
+                    intent.putExtra("from", senderCardNum);
+                    intent.putExtra("to", receiverCardNum);
                     intent.putExtra("amount", amount);
                     startActivity(intent);
                 }
             }
         });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        String getAccountByCardNo = "https://pfd-server.azurewebsites.net/getAccount";
-        String getAccountHolderByIC = "https://pfd-server.azurewebsites.net/getAccountHolderUsingIcNo";
-        RequestQueue requestQueue = Volley.newRequestQueue(AmountConfirmationActivity.this);
-        FirebaseUser user = mAuth.getCurrentUser();
-        JSONObject postData = new JSONObject();
-        JSONObject jsonObject = new JSONObject();
 
         //getting receiver information
+        RequestQueue requestQueue = Volley.newRequestQueue(AmountConfirmationActivity.this);
+        String getAccountByCardNo = "https://pfd-server.azurewebsites.net/getAccount";
+        JSONObject postData = new JSONObject();
+        JSONObject jsonObject = new JSONObject();
         user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
             @Override
             public void onComplete(@NonNull Task<GetTokenResult> task) {
@@ -114,8 +110,7 @@ public class AmountConfirmationActivity extends AppCompatActivity {
                         public void onResponse(JSONObject response) {
                             try {
                                 String receiverIC = response.getString("icNo");
-                                jsonObject.put("icNo", receiverIC);
-                                jsonObject.put("jwtToken", token);
+                                getAccountByIcNo(requestQueue, receiverIC);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -127,37 +122,53 @@ public class AmountConfirmationActivity extends AppCompatActivity {
                             error.printStackTrace();
                         }
                     });
-
-
                     requestQueue.add(jsonObjectRequest);
-
-
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, getAccountHolderByIC, jsonObject, new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    try {
-                                        String responseReceiverName = response.getString("name");
-                                        Log.v("Card", responseReceiverName);
-                                        receiverName.setText(responseReceiverName);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    error.printStackTrace();
-                                }
-                            });
-                        }
-                    },5000);
                 }
             }
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+
+        //getting receiver information
+
+
+    }
+
+    private void getAccountByIcNo(RequestQueue queue, String icNo)
+    {
+        String getAccountHolderByIC = "https://pfd-server.azurewebsites.net/getAccountHolderUsingIcNo";
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("icNo", icNo);
+            postData.put("jwtToken",token);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, getAccountHolderByIC, postData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String responseReceiverName = response.getString("name");
+                    Log.v("AmountConfirmation", responseReceiverName);
+                    receiverName.setText(responseReceiverName);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+
+        queue.add(request);
     }
 }

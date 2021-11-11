@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -71,7 +70,7 @@ public class MobileNumberActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.cardTransfer:
-                        Intent intent = new Intent(MobileNumberActivity.this, CardTransferActivity.class);
+                        Intent intent = new Intent(MobileNumberActivity.this, AccountTransferActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(intent);
                         break;
