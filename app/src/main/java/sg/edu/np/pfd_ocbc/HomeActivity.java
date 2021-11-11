@@ -246,7 +246,9 @@ public class HomeActivity extends AppCompatActivity {
 
                             for (Map<String,Object> value : jsonMap.values()) {
                                 String cardNum = value.get("cardNumber").toString();
-                                String cardBalance = value.get("balance").toString();
+                                String accNo = value.get("accNo").toString();
+                                Double cardBalance = (Double) value.get("balance");
+                                String issuingNetwork = value.get("issuingNetwork").toString();
                                 AddToCardList(cardNum);
 
                                 String lastFourDigits = "";     //substring containing last 4 characters
@@ -255,12 +257,9 @@ public class HomeActivity extends AppCompatActivity {
                                     lastFourDigits = cardNum.substring(cardNum.length() - 4);
                                 }
                                 editor.putString("last4digits",lastFourDigits);
-                                editor.putString("balanceAmt",cardBalance);
-
-                                //checking if visa
-                                String issuingNetwork = value.get("issuingNetwork").toString();
-
+                                editor.putString("balanceAmt",cardBalance.toString());
                                 editor.putString("IssuingNetwork",issuingNetwork);
+                                editor.putString("AccNumber",accNo);
                                 editor.apply();
                                 //System.out.println(lastFourDigits);
                                 //System.out.println(value.get("cardNumber"));
@@ -365,6 +364,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public void AddToCardList(String cardNum)
     {
+
         cardList.add(new Card(cardNum));
     }
 
