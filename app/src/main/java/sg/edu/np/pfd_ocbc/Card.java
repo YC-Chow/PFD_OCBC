@@ -7,11 +7,20 @@ public class Card {
     private String cardNo;
     private String cvv;
     private Date expiryDate;
+    private String accountNum;
+    private String IssuingNetwork;
+    private Double cardBal;
 
 
     public String getCardNo() {
         return cardNo;
     }
+
+    public String getAccountNum() {return accountNum;}
+
+    public String getIssuingNetwork() { return IssuingNetwork;}
+
+    public Double getCardBal() {return cardBal; }
 
     public String getCvv() {
         return cvv;
@@ -41,11 +50,26 @@ public class Card {
         this.expiryDate = expiryDate;
     }
 
+    public void setAccountNum(String accountNum) {
+        this.accountNum = accountNum;
+    }
+
+    public void setCardBal(Double cardBal) {
+        this.cardBal = cardBal;
+    }
+
+    public void setIssuingNetwork(String issuingNetwork) {
+        IssuingNetwork = issuingNetwork;
+    }
+
     public Card() {
     }
 
-    public Card(String cardNo) {
+    public Card(String cardNo,String accNum,String IssuingNetwork,Double cardBal) {
         this.cardNo = cardNo;
+        this.accountNum = accNum;
+        this.IssuingNetwork = IssuingNetwork;
+        this.cardBal = cardBal;
     }
     @Override
     public String toString() {

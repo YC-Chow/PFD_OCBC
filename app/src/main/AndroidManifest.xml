@@ -10,18 +10,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PFD_OCBC">
         <activity
+            android:name=".SeeAllCards"
+            android:label="@string/title_activity_see_all_cards"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar"></activity>
+        <activity
             android:name=".PersonalDetailsOtpActivity"
             android:exported="false" />
         <activity
             android:name=".SettingOtpActivity"
-            android:theme="@style/Theme.PFD_OCBC.NoActionBar"></activity>
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
         <activity
             android:name=".NricTransferActivity"
-            android:theme="@style/Theme.PFD_OCBC.NoActionBar"></activity>
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
         <activity
             android:name=".CardTransferActivity"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity> <!-- <activity -->
+            android:windowSoftInputMode="adjustPan|stateHidden" /> <!-- <activity -->
         <!-- android:name=".SettingOtpActivity" -->
         <!-- android:exported="false" /> -->
         <activity
