@@ -15,4 +15,5 @@
         <u>enter mobile number</u>
     </string>
     <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="title_activity_see_all_cards">SeeAllCards</string>
 </resources>

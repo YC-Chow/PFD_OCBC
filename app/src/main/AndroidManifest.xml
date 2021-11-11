@@ -10,29 +10,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PFD_OCBC">
         <activity
-            android:name=".SeeAllCardActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
-        <activity
             android:name=".PersonalDetailsOtpActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
+            android:exported="false" />
         <activity
             android:name=".SettingOtpActivity"
-            android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar"></activity>
         <activity
             android:name=".NricTransferActivity"
-            android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar"></activity>
         <activity
             android:name=".CardTransferActivity"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden" /> <!-- <activity -->
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity> <!-- <activity -->
         <!-- android:name=".SettingOtpActivity" -->
         <!-- android:exported="false" /> -->
         <activity
             android:name=".OtpActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
+            android:exported="false" />
         <activity
             android:name=".TransferConfirmationActivity"
             android:exported="true"
