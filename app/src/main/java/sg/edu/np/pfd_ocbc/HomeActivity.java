@@ -263,20 +263,24 @@ public class HomeActivity extends AppCompatActivity {
                                 //System.out.println(lastFourDigits);
                                 //System.out.println(value.get("cardNumber"));
                             }
-                            userAccount.setCardList(cardList);
-                            Card card1 = cardList.get(0);
+                            while(sharedPreferences.getBoolean("firsttime", true) == true){
+                                userAccount.setCardList(cardList);
+                                Card card1 = cardList.get(0);
 
-                            String lastFourDigits = "";     //substring containing last 4 characters
-                            if (card1.getCardNo().length() > 4)
-                            {
-                                lastFourDigits = card1.getCardNo().substring(card1.getCardNo().length() - 4);
+                                String lastFourDigits = "";     //substring containing last 4 characters
+                                if (card1.getCardNo().length() > 4)
+                                {
+                                    lastFourDigits = card1.getCardNo().substring(card1.getCardNo().length() - 4);
+                                }
+
+                                editor.putString("last4digits", lastFourDigits);
+                                editor.putString("balanceAmt", card1.getBalance());
+                                editor.putString("accNo", card1.getAccNo());
+                                editor.putString("IssuingNetwork", card1.getIssuingNetwork());
+                                editor.putBoolean("firsttime", false);
+                                editor.apply();
+
                             }
-
-                            editor.putString("last4digits", lastFourDigits);
-                            editor.putString("balanceAmt", card1.getBalance());
-                            editor.putString("accNo", card1.getAccNo());
-                            editor.putString("IssuingNetwork", card1.getIssuingNetwork());
-                            editor.apply();
                             Log.v(TAG, "" + userAccount.getCardList());
                             String token = task.getResult().getToken();
                             try{
@@ -369,7 +373,7 @@ public class HomeActivity extends AppCompatActivity {
                         public void run() {
                             //Log.v(TAG, "The address output is:" + userAccount.getCardList());
                         }
-                    },5000);
+                    },2000);
                 }
             }
         });
@@ -389,7 +393,7 @@ public class HomeActivity extends AppCompatActivity {
                     public void run() {
                         startActivity(intent);
                     }
-                }, 2000);   //delayed by 1 second to give recycler view time to load
+                }, 5000);   //delayed by 1 second to give recycler view time to load
 
                 return false;
             }

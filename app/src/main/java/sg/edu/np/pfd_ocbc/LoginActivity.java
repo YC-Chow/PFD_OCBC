@@ -47,8 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         //Clear account info
         SharedPreferences mysharedPref = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         SharedPreferences.Editor myeditor = mysharedPref.edit();
-        myeditor.clear().apply();
-        myeditor.putBoolean("reload", true);
+        myeditor.putBoolean("firsttime", true);
         myeditor.apply();
 
 
