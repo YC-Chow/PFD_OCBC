@@ -263,10 +263,11 @@ public class HomeActivity extends AppCompatActivity {
                                 //System.out.println(lastFourDigits);
                                 //System.out.println(value.get("cardNumber"));
                             }
-                            while(sharedPreferences.getBoolean("firsttime", true) == true){
-                                userAccount.setCardList(cardList);
-                                Card card1 = cardList.get(0);
+                            userAccount.setCardList(cardList);
 
+                            while(sharedPreferences.getBoolean("firsttime", true) == true){ //set default card
+
+                                Card card1 = cardList.get(0);
                                 String lastFourDigits = "";     //substring containing last 4 characters
                                 if (card1.getCardNo().length() > 4)
                                 {
@@ -279,6 +280,8 @@ public class HomeActivity extends AppCompatActivity {
                                 editor.putString("IssuingNetwork", card1.getIssuingNetwork());
                                 editor.putBoolean("firsttime", false);
                                 editor.apply();
+
+                                Log.v("first time", "done");
 
                             }
                             Log.v(TAG, "" + userAccount.getCardList());
