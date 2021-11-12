@@ -221,20 +221,11 @@ public class SignupActivity extends AppCompatActivity {
                         );
                         String myError = hashMap.get("error_message");
                         Log.d("ERRRRRRRORRR", "onErrorResponse: "+myError);
-                        if (myError.equals("Email already in database")){
-                            Toast.makeText(SignupActivity.this, "Email already in database",
+                        if (myError.equals("NRIC, phone number or email already in System")){
+                            Toast.makeText(SignupActivity.this, "NRIC, phone number or email already in System",
                                     Toast.LENGTH_SHORT).show();
-                        }else if(myError.equals("Phone Number already in database")){
-                            Toast.makeText(SignupActivity.this, "Phone Number already in database",
-                                    Toast.LENGTH_SHORT).show();
-                        }else if(myError.equals("No account found")){
-                            Toast.makeText(SignupActivity.this, "No account found",
-                                    Toast.LENGTH_SHORT).show();
-                        }else if(myError.equals("icNo already in database")){
-                            Toast.makeText(SignupActivity.this, "Ic number already in database",
-                                    Toast.LENGTH_SHORT).show();
-                        }else if(myError.equals("Passcode or icNo is wrong")){
-                            Toast.makeText(SignupActivity.this, "Passcode or IC number is wrong",
+                        }else if(myError.equals("Card number or pass code is wrong")){
+                            Toast.makeText(SignupActivity.this, "Card number or pass code is wrong",
                                     Toast.LENGTH_SHORT).show();
                         }else{
                             Toast.makeText(SignupActivity.this, "Authenthication Error",

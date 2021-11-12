@@ -150,49 +150,34 @@ public class OtpActivity extends AppCompatActivity {
                                if(task.isSuccessful()){
                                    FirebaseUser user = mAuth.getCurrentUser();
                                    String postUrl = "https://pfd-server.azurewebsites.net/createAccountHolder";
+                                   JSONObject postData = new JSONObject();
+                                   try{
+                                       postData.put("uid", user.getUid());
+                                       postData.put("email", email);
+                                       postData.put("phoneNo", phoneNo);
+                                       postData.put("name", name);
+                                       postData.put("icNo", icNo);
+                                   }
+                                   catch (JSONException e) {
+                                       Log.d("error", "onSuccess: "+e.toString());
+                                   }
 
-                                   SimpleDateFormat postFormater = new SimpleDateFormat("dd/MM/yyyy");
-
-                                   String newDateStr = postFormater.format(Calendar.getInstance().getTime());
-
-
-                                   user.getIdToken(true).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
+                                   JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
                                        @Override
-                                       public void onSuccess(GetTokenResult result) {
-                                           String jwtToken = result.getToken();
-                                           Log.d("jwt", "onSuccess: "+jwtToken);
-                                           JSONObject postData = new JSONObject();
-                                           try{
-                                               postData.put("uid", user.getUid());
-                                               postData.put("email", email);
-                                               postData.put("phoneNo", phoneNo);
-                                               postData.put("name", name);
-                                               postData.put("startDate", "1/1/1");
-                                               postData.put("icNo", icNo);
-                                               postData.put("jwtToken", jwtToken );
-                                           }
-                                           catch (JSONException e) {
-                                               Log.d("error", "onSuccess: "+e.toString());
-                                           }
-
-                                           JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
-                                               @Override
-                                               public void onResponse(JSONObject response) {
-                                                   Intent intent = new Intent(OtpActivity.this, HomeActivity.class);
-                                                   intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                                   intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                   startActivity(intent);
-                                               }
-                                           }, new Response.ErrorListener() {
-                                               @Override
-                                               public void onErrorResponse(VolleyError error) {
-                                                   Log.d("error", "onSuccess: "+error.toString());
-                                               }
-                                           });
-                                           RequestQueue requestQueue = Volley.newRequestQueue(OtpActivity.this);
-                                           requestQueue.add(jsonObjectRequest);
+                                       public void onResponse(JSONObject response) {
+                                           Intent intent = new Intent(OtpActivity.this, HomeActivity.class);
+                                           intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                           intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                           startActivity(intent);
+                                       }
+                                   }, new Response.ErrorListener() {
+                                       @Override
+                                       public void onErrorResponse(VolleyError error) {
+                                           Log.d("error", "onSuccess: "+error.toString());
                                        }
                                    });
+                                   RequestQueue requestQueue = Volley.newRequestQueue(OtpActivity.this);
+                                   requestQueue.add(jsonObjectRequest);
                                }
                                else {
                                    // If sign in fails, display a message to the user.
