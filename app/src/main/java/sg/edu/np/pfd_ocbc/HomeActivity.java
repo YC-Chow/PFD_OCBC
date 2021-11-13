@@ -12,6 +12,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 
 import androidx.annotation.NonNull;
@@ -39,6 +41,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -93,9 +96,9 @@ public class HomeActivity extends AppCompatActivity {
             issuer.setImageResource(R.drawable.visa_icon);
         }
 
-        //recyclerView = findViewById(R.id.transactionRV);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        //transactionList = new ArrayList<>();
+        recyclerView = findViewById(R.id.transactionRV);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        transactionList = new ArrayList<>();
 
         //Setting up bottom nav bar
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -145,7 +148,9 @@ public class HomeActivity extends AppCompatActivity {
 
         //Log.v("uid is:" ,user.getUid());
         String postUrlAccount = "https://pfd-server.azurewebsites.net/getAccountUsingUid";
+        String postUrlTransactions = "https://pfd-server.azurewebsites.net/getTransactions";
         JSONObject postData = new JSONObject();
+        JSONArray postArrayData = new JSONArray();
 
         // Storing data into SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",MODE_PRIVATE);
@@ -170,14 +175,13 @@ public class HomeActivity extends AppCompatActivity {
                     String cardNumber = response.getString("card_number");
                     String issuingNetwork = response.getString("issuing_network");
                     Card c = new Card(cardNumber,accName,issuingNetwork,cardBal,accNo);
-                    Log.d("lolza",cardBal.toString());
 
                     String lastFourDigits = "";     //substring containing last 4 characters
                     if (c.getCardNo().length() > 4)
                     {
                         lastFourDigits = c.getCardNo().substring(c.getCardNo().length() - 4);
                     }
-
+                    Log.d("lolza",sharedPreferences.getString("accNo", ""));
                     editor.putString(accNo,"accNo");
                     editor.putString(accName,"accName");
                     editor.putString(accHolderName,"accHolderName");
@@ -191,6 +195,35 @@ public class HomeActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                try{
+                    postData.put("accNo", sharedPreferences.getString("accNo", ""));
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, postUrlTransactions, postArrayData,  new Response.Listener <JSONArray> () {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, response.toString());
+                            try {
+                                JSONArray jsonArray = new JSONArray(response);
+                                for (int i = 0; i <jsonArray.length() ; i++) {
+                                    JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                                    Log.i("LOLZERS",jsonObject.getString("to_name"));
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                    }
+
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error yo", "onErrorResponse: ");
+                    }
+                });
+                RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
+                requestQueue.add(jsonArrayRequest);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -218,3 +251,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 }
+/*String DebitOrCredit = "+";
+                        for (Map<String,Object> value : jsonMap.values()) {
+
+
+                        }*/
