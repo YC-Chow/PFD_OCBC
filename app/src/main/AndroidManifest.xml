@@ -10,10 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PFD_OCBC">
         <activity
-            android:name=".SeeAllCardActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PFD_OCBC.NoActionBar"/>
-        <activity
             android:name=".PersonalDetailsOtpActivity"
             android:exported="false"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar"/>
