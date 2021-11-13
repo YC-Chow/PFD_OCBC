@@ -7,8 +7,8 @@ public class Card implements Serializable{
     private String nameOnCard;
     private String cardNo;
     private String issuingNetwork;
-    private String balance;
-    private  String accNo;
+    private Double balance;
+    private String accNo;
 
     public String getAccNo() {
         return accNo;
@@ -18,11 +18,11 @@ public class Card implements Serializable{
         this.accNo = accNo;
     }
 
-    public String getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public void setBalance(String balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 
@@ -37,8 +37,6 @@ public class Card implements Serializable{
     public String getCardNo() {
         return cardNo;
     }
-
-
 
     public String getNameOnCard() {
         return nameOnCard;
@@ -58,7 +56,7 @@ public class Card implements Serializable{
         this.cardNo = cardNo;
     }
 
-    public Card(String cardNo, String nameOnCard, String issuingNetwork, String balance, String accNo) {
+    public Card(String cardNo, String nameOnCard, String issuingNetwork, Double balance, String accNo) {
         this.cardNo = cardNo;
         this.nameOnCard = nameOnCard;
         this.issuingNetwork = issuingNetwork;

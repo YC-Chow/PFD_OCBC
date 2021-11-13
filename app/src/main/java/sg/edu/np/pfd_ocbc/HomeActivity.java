@@ -41,6 +41,7 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
@@ -59,8 +60,6 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     HomeTransactionAdapter TransactionAdapter;
     Context mContext;
-    private ArrayList<Card> cardList;
-    private ArrayList<String> accountList;
     private ArrayList<Transaction> transactionList;
     private static final String TAG = "HomeActivity";
 
@@ -69,65 +68,34 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        SharedPreferences profilePref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
-/*
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                // reload home page to display all information
-                finish();
-                Intent intent = getIntent();
-                finish();
-                overridePendingTransition( 0, 0);
-                startActivity(intent);
-                overridePendingTransition( 0, 0);
-            }
-        }, 2000);   //Reaload home page delayed by 2 seconds
-        */
         mAuth =FirebaseAuth.getInstance();
-        LocalDate today = LocalDate.now();
-        String formattedDate = today.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
 
-        //Initialize Account obj
-
-        userAccount = new Account();
-        userAccount.setName(profilePref.getString("Name",""));
-        userAccount.setphoneNo(profilePref.getString("Phone",""));
-        userAccount.setEmail(profilePref.getString("Email",""));
-        userAccount.setIcNo(profilePref.getString("icNo",""));
-        cardList = new ArrayList<Card>();
-        userAccount.setCardList(cardList);
-        accountList = new ArrayList<String>();
-
-        // username when enter home
-        TextView uName = findViewById(R.id.userName);
-        SharedPreferences AHsharedPref = getSharedPreferences("AccountHolder",MODE_PRIVATE);
-        String userName = AHsharedPref.getString("Name","");
-        uName.setText(userName);
-        //Log.v("name",userName);
-
-        //card details
         SharedPreferences sharedPref = getSharedPreferences("MySharedPref",MODE_PRIVATE);
+
+        TextView acc_HolderName = findViewById(R.id.userName);
+        String accHolderName = sharedPref.getString("accHolderName","");
+        acc_HolderName.setText(accHolderName);
+
+        //cardDetails
         TextView last4Digit = findViewById(R.id.last4Digit);
         String fourDigit = sharedPref.getString("last4digits","");
         last4Digit.setText("* " + fourDigit);
+
         TextView cardBalanceAmt = findViewById(R.id.balanceAmt);
-        String cardBalance = sharedPref.getString("balanceAmt","");
+        String cardBalance = sharedPref.getString("cardBal","");
         cardBalanceAmt.setText(cardBalance);
 
         //card type or issuingNetwork
         ImageView issuer = findViewById(R.id.cardType);
-        String issuingNetwork = sharedPref.getString("IssuingNetwork","");
+        String issuingNetwork = sharedPref.getString("issuingNetwork","");
         //Log.v("",issuingNetwork);
         if(issuingNetwork.equals("Visa")){
             issuer.setImageResource(R.drawable.visa_icon);
         }
 
-        recyclerView = findViewById(R.id.transactionRV);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        transactionList = new ArrayList<>();
-
-
+        //recyclerView = findViewById(R.id.transactionRV);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        //transactionList = new ArrayList<>();
 
         //Setting up bottom nav bar
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -150,11 +118,6 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.page_2:
                         Intent a = new Intent(HomeActivity.this, AccountTransferActivity.class);
                         a.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        for (int i =0; i < userAccount.getCardList().size(); i++)
-                        {
-                            a.putExtra("accNo" + i, accountList.get(i));
-                        }
-                        a.putExtra("numOfAcc", userAccount.getCardList().size());
                         startActivity(a);
                         break;
 
@@ -180,227 +143,63 @@ public class HomeActivity extends AppCompatActivity {
 
         FirebaseUser user = mAuth.getCurrentUser();
 
-        String postUrl = "https://pfd-server.azurewebsites.net/getAccountHolder";
-        String postUrlAccounts = "https://pfd-server.azurewebsites.net/getAccounts";
-        String postUrlTransactions = "https://pfd-server.azurewebsites.net/getTransactions";
+        //Log.v("uid is:" ,user.getUid());
+        String postUrlAccount = "https://pfd-server.azurewebsites.net/getAccountUsingUid";
+        JSONObject postData = new JSONObject();
 
         // Storing data into SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",MODE_PRIVATE);
         // Creating an Editor object to edit(write to the file)
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        JSONObject postData = new JSONObject();
-//        //get userName
-//        user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-//            public void onComplete(@NonNull Task<GetTokenResult> task) {
-//                if (task.isSuccessful()) {
-//                    String token = task.getResult().getToken();
-//                    try {
-//                        postData.put("uid", user.getUid());
-//                        postData.put("jwtToken", token);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
-//                        @Override
-//                        public void onResponse(JSONObject response) {
-//                            try {
-//                                editor.putString("Name", response.getString("name"));
-//                                editor.putString("Phone", response.getString("phoneNo"));
-//                                editor.putString("Email", response.getString("email"));
-//                                editor.putString("icNo", response.getString("icNo"));
-//                                editor.putString("startDate", response.getString("startDate"));
-//
-//                                editor.apply();
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    }, new Response.ErrorListener() {
-//                        @Override
-//                        public void onErrorResponse(VolleyError error) {
-//                            error.printStackTrace();
-//                        }
-//                    });
-//                    RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
-//                    requestQueue.add(jsonObjectRequest);
-//                }
-//            }
-//        });
+        try{
+            postData.put("uid", user.getUid());
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlAccount, postData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                //Log.d("lolza",response.toString());
+                try {
+                    String accNo = response.getString("acc_no");
+                    String accName = response.getString("acc_name");
+                    String accHolderName = response.getString("account_holder_name");
+                    Double cardBal = response.getDouble("balance");
+                    String cardNumber = response.getString("card_number");
+                    String issuingNetwork = response.getString("issuing_network");
+                    Card c = new Card(cardNumber,accName,issuingNetwork,cardBal,accNo);
+                    Log.d("lolza",cardBal.toString());
 
-        //get Account details
-        user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-            public void onComplete(@NonNull Task<GetTokenResult> task) {
-                if (task.isSuccessful()) {
-                    String token = task.getResult().getToken();
-                    try{
-                        postData.put("uid", user.getUid());
-                        postData.put("jwtToken", token );
-                    }
-                    catch (JSONException e) {
-                        e.printStackTrace();
+                    String lastFourDigits = "";     //substring containing last 4 characters
+                    if (c.getCardNo().length() > 4)
+                    {
+                        lastFourDigits = c.getCardNo().substring(c.getCardNo().length() - 4);
                     }
 
-                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlAccounts, postData, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
+                    editor.putString(accNo,"accNo");
+                    editor.putString(accName,"accName");
+                    editor.putString(accHolderName,"accHolderName");
+                    editor.putString(cardBal.toString(),"cardBal");
+                    editor.putString(cardNumber,"fullCardNumber");
+                    editor.putString(lastFourDigits,"last4Digits");
+                    editor.putString(issuingNetwork,"issuingNetwork");
+                    editor.putString(accNo,"accNo");
+                    editor.apply();
 
-                            //System.out.println(response);
-                            Type mapTokenType = new TypeToken<Map<String,Map<String,Object>>>(){}.getType();
-                            Map<String, Map<String,Object>> jsonMap = new Gson().fromJson(response.toString(), mapTokenType);
-                            //System.out.println(jsonMap);
-
-                            for (Map<String,Object> value : jsonMap.values()) {
-                                String cardNum = value.get("cardNumber").toString();
-                                String cardBalance = value.get("balance").toString();
-                                String accNo = value.get("accNo").toString();
-                                //checking if visa
-                                String issuingNetwork = value.get("issuingNetwork").toString();
-
-                                AddToCardList(cardNum, sharedPreferences.getString("name", ""), issuingNetwork, cardBalance, accNo);
-                                //System.out.println(lastFourDigits);
-                                //System.out.println(value.get("cardNumber"));
-                            }
-                            userAccount.setCardList(cardList);
-
-                            while(sharedPreferences.getBoolean("firsttime", true) == true){ //set default card
-
-                                Card card1 = cardList.get(0);
-                                String lastFourDigits = "";     //substring containing last 4 characters
-                                if (card1.getCardNo().length() > 4)
-                                {
-                                    lastFourDigits = card1.getCardNo().substring(card1.getCardNo().length() - 4);
-                                }
-
-                                editor.putString("last4digits", lastFourDigits);
-                                editor.putString("balanceAmt", card1.getBalance());
-                                editor.putString("accNo", card1.getAccNo());
-                                editor.putString("IssuingNetwork", card1.getIssuingNetwork());
-                                editor.putBoolean("firsttime", false);
-                                editor.apply();
-
-                                Log.v("first time", "done");
-
-                            }
-                            Log.v(TAG, "" + userAccount.getCardList());
-                            String token = task.getResult().getToken();
-                            try{
-                                postData.put("accNo", sharedPreferences.getString("accNo", ""));
-                                postData.put("jwtToken", token );
-                            }
-                            catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            //Log.d("lololol", "acc onResponse: "+sharedPreferences.getString("accNo", ""));
-                            Log.d("lololol", "token onResponse: "+token);
-                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlTransactions, postData, new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    System.out.println(response);
-                                    //Log.d("lololol", "onResponse: "+response.toString());
-                                    Type mapTokenType = new TypeToken<Map<String,Map<String,Object>>>(){}.getType();
-                                    Map<String, Map<String,Object>> jsonMap = new Gson().fromJson(response.toString(), mapTokenType);
-                                    //System.out.println(jsonMap);
-
-                                    String DebitOrCredit = "+";
-                                    for (Map<String,Object> value : jsonMap.values()) {
-                                        //System.out.println(value.get("transactionId"));
-                                        //System.out.println(value);
-
-                                        String AccTo = value.get("toAccount").toString();
-                                        String to = value.get("to").toString();
-                                        Double amt = (Double) value.get("amount");
-                                        //String amtDebitOrCredit = debit + amt;
-                                        String date = value.get("date").toString();
-
-
-                                        Transaction t = new Transaction();
-                                        t.setTransactionDate(date);
-                                        t.setTransactionAmt(amt);
-                                        t.setToBankNum(to);
-                                        //t.setDebitOrCredit(DebitOrCredit);
-                                        transactionList.add(t);
-                                    }
-                                    HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
-                                    recyclerView.setAdapter(homeTransactionAdapter);
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    error.printStackTrace();
-//                                    String body;
-//                                    //get status code here
-//                                    String statusCode = String.valueOf(error.networkResponse.statusCode);
-//                                    //get response body and parse with appropriate encoding
-//                                    if(error.networkResponse.data!=null) {
-//                                        try{
-//                                            body = new String(error.networkResponse.data,"UTF-8");
-//                                            Log.d("lololol", "onErrorResponse: "+body);
-//
-//                                        } catch (UnsupportedEncodingException e) {
-//                                            Log.d("lololol", "onError");
-//                                        }
-//                                    }
-                                }
-                            });
-
-                            RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
-                            RetryPolicy policy = new DefaultRetryPolicy(5000,
-                                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-                            jsonObjectRequest.setRetryPolicy(policy);
-                            requestQueue.add(jsonObjectRequest);
-
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    //Log.v(TAG, "The address output is:" + userAccount.getCardList());
-                                }
-                            },5000);
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            error.printStackTrace();
-                        }
-                    });
-                    RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
-                    requestQueue.add(jsonObjectRequest);
-
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Log.v(TAG, "The address output is:" + userAccount.getCardList());
-                        }
-                    },2000);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
-        });
-
-        //Log.v("selected acc num is",sharedPreferences.getString("accNo", ""));
-        //get transaction details
-
-        TextView cardseeall = findViewById(R.id.cardseeall);
-
-        cardseeall.setOnTouchListener(new View.OnTouchListener() {
+        }, new Response.ErrorListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Intent intent = new Intent(HomeActivity.this, SeeAllCardActivity.class);
-                intent.putExtra("user", userAccount);
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        startActivity(intent);
-                    }
-                }, 5000);   //delayed by 1 second to give recycler view time to load
-
-                return false;
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Error yo", "onErrorResponse: ");
             }
         });
+        RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
+        requestQueue.add(jsonObjectRequest);
     }
 
     @Override
@@ -416,11 +215,6 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-    }
-
-    public void AddToCardList(String cardNum, String name, String issuingNetwork, String balance, String accNo)
-    {
-        cardList.add(new Card(cardNum, name, issuingNetwork, balance, accNo));
     }
 
 }

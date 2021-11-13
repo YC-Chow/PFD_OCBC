@@ -10,7 +10,7 @@ public class Account implements Serializable{
     private String name;
     private Date startDate;
     private String phoneNo;
-    private ArrayList<Card> cardList;
+    private Card card;
     private ArrayList<Transaction> transactions;
 
     public String getEmail() {
@@ -53,20 +53,20 @@ public class Account implements Serializable{
         this.phoneNo = phoneNo;
     }
 
-    public ArrayList<Card> getCardList() {
-        return cardList;
-    }
-
-    public void setCardList(ArrayList<Card> cardList) {
-        this.cardList = cardList;
-    }
-
     public ArrayList<Transaction> getTransactions() {
         return transactions;
     }
 
     public void setTransactions(ArrayList<Transaction> transactions) {
         this.transactions = transactions;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
+    }
+
+    public Card getCard() {
+        return card;
     }
 
     public Account() {
@@ -79,12 +79,7 @@ public class Account implements Serializable{
         this.name = name;
         this.startDate = startDate;
         this.phoneNo = phoneNo;
-        this.cardList = cardList;
-    }
-
-    public void AddToCardList(Card card)
-    {
-        this.cardList.add(card);
+        this.card = card;
     }
 
 }
