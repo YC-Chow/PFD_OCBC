@@ -250,8 +250,3 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 }
-/*String DebitOrCredit = "+";
-                        for (Map<String,Object> value : jsonMap.values()) {
-
-
-                        }*/
