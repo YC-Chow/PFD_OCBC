@@ -151,7 +151,7 @@ public class HomeActivity extends AppCompatActivity {
 
         //Log.v("uid is:" ,user.getUid());
         String postUrlAccount = "https://pfd-server.azurewebsites.net/getAccountUsingUid";
-        String postUrlTransactions = "https://85fb-219-75-105-162.ngrok.io/getTransactions";
+        String postUrlTransactions = "https://pfd-server.azurewebsites.net/getTransactions";
         JSONObject postData = new JSONObject();
 
         try{
