@@ -22,6 +22,7 @@
         android:id="@+id/mobileLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins"
         android:text="Enter Mobile Number"
         android:textColor="#000000"
@@ -29,39 +30,35 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/customMobileNum"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TopBar" />
 
     <EditText
         android:id="@+id/customMobileNum"
-        android:layout_width="290dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:fontFamily="@font/poppins"
         android:inputType="phone"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.392"
         app:layout_constraintStart_toEndOf="@+id/mobileno"
-        app:layout_constraintTop_toBottomOf="@+id/TopBar"
-        app:layout_constraintVertical_bias="0.156" />
+        app:layout_constraintTop_toBottomOf="@+id/mobileLabel" />
 
     <TextView
         android:id="@+id/mobileno"
         android:layout_width="54dp"
         android:layout_height="45dp"
+        android:layout_marginStart="16dp"
         android:fontFamily="@font/poppins"
         android:gravity="center"
         android:text="+65"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintBottom_toBottomOf="@+id/customMobileNum"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mobileLabel"
-        app:layout_constraintVertical_bias="0.066" />
+        app:layout_constraintTop_toTopOf="@+id/customMobileNum" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
