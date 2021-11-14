@@ -152,9 +152,7 @@ public class HomeActivity extends AppCompatActivity {
         String postUrlAccount = "https://pfd-server.azurewebsites.net/getAccountUsingUid";
         String postUrlTransactions = "https://pfd-server.azurewebsites.net/getTransactions";
         JSONObject postData = new JSONObject();
-        JSONArray postArrayData = new JSONArray();
-
-
+        JSONArray postArray = new JSONArray();
 
         try{
             postData.put("uid", user.getUid());
@@ -191,16 +189,20 @@ public class HomeActivity extends AppCompatActivity {
                     editor.putString("fullCardNumber", cardNumber);
                     editor.putString("last4Digits", lastFourDigits);
                     editor.putString("issuingNetwork", issuingNetwork);
-                    editor.putString("accNo", accNo);
                     editor.apply();
-
+                    Log.v("accNumber is",accNo);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-
-                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, postUrlTransactions, postArrayData,  new Response.Listener <JSONArray> () {
+                try{
+                    postData.put("accNo", sharedPref.getString("accNo", ""));
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, postUrlTransactions, postArray,  new Response.Listener <JSONArray> () {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.d(TAG, response.toString());
