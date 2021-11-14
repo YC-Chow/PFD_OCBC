@@ -30,6 +30,7 @@ import org.json.JSONObject;
 public class AmountConfirmationActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private FirebaseUser user;
     EditText senderAmount;
     ImageView nextBtn, cancelBtn;
     TextView receiverName, senderAccNo, senderBal;
@@ -48,10 +49,15 @@ public class AmountConfirmationActivity extends AppCompatActivity {
         senderBal = findViewById(R.id.senderBal);
 
         mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
+        user = mAuth.getCurrentUser();
+        if (user == null){
+            Intent intent = new Intent(AmountConfirmationActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
-        receiverAccNum = getIntent().getStringExtra("receiverCardNumber");
-        senderAccNum = getIntent().getStringExtra("senderCardNumber");
+        receiverAccNum = getIntent().getStringExtra("receiverAccNo");
+        senderAccNum = getIntent().getStringExtra("senderAccNo");
 
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -77,48 +83,32 @@ public class AmountConfirmationActivity extends AppCompatActivity {
                     intent.putExtra("from", senderAccNum);
                     intent.putExtra("to", receiverAccNum);
                     intent.putExtra("amount", amount);
+                    intent.putExtra("name", receiverName.getText().toString());
                     startActivity(intent);
                 }
             }
         });
 
-        //getting receiver information
-        RequestQueue requestQueue = Volley.newRequestQueue(AmountConfirmationActivity.this);
 
-        user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-            @Override
-            public void onComplete(@NonNull Task<GetTokenResult> task) {
-                if(task.isSuccessful())
-                {
-                    token = task.getResult().getToken();
-
-                    setReceiverName(requestQueue, receiverAccNum);
-                    setSenderInfo(requestQueue, senderAccNum);
-
-                }
-            }
-        });
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-
-
         //getting receiver information
+        RequestQueue requestQueue = Volley.newRequestQueue(AmountConfirmationActivity.this);
 
-
+        setReceiverName(requestQueue, receiverAccNum);
+        setSenderInfo(requestQueue, senderAccNum);
     }
 
     private void setReceiverName(RequestQueue queue, String accNo)
     {
-        String requestUrl = "https://pfd-server.azurewebsites.net/getAccount";
+        String requestUrl = "https://pfd-server.azurewebsites.net/getAccountUsingAccNo";
         JSONObject postData = new JSONObject();
         try {
             postData.put("accNo", accNo);
-            postData.put("jwtToken",token);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -127,7 +117,7 @@ public class AmountConfirmationActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    String responseReceiverName = response.getString("name");
+                    String responseReceiverName = response.getString("acc_name");
                     Log.v("AmountConfirmation", responseReceiverName);
                     receiverName.setText(responseReceiverName);
                 } catch (JSONException e) {
@@ -146,11 +136,10 @@ public class AmountConfirmationActivity extends AppCompatActivity {
 
     private void setSenderInfo(RequestQueue queue, String accNo)
     {
-        String requestUrl = "https://pfd-server.azurewebsites.net/getAccount";
+        String requestUrl = "https://pfd-server.azurewebsites.net/getAccountUsingAccNo";
         JSONObject postData = new JSONObject();
         try {
             postData.put("accNo", accNo);
-            postData.put("jwtToken", token);
         }catch (JSONException e)
         {
             e.printStackTrace();

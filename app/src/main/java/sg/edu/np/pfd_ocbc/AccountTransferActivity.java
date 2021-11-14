@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +35,7 @@ import java.util.regex.Pattern;
 public class AccountTransferActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +44,16 @@ public class AccountTransferActivity extends AppCompatActivity {
 
         EditText enterAccNum = (EditText) findViewById(R.id.enterCardNum);
         ImageView nextBtn = (ImageView) findViewById(R.id.nextBtnBankTransfer);
+        sharedPref = getSharedPreferences("MySharedPref", MODE_PRIVATE);
 
         mAuth = FirebaseAuth.getInstance();
-
-        ArrayList<String> accArrayList = new ArrayList<String>();
-        int numOfCard = getIntent().getIntExtra("numOfAcc",0);
-        for (int i = 0; i < numOfCard; i++)
-        {
-            accArrayList.add(getIntent().getStringExtra("accNo" + i));
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user == null){
+            Intent intent = new Intent(AccountTransferActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         }
-
-
+        String senderAccNo = sharedPref.getString("accNo","");
 
         //Setting up transfer option bar
         BottomNavigationView optionBar = (BottomNavigationView) findViewById(R.id.TopBar);
@@ -124,62 +125,49 @@ public class AccountTransferActivity extends AppCompatActivity {
                 String receiverCardNum = enterAccNum.getText().toString();
                 if(receiverCardNum != "")
                 {
-                    String postUrl = "https://pfd-server.azurewebsites.net/getAccount";
+                    String postUrl = "https://pfd-server.azurewebsites.net/getAccountUsingAccNo";
 
                     JSONObject postData = new JSONObject();
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    try {
+                        postData.put("accNo", receiverCardNum);
+                    }catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
                         @Override
-                        public void onComplete(@NonNull Task<GetTokenResult> task) {
-                            if(task.isSuccessful())
-                            {
-                                String token = task.getResult().getToken();
-                                try
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if (response.has("acc_no"))
                                 {
-                                    postData.put("accNo", receiverCardNum);
-                                    postData.put("jwtToken", token);
-                                }catch (JSONException e)
-                                {
-                                    e.printStackTrace();
+                                    String receiverAccNo = response.getString("acc_no");
+                                    Intent intent = new Intent(AccountTransferActivity.this, AmountConfirmationActivity.class);
+                                    intent.putExtra("receiverAccNo", receiverAccNo);
+                                    intent.putExtra("senderAccNo", senderAccNo);
+                                    startActivity(intent);
                                 }
-
-                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        try {
-                                            if (response.has("accNo"))
-                                            {
-                                                String receiverAccNo = response.getString("accNo");
-                                                Intent intent = new Intent(AccountTransferActivity.this, AmountConfirmationActivity.class);
-                                                intent.putExtra("receiverAccNo", receiverAccNo);
-                                                intent.putExtra("senderAccNo", accArrayList.get(0));
-                                                startActivity(intent);
-                                            }
-                                            else 
-                                            {
-                                                Toast.makeText(AccountTransferActivity.this, "Invalid Card Number",Toast.LENGTH_SHORT).show();
-                                            }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }, new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Toast.makeText(AccountTransferActivity.this, "Error!", Toast.LENGTH_SHORT).show();
-                                        error.printStackTrace();
-                                    }
-                                });
-                                RequestQueue requestQueue = Volley.newRequestQueue(AccountTransferActivity.this);
-                                requestQueue.add(jsonObjectRequest);
+                                else
+                                {
+                                    Toast.makeText(AccountTransferActivity.this, "Invalid Account Number",Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
                         }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(AccountTransferActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                            error.printStackTrace();
+                        }
                     });
+                    RequestQueue requestQueue = Volley.newRequestQueue(AccountTransferActivity.this);
+                    requestQueue.add(jsonObjectRequest);
 
                 }
                 else
                 {
-                    Toast.makeText(AccountTransferActivity.this, "Please enter a valid card number",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AccountTransferActivity.this, "Please enter a valid account number",Toast.LENGTH_SHORT).show();
                 }
             }
         });
