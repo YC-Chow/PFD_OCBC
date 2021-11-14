@@ -75,10 +75,11 @@ public class HomeActivity extends AppCompatActivity {
         mAuth =FirebaseAuth.getInstance();
 
         sharedPref = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        SharedPreferences accholdersharedpref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
 
 
         TextView acc_HolderName = findViewById(R.id.userName);
-        String accHolderName = sharedPref.getString("accHolderName","");
+        String accHolderName = accholdersharedpref.getString("name","");
         acc_HolderName.setText(accHolderName);
 
         //cardDetails
