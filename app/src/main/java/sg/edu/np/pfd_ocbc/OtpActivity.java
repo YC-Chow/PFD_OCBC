@@ -56,7 +56,7 @@ public class OtpActivity extends AppCompatActivity {
         Button resend = findViewById(R.id.resend);
         Button submit = findViewById(R.id.submit);
         paragraph.setText("A one-time password has been sent to your phone ("+phoneNo+").");
-//        requestOTP(phoneNo);
+        requestOTP(phoneNo);
         createAccountHolder();
         resend.setOnClickListener(new View.OnClickListener() {
             @Override

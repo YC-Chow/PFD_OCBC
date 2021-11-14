@@ -63,6 +63,7 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     HomeTransactionAdapter TransactionAdapter;
     Context mContext;
+    SharedPreferences sharedPref;
     private ArrayList<Transaction> transactionList;
     private static final String TAG = "HomeActivity";
 
@@ -73,7 +74,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         mAuth =FirebaseAuth.getInstance();
 
-        SharedPreferences sharedPref = getSharedPreferences("MySharedPref",MODE_PRIVATE);
+        sharedPref = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+
 
         TextView acc_HolderName = findViewById(R.id.userName);
         String accHolderName = sharedPref.getString("accHolderName","");
@@ -81,7 +83,7 @@ public class HomeActivity extends AppCompatActivity {
 
         //cardDetails
         TextView last4Digit = findViewById(R.id.last4Digit);
-        String fourDigit = sharedPref.getString("last4digits","");
+        String fourDigit = sharedPref.getString("last4Digits","");
         last4Digit.setText("* " + fourDigit);
 
         TextView cardBalanceAmt = findViewById(R.id.balanceAmt);
@@ -152,10 +154,7 @@ public class HomeActivity extends AppCompatActivity {
         JSONObject postData = new JSONObject();
         JSONArray postArrayData = new JSONArray();
 
-        // Storing data into SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",MODE_PRIVATE);
-        // Creating an Editor object to edit(write to the file)
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+
 
         try{
             postData.put("uid", user.getUid());
@@ -181,26 +180,26 @@ public class HomeActivity extends AppCompatActivity {
                     {
                         lastFourDigits = c.getCardNo().substring(c.getCardNo().length() - 4);
                     }
-                    Log.d("lolza",sharedPreferences.getString("accNo", ""));
-                    editor.putString(accNo,"accNo");
-                    editor.putString(accName,"accName");
-                    editor.putString(accHolderName,"accHolderName");
-                    editor.putString(cardBal.toString(),"cardBal");
-                    editor.putString(cardNumber,"fullCardNumber");
-                    editor.putString(lastFourDigits,"last4Digits");
-                    editor.putString(issuingNetwork,"issuingNetwork");
-                    editor.putString(accNo,"accNo");
+                    Log.d("lolza", lastFourDigits);
+
+                    // Creating an Editor object to edit(write to the file)
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("accNo", accNo);
+                    editor.putString("accName", accName);
+                    editor.putString("accHolderName",accHolderName);
+                    editor.putString("cardBal", cardBal.toString());
+                    editor.putString("fullCardNumber", cardNumber);
+                    editor.putString("last4Digits", lastFourDigits);
+                    editor.putString("issuingNetwork", issuingNetwork);
+                    editor.putString("accNo", accNo);
                     editor.apply();
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                try{
-                    postData.put("accNo", sharedPreferences.getString("accNo", ""));
-                }catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
                 JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, postUrlTransactions, postArrayData,  new Response.Listener <JSONArray> () {
                     @Override
                     public void onResponse(JSONArray response) {
