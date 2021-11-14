@@ -48,10 +48,13 @@ import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -211,7 +214,38 @@ public class HomeActivity extends AppCompatActivity {
                             JSONArray jsonArray = new JSONArray(response.getJSONArray("data").toString());
                             for (int i = 0; i <jsonArray.length() ; i++) {
                                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                                Log.i("LOLZERS",jsonObject.getString("to_name"));
+
+                                String toName = jsonObject.getString("to_name");
+                                String fromName = jsonObject.getString("from_name");
+                                String toAcc = jsonObject.getString("to_acc");
+                                String fromAcc = jsonObject.getString("from_acc");
+                                String date = jsonObject.getString("date").substring(0,10);
+                                Double amt = Double.parseDouble(jsonObject.getString("amount"));
+
+                                String DebitOrCredit = "";
+                                String ReceivedOrTransferred = "";
+                                if (fromAcc.equals(sharedPref.getString("accNo", ""))){
+                                    DebitOrCredit = "-";
+                                    ReceivedOrTransferred = "Transferred to: ";
+                                }
+                                else{
+                                    DebitOrCredit = "+";
+                                    ReceivedOrTransferred = "Received from: ";
+                                }
+
+                                Transaction t = new Transaction();
+                                t.setRecipientName(toName);
+                                t.setSenderName(fromName);
+                                t.setRecipientAccNo(toAcc);
+                                t.setSenderAccNo(fromAcc);
+                                t.setTransactionAmt(amt);
+                                t.setTransactionDate(date);
+                                t.setDebitOrCredit(DebitOrCredit);
+                                t.setReceivedOrSent(ReceivedOrTransferred);
+                                transactionList.add(t);
+
+                                HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
+                                recyclerView.setAdapter(homeTransactionAdapter);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
