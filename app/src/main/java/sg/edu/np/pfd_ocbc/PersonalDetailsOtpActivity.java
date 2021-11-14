@@ -51,13 +51,13 @@ public class PersonalDetailsOtpActivity extends AppCompatActivity {
         Button resend = findViewById(R.id.resend);
         Button submit = findViewById(R.id.submit);
         paragraph.setText("A one-time password has been sent to your phone ("+phoneNo+").");
-        requestSettingOTP(phoneNo);
+        //requestSettingOTP(phoneNo);
 
 
         resend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                requestSettingOTP(phoneNo);
+                //requestSettingOTP(phoneNo);
             }
         });
         submit.setOnClickListener(new View.OnClickListener() {
