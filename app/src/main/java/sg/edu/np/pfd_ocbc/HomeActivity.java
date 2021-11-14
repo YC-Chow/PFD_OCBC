@@ -150,7 +150,7 @@ public class HomeActivity extends AppCompatActivity {
 
         //Log.v("uid is:" ,user.getUid());
         String postUrlAccount = "https://pfd-server.azurewebsites.net/getAccountUsingUid";
-        String postUrlTransactions = "https://pfd-server.azurewebsites.net/getTransactions";
+        String postUrlTransactions = "https://85fb-219-75-105-162.ngrok.io/getTransactions";
         JSONObject postData = new JSONObject();
 
         try{
@@ -196,6 +196,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
 
                 try{
+                    Log.d("accNo", "onResponse: "+sharedPref.getString("accNo", ""));
                     postData.put("accNo", sharedPref.getString("accNo", ""));
                 }
                 catch (JSONException e) {
@@ -204,22 +205,23 @@ public class HomeActivity extends AppCompatActivity {
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlTransactions, postData,  new Response.Listener <JSONObject> () {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
-                            try {
-                                JSONArray jsonArray = new JSONArray(response);
-                                for (int i = 0; i <jsonArray.length() ; i++) {
-                                    JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                                    Log.i("LOLZERS",jsonObject.getString("to_name"));
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                        Log.d("SUCCESS", response.toString());
+                        try {
+                            JSONArray jsonArray = new JSONArray(response.getJSONArray("data").toString());
+                            for (int i = 0; i <jsonArray.length() ; i++) {
+                                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                                Log.i("LOLZERS",jsonObject.getString("to_name"));
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("Error yo", "onErrorResponse: ");
+                        error.printStackTrace();
                     }
                 });
                 RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
