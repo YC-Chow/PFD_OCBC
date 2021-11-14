@@ -112,84 +112,10 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
                                             if (task.isSuccessful()) {
-                                                String postUrl = "https://pfd-server.azurewebsites.net/getAccountHolder";
-                                                RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
-                                                // Sign in success, update UI with the signed-in user's information
-                                                Log.d(TAG, "signInWithEmail:success");
-                                                FirebaseUser user = mAuth.getCurrentUser();
-                                                SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
-                                                sharedPref.edit().clear().apply();
-
-
-
-
-
-
-                                                JSONObject postData = new JSONObject();
-
-
-
-
-                                                user.getIdToken(true).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
-                                                    @Override
-                                                    public void onSuccess(GetTokenResult result) {
-                                                        String idToken = result.getToken();
-
-
-
-
-                                                        try {
-                                                            postData.put("uid", user.getUid());
-                                                            postData.put("jwtToken", idToken );
-
-
-                                                        } catch (JSONException e) {
-                                                            e.printStackTrace();
-                                                        }
-
-                                                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
-                                                            @Override
-                                                            public void onResponse(JSONObject response) {
-                                                                System.out.println(response);
-                                                                try {
-                                                                    SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
-                                                                    SharedPreferences.Editor editor = sharedPref.edit();
-                                                                    editor.putString("Name", response.getString("name"));
-                                                                    editor.putString("Phone", response.getString("phoneNo"));
-                                                                    editor.putString("Email", response.getString("email"));
-                                                                    editor.putString("icNo", response.getString("icNo"));
-                                                                    editor.putString("startDate", response.getString("startDate"));
-
-                                                                    editor.apply();
-
-                                                                } catch (JSONException e) {
-                                                                    e.printStackTrace();
-                                                                }
-                                                            }
-                                                        }, new Response.ErrorListener() {
-                                                            @Override
-                                                            public void onErrorResponse(VolleyError error) {
-                                                                error.printStackTrace();
-
-                                                            }
-                                                        });
-
-                                                        requestQueue.add(jsonObjectRequest);
-
-                                                    }
-                                                });
-
                                                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                Handler handler = new Handler();
-                                                handler.postDelayed(new Runnable() {
-                                                    public void run() {
-                                                        startActivity(intent);;
-                                                    }
-                                                }, 2000);   //Login delayed by 1 second to give sharedpreferences 1 second to load
-
-
+                                                startActivity(intent);
                                             }
                                             else {
                                                 // If sign in fails, display a message to the user.
