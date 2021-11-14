@@ -152,7 +152,6 @@ public class HomeActivity extends AppCompatActivity {
         String postUrlAccount = "https://pfd-server.azurewebsites.net/getAccountUsingUid";
         String postUrlTransactions = "https://pfd-server.azurewebsites.net/getTransactions";
         JSONObject postData = new JSONObject();
-        JSONArray postArray = new JSONArray();
 
         try{
             postData.put("uid", user.getUid());
@@ -190,7 +189,7 @@ public class HomeActivity extends AppCompatActivity {
                     editor.putString("last4Digits", lastFourDigits);
                     editor.putString("issuingNetwork", issuingNetwork);
                     editor.apply();
-                    Log.v("accNumber is",accNo);
+                    //Log.v("accNumber is",accNo);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -202,9 +201,9 @@ public class HomeActivity extends AppCompatActivity {
                 catch (JSONException e) {
                     e.printStackTrace();
                 }
-                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, postUrlTransactions, postArray,  new Response.Listener <JSONArray> () {
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlTransactions, postData,  new Response.Listener <JSONObject> () {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
                             try {
                                 JSONArray jsonArray = new JSONArray(response);
@@ -224,7 +223,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 });
                 RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
-                requestQueue.add(jsonArrayRequest);
+                requestQueue.add(jsonObjectRequest);
             }
         }, new Response.ErrorListener() {
             @Override
