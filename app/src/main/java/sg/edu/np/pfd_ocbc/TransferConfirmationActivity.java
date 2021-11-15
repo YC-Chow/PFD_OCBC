@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -106,6 +107,9 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         String queryUrl = "https://pfd-server.azurewebsites.net/createTransaction";
         JSONObject postData = new JSONObject();
         try {
+            RandomString session = new RandomString();
+            String code = session.nextString();
+            postData.put("uniqueKey", code);
             postData.put("amount", transaction.getTransactionAmt());
             postData.put("from", transaction.getSenderAccNo());
             postData.put("to", transaction.getToBankNum());
@@ -117,8 +121,20 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, queryUrl, postData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                dbHandler.DeleteTransaction(transaction);
-                SuccessDialogBuilder(transaction);
+                if (response.has("success")){
+                    dbHandler.DeleteTransaction(transaction);
+                    SuccessDialogBuilder(transaction);
+                }
+                else {
+                    try {
+                        Toast.makeText(TransferConfirmationActivity.this, response.getString("error_message"),Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(TransferConfirmationActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
         }, new Response.ErrorListener() {
@@ -129,10 +145,6 @@ public class TransferConfirmationActivity extends AppCompatActivity {
             }
         });
 
-        RetryPolicy policy = new DefaultRetryPolicy(5000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        jsonObjectRequest.setRetryPolicy(policy);
         queue.add(jsonObjectRequest);
 
     }
@@ -151,9 +163,9 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+//                dbHandler.DeleteTransaction(transaction);
                 Intent intent = new Intent(TransferConfirmationActivity.this, HomeActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -175,8 +187,6 @@ public class TransferConfirmationActivity extends AppCompatActivity {
                 finish();
             }
         });
-        builder.setNegativeButton("No", null);
-
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
