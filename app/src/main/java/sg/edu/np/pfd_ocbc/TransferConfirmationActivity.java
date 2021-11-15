@@ -12,9 +12,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -33,11 +35,12 @@ import java.util.Calendar;
 
 public class TransferConfirmationActivity extends AppCompatActivity {
 
-    TextView transferAmt, receiverCardNumber, senderCardNumber;
+    private TextView transferAmt, receiverCardNumber, senderCardNumber, receiverName;
     ImageView confirmBtn, backBtn;
     DBHandler dbHandler;
     private FirebaseAuth mAuth;
-    private String token;
+    private String receiverAccNum, senderAccNum;
+    private double amount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,18 +52,18 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         confirmBtn = findViewById(R.id.confirmBtnTransactionConfirm);
         backBtn = findViewById(R.id.backBtnTransactionConfirm);
         senderCardNumber = findViewById(R.id.senderAccNo);
+        receiverName = findViewById(R.id.receiverName);
 
         dbHandler = new DBHandler(this);
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
+        if (user == null){
+            Intent intent = new Intent(TransferConfirmationActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
-        String receiverAccNum = getIntent().getStringExtra("to");
-        String senderAccNum = getIntent().getStringExtra("from");
-        double amount = getIntent().getIntExtra("amount", 0);
 
-        transferAmt.setText("S$"+ amount);
-        senderCardNumber.setText(senderAccNum);
-        receiverCardNumber.setText(receiverAccNum);
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,14 +83,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
                 Transaction transaction = SetTransactionIntoDB(senderAccNum, receiverAccNum, amount);
                 RequestQueue queue = Volley.newRequestQueue(TransferConfirmationActivity.this);
 
-                user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<GetTokenResult> task) {
-                        token = task.getResult().getToken();
-
-
-                    }
-                });
+                MakeTransaction(queue, transaction);
             }
         });
 
@@ -110,11 +106,9 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         String queryUrl = "https://pfd-server.azurewebsites.net/createTransaction";
         JSONObject postData = new JSONObject();
         try {
-            postData.put("jwtToken", token);
             postData.put("amount", transaction.getTransactionAmt());
             postData.put("from", transaction.getSenderAccNo());
             postData.put("to", transaction.getToBankNum());
-            postData.put("date", transaction.getTransactionDate());
         }catch (JSONException e)
         {
             e.printStackTrace();
@@ -123,18 +117,10 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, queryUrl, postData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try {
-                    String errorCode = response.getString("error_code");
-                    if (errorCode != null)
-                    {
-                        dbHandler.DeleteTransaction(transaction);
-                        SuccessDialogBuilder(transaction);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    ErrorDialogBuilder(queue,transaction);
-                }
+                dbHandler.DeleteTransaction(transaction);
+                SuccessDialogBuilder(transaction);
             }
+
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -143,6 +129,10 @@ public class TransferConfirmationActivity extends AppCompatActivity {
             }
         });
 
+        RetryPolicy policy = new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        jsonObjectRequest.setRetryPolicy(policy);
         queue.add(jsonObjectRequest);
 
     }
@@ -166,6 +156,9 @@ public class TransferConfirmationActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private void SuccessDialogBuilder(Transaction transaction)
@@ -183,8 +176,23 @@ public class TransferConfirmationActivity extends AppCompatActivity {
             }
         });
         builder.setNegativeButton("No", null);
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+        receiverAccNum = getIntent().getStringExtra("to");
+        senderAccNum = getIntent().getStringExtra("from");
+        amount = getIntent().getIntExtra("amount", 0);
+        String receiveName = getIntent().getStringExtra("name");
 
+        transferAmt.setText("S$"+ amount);
+        senderCardNumber.setText(senderAccNum);
+        receiverCardNumber.setText(receiverAccNum);
+        receiverName.setText(receiveName);
+    }
 }
