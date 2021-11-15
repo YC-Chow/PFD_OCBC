@@ -112,10 +112,61 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
                                             if (task.isSuccessful()) {
-                                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                startActivity(intent);
+                                                SharedPreferences sharedPreferences = getSharedPreferences("AccountHolder", MODE_PRIVATE);
+
+                                                //Log.v("uid is:" ,user.getUid());
+                                                String postUrlAccountHolder = "https://pfd-server.azurewebsites.net/getAccountHolderUsingUid";
+
+                                                JSONObject postData = new JSONObject();
+
+                                                FirebaseUser user = mAuth.getCurrentUser();
+
+                                                try{
+                                                    postData.put("uid", user.getUid());
+                                                }catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlAccountHolder, postData, new Response.Listener<JSONObject>() {
+                                                    @Override
+                                                    public void onResponse(JSONObject response) {
+                                                        //Log.d("lolza",response.toString());
+                                                        try {
+                                                            String phoneno = response.getString("phone_no");
+                                                            String holdername = response.getString("name");
+                                                            String email = response.getString("email");
+
+
+                                                            // Creating an Editor object to edit(write to the file)
+                                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                            editor.putString("name", holdername);
+                                                            editor.putString("phoneno", phoneno);
+                                                            editor.putString("email", email);
+
+                                                            editor.apply();
+                                                            //Log.v("accNumber is",accNo);
+
+                                                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                            startActivity(intent);
+
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+
+
+                                                    }
+                                                }, new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+                                                        Log.d("Error yo", "onErrorResponse: ");
+                                                    }
+                                                });
+                                                RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
+                                                requestQueue.add(jsonObjectRequest);
+
+
                                             }
                                             else {
                                                 // If sign in fails, display a message to the user.

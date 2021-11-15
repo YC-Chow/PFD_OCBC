@@ -131,7 +131,7 @@ public class PersonalDetailsOtpActivity extends AppCompatActivity {
 
                                     phoneData.put("uid", user.getUid());
                                     phoneData.put("phoneNo", phoneNo);
-                                    phoneData.put("jwtToken", idToken);
+
 
 
                                 } catch (JSONException e) {
@@ -144,17 +144,15 @@ public class PersonalDetailsOtpActivity extends AppCompatActivity {
                                     public void onResponse(JSONObject response) {
                                         SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedPref.edit();
-                                        try {
-                                            editor.putString("Phone", response.getString("phoneNo"));
-                                            editor.apply();
-                                            Toast.makeText(PersonalDetailsOtpActivity.this, "Personal Details Updated",
-                                                    Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(PersonalDetailsOtpActivity.this, PersonalDetailsActivity.class);
-                                            startActivity(intent);
 
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
+                                        editor.putString("phoneno", phoneNo);
+                                        editor.apply();
+                                        Toast.makeText(PersonalDetailsOtpActivity.this, "Personal Details Updated",
+                                                Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(PersonalDetailsOtpActivity.this, PersonalDetailsActivity.class);
+                                        startActivity(intent);
+
+
 
 
                                     }

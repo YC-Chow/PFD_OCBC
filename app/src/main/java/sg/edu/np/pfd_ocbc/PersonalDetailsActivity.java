@@ -45,8 +45,8 @@ public class PersonalDetailsActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
 
-        String username = sharedPref.getString("Name", "");
-        String userphone = sharedPref.getString("Phone", "");
+        String username = sharedPref.getString("name", "");
+        String userphone = sharedPref.getString("phoneno", "");
 
         changemobileno.setText(userphone);
         changename.setText(username);
@@ -65,8 +65,8 @@ public class PersonalDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
-                String username = sharedPref.getString("Name", "");
-                String userphone = sharedPref.getString("Phone", "");
+                String username = sharedPref.getString("name", "");
+                String userphone = sharedPref.getString("phoneno", "");
                 Log.d("hi", String.valueOf(changename.getText().toString().length() ));
                 if(changemobileno.getText().toString().equals(userphone) && changename.getText().toString().equals(username)){
                     Toast.makeText(PersonalDetailsActivity.this, "Personal Details Have Not Been Edited",
@@ -101,7 +101,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                             try {
                                 nameData.put("uid", user.getUid());
                                 nameData.put("name", changename.getText().toString());
-                                nameData.put("jwtToken", idToken);
+
 
 
 
@@ -120,13 +120,11 @@ public class PersonalDetailsActivity extends AppCompatActivity {
 
                                         SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedPref.edit();
-                                        try {
-                                            editor.putString("Name", response.getString("name"));
-                                            editor.apply();
+                                        editor.putString("name", changename.getText().toString());
+                                        editor.apply();
 
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
+
+
 
                                         //Send otp to updated number to verify that the user owns the phone number
                                         Intent intent = new Intent(PersonalDetailsActivity.this, PersonalDetailsOtpActivity.class);
@@ -167,12 +165,10 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                                                 Toast.LENGTH_SHORT).show();
                                         SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedPref.edit();
-                                        try {
-                                            editor.putString("Name", response.getString("name"));
-                                            editor.apply();
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
+                                        editor.putString("name", changename.getText().toString());
+                                        editor.apply();
+
+
 
                                     }
                                 }, new Response.ErrorListener() {

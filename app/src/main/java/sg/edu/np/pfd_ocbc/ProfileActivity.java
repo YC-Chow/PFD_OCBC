@@ -12,9 +12,20 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -24,8 +35,13 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
         mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("AccountHolder", MODE_PRIVATE);
+
+
 
         //Setting up bottom nav bar
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -82,16 +98,16 @@ public class ProfileActivity extends AppCompatActivity {
         TextView phone = findViewById(R.id.mobileno);
         TextView email = findViewById(R.id.profileemail);
 
-        SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
 
-        String username = sharedPref.getString("Name", "");
-        String userphone = sharedPref.getString("Phone", "");
-        String useremail = sharedPref.getString("Email", "");
+
+        String username = sharedPreferences.getString("name", "");
+        String userphone = sharedPreferences.getString("phoneno", "");
+        String useremail = sharedPreferences.getString("email", "");
 
         name.setText(username);
         phone.setText(userphone);
         email.setText(useremail);
-        Log.v("hi", useremail);
+        Log.v("hi", userphone);
 
 
 
