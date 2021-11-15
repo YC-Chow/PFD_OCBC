@@ -34,7 +34,7 @@ public class AmountConfirmationActivity extends AppCompatActivity {
     EditText senderAmount;
     ImageView nextBtn, cancelBtn;
     TextView receiverName, senderAccNo, senderBal;
-    private String receiverAccNum, senderAccNum, token;
+    private String receiverAccNum, senderAccNum, nameOfReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +58,13 @@ public class AmountConfirmationActivity extends AppCompatActivity {
 
         receiverAccNum = getIntent().getStringExtra("receiverAccNo");
         senderAccNum = getIntent().getStringExtra("senderAccNo");
+        nameOfReceiver = getIntent().getStringExtra("receiverName");
 
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AmountConfirmationActivity.this, MobileNumberActivity.class);
+                Intent intent = new Intent(AmountConfirmationActivity.this, AccountTransferActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -105,33 +106,41 @@ public class AmountConfirmationActivity extends AppCompatActivity {
 
     private void setReceiverName(RequestQueue queue, String accNo)
     {
-        String requestUrl = "https://pfd-server.azurewebsites.net/getAccountUsingAccNo";
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("accNo", accNo);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (nameOfReceiver == "Unknown")
+        {
+            receiverName.setText(receiverAccNum);
+        }
+        else
+        {
+            String requestUrl = "https://pfd-server.azurewebsites.net/getAccountUsingAccNo";
+            JSONObject postData = new JSONObject();
+            try {
+                postData.put("accNo", accNo);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, requestUrl, postData, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        String responseReceiverName = response.getString("acc_name");
+                        Log.v("AmountConfirmation", responseReceiverName);
+                        receiverName.setText(responseReceiverName);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                }
+            });
+
+            queue.add(request);
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, requestUrl, postData, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    String responseReceiverName = response.getString("acc_name");
-                    Log.v("AmountConfirmation", responseReceiverName);
-                    receiverName.setText(responseReceiverName);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-
-        queue.add(request);
     }
 
     private void setSenderInfo(RequestQueue queue, String accNo)

@@ -141,7 +141,12 @@ public class AccountTransferActivity extends AppCompatActivity {
                                 if (response.has("acc_no"))
                                 {
                                     String receiverAccNo = response.getString("acc_no");
+                                    String receiverName = response.getString("account_holder_name");
+                                    if (receiverName == null){
+                                        receiverName = "Unknown";
+                                    }
                                     Intent intent = new Intent(AccountTransferActivity.this, AmountConfirmationActivity.class);
+                                    intent.putExtra("receiverName" , receiverName);
                                     intent.putExtra("receiverAccNo", receiverAccNo);
                                     intent.putExtra("senderAccNo", senderAccNo);
                                     startActivity(intent);
