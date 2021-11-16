@@ -2,10 +2,18 @@ package sg.edu.np.pfd_ocbc;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.KeyguardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+
+import android.security.keystore.KeyGenParameterSpec;
+import android.security.keystore.KeyPermanentlyInvalidatedException;
+import android.security.keystore.KeyProperties;
+import android.security.keystore.UserNotAuthenticatedException;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -13,8 +21,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
 import androidx.annotation.NonNull;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
+
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,10 +47,40 @@ import com.google.firebase.auth.GetTokenResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import java.util.concurrent.Executor;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+
+
 public class LoginActivity extends AppCompatActivity {
+
+    private static final int VALIDITY_DURATION_SECONDS = 30;
+    private static final int ALLOWED_AUTHENTICATORS = 0;
     private FirebaseAuth mAuth;
+    private KeyguardManager mKeyguardManager;
+    private Executor executor;
+    private BiometricPrompt biometricPrompt;
+    private BiometricPrompt.PromptInfo promptInfo;
 
 
+
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +101,79 @@ public class LoginActivity extends AppCompatActivity {
 
         Button login = findViewById(R.id.login);
 
-        mAuth.signOut();
+        if(mAuth.getCurrentUser() != null){
+            mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+
+            executor = ContextCompat.getMainExecutor(this);
+            biometricPrompt = new BiometricPrompt(LoginActivity.this,
+                    executor, new BiometricPrompt.AuthenticationCallback() {
+                @Override
+                public void onAuthenticationError(int errorCode,
+                                                  @NonNull CharSequence errString) {
+                    super.onAuthenticationError(errorCode, errString);
+
+                }
+
+                @Override
+                public void onAuthenticationSucceeded(
+                        @NonNull BiometricPrompt.AuthenticationResult result) {
+                    super.onAuthenticationSucceeded(result);
+                    Toast.makeText(getApplicationContext(),
+                            "Authentication succeeded!", Toast.LENGTH_SHORT).show();
+                    afterlogin();
+                }
+
+                @Override
+                public void onAuthenticationFailed() {
+                    super.onAuthenticationFailed();
+                    Toast.makeText(getApplicationContext(), "Authentication failed",
+                            Toast.LENGTH_SHORT)
+                            .show();
+                }
+            });
+
+            promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                    .setTitle("Biometric login")
+                    .setSubtitle("Log in using your biometric credential or phone pin")
+                    .setDeviceCredentialAllowed(true)
+                    .build();
+
+
+
+            biometricPrompt.authenticate(promptInfo);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                try {
+                    generateSecretKey(new KeyGenParameterSpec.Builder(
+                            "KeyName",
+                            KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
+                            .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
+                            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
+                            .setUserAuthenticationRequired(true)
+                            .setUserAuthenticationParameters(VALIDITY_DURATION_SECONDS,
+                                    KeyProperties.AUTH_DEVICE_CREDENTIAL)
+                            .build());
+                } catch (NoSuchProviderException e) {
+                    e.printStackTrace();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (InvalidAlgorithmParameterException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                KeyGenParameterSpec authPerOpKeyGenParameterSpec =
+                        new KeyGenParameterSpec.Builder("myKeystoreAlias", KeyProperties.PURPOSE_ENCRYPT)
+                                // Accept either a biometric credential or a device credential.
+                                // To accept only one type of credential, include only that type as the
+                                // second argument.
+                                .setUserAuthenticationParameters(0 /* duration */,
+                                        KeyProperties.AUTH_BIOMETRIC_STRONG |
+                                                KeyProperties.AUTH_DEVICE_CREDENTIAL)
+                                .build();
+            }
+        }
 
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -112,59 +228,7 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
                                             if (task.isSuccessful()) {
-                                                SharedPreferences sharedPreferences = getSharedPreferences("AccountHolder", MODE_PRIVATE);
-
-                                                //Log.v("uid is:" ,user.getUid());
-                                                String postUrlAccountHolder = "https://pfd-server.azurewebsites.net/getAccountHolderUsingUid";
-
-                                                JSONObject postData = new JSONObject();
-
-                                                FirebaseUser user = mAuth.getCurrentUser();
-
-                                                try{
-                                                    postData.put("uid", user.getUid());
-                                                }catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                }
-
-                                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlAccountHolder, postData, new Response.Listener<JSONObject>() {
-                                                    @Override
-                                                    public void onResponse(JSONObject response) {
-                                                        //Log.d("lolza",response.toString());
-                                                        try {
-                                                            String phoneno = response.getString("phone_no");
-                                                            String holdername = response.getString("name");
-                                                            String email = response.getString("email");
-
-
-                                                            // Creating an Editor object to edit(write to the file)
-                                                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                                                            editor.putString("name", holdername);
-                                                            editor.putString("phoneno", phoneno);
-                                                            editor.putString("email", email);
-
-                                                            editor.apply();
-                                                            //Log.v("accNumber is",accNo);
-
-                                                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                            startActivity(intent);
-
-                                                        } catch (JSONException e) {
-                                                            e.printStackTrace();
-                                                        }
-
-
-                                                    }
-                                                }, new Response.ErrorListener() {
-                                                    @Override
-                                                    public void onErrorResponse(VolleyError error) {
-                                                        Log.d("Error yo", "onErrorResponse: ");
-                                                    }
-                                                });
-                                                RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
-                                                requestQueue.add(jsonObjectRequest);
+                                                afterlogin();
 
 
                                             }
@@ -211,6 +275,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
+
+
     @Override
     public void onStart() {
         super.onStart();
@@ -225,4 +292,111 @@ public class LoginActivity extends AppCompatActivity {
             currentUser.reload();
         }
     }
+
+    private void afterlogin(){
+        SharedPreferences sharedPreferences = getSharedPreferences("AccountHolder", MODE_PRIVATE);
+
+        //Log.v("uid is:" ,user.getUid());
+        String postUrlAccountHolder = "https://pfd-server.azurewebsites.net/getAccountHolderUsingUid";
+
+        JSONObject postData = new JSONObject();
+
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        try{
+            postData.put("uid", user.getUid());
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlAccountHolder, postData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                //Log.d("lolza",response.toString());
+                try {
+                    String phoneno = response.getString("phone_no");
+                    String holdername = response.getString("name");
+                    String email = response.getString("email");
+
+
+                    // Creating an Editor object to edit(write to the file)
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("name", holdername);
+                    editor.putString("phoneno", phoneno);
+                    editor.putString("email", email);
+
+                    editor.apply();
+                    //Log.v("accNumber is",accNo);
+
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Error yo", "onErrorResponse: ");
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void generateSecretKey(KeyGenParameterSpec keyGenParameterSpec) throws NoSuchProviderException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+        KeyGenerator keyGenerator = KeyGenerator.getInstance(
+                KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
+        keyGenerator.init(keyGenParameterSpec);
+        keyGenerator.generateKey();
+    }
+
+    private SecretKey getSecretKey() throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException, UnrecoverableKeyException {
+        KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
+
+        // Before the keystore can be accessed, it must be loaded.
+        keyStore.load(null);
+        return ((SecretKey)keyStore.getKey("KeyName", null));
+    }
+
+    private Cipher getCipher() throws NoSuchPaddingException, NoSuchAlgorithmException {
+        return Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/"
+                + KeyProperties.BLOCK_MODE_CBC + "/"
+                + KeyProperties.ENCRYPTION_PADDING_PKCS7);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void encryptSecretInformation() throws UnrecoverableKeyException, CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException, NoSuchPaddingException {
+        // Exceptions are unhandled for getCipher() and getSecretKey().
+        Cipher cipher = getCipher();
+        SecretKey secretKey = getSecretKey();
+        try {
+            // NullPointerException is unhandled; use Objects.requireNonNull().
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            byte[] encryptedInfo = cipher.doFinal(
+                    "hi".getBytes(Charset.defaultCharset()));
+        } catch (InvalidKeyException e) {
+            Log.e("MY_APP_TAG", "Key is invalid.");
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 }

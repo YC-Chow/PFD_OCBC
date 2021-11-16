@@ -109,6 +109,17 @@ public class ProfileActivity extends AppCompatActivity {
         email.setText(useremail);
         Log.v("hi", userphone);
 
+        ImageButton signout = findViewById(R.id.logout);
+
+        signout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+                Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
 
 
