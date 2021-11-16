@@ -64,7 +64,7 @@
         <activity
             android:name=".SignupActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
+ />
         <activity
             android:name=".LoginActivity"
             android:exported="true"
