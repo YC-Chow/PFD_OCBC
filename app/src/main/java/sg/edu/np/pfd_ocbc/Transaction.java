@@ -7,9 +7,6 @@ public class Transaction {
     private String senderName;
     private String recipientName;
     private String recipientAccNo;
-    private String toPhoneNum;
-    private String toIC;
-    private String toBankNum;
     private Double transactionAmt;
     private String transactionDate;
     private String transactionId;
@@ -20,20 +17,8 @@ public class Transaction {
 
     public void setSenderAccNo(String senderAccNo) { this.senderAccNo = senderAccNo; }
 
-    public String getToPhoneNum() {
-        return toPhoneNum;
-    }
-
     public String getDebitOrCredit() {
         return DebitOrCredit;
-    }
-
-    public String getToIC() {
-        return toIC;
-    }
-
-    public String getToBankNum() {
-        return toBankNum;
     }
 
     public String getTransactionDate() {
@@ -42,18 +27,6 @@ public class Transaction {
 
     public String getTransactionId() {
         return transactionId;
-    }
-
-    public void setToPhoneNum(String toPhoneNum) {
-        this.toPhoneNum = toPhoneNum;
-    }
-
-    public void setToIC(String toIC) {
-        this.toIC = toIC;
-    }
-
-    public void setToBankNum(String toBankNum) {
-        this.toBankNum = toBankNum;
     }
 
     public void setTransactionDate(String transactionDate) {
@@ -107,11 +80,4 @@ public class Transaction {
     public Transaction() {
     }
 
-
-    public Transaction(String toPhoneNum, String transactionDate, String transactionId, Double transactionAmt) {
-        this.toPhoneNum = toPhoneNum;
-        this.transactionDate = transactionDate;
-        this.transactionId = transactionId;
-        this.transactionAmt = transactionAmt;
-    }
 }
