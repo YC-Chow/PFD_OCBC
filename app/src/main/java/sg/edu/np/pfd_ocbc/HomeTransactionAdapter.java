@@ -36,7 +36,12 @@ public class HomeTransactionAdapter extends RecyclerView.Adapter<HomeTransaction
     @Override
     public void onBindViewHolder(@NonNull HomeTransactionVH holder, int position) {
         Transaction transaction = transactionArrayList.get(position);
-        holder.TransactionTo.setText(transaction.getSenderName());
+        if(transaction.getRecipientName().equals("null")){
+            holder.TransactionTo.setText(transaction.getRecipientAccNo());
+        }
+        else{
+            holder.TransactionTo.setText(transaction.getRecipientName());
+        }
         holder.TransactionAmt.setText((df.format(transaction.getTransactionAmt())));
         holder.TransactionDate.setText(transaction.getTransactionDate());
         holder.TransactionDebitOrCredit.setText(transaction.getDebitOrCredit());
