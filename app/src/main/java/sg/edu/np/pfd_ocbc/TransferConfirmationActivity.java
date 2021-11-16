@@ -60,7 +60,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         dbHandler = new DBHandler(this);
         receiverAccNum = getIntent().getStringExtra("to");
         senderAccNum = getIntent().getStringExtra("from");
-        amount = getIntent().getIntExtra("amount", 0);
+        amount = getIntent().getDoubleExtra("amount", 0);
         receiveName = getIntent().getStringExtra("name");
 
         //setting info
@@ -110,8 +110,9 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         Transaction transaction = new Transaction();
         transaction.setTransactionId((new RandomString()).nextString());
         transaction.setSenderAccNo(senderCardNumber);
-        transaction.setToBankNum(receiverCardNumber);
+        transaction.setRecipientAccNo(receiverCardNumber);
         transaction.setTransactionAmt(amount);
+        transaction.setRecipientName(receiveName);
 
         dbHandler.MakeTransaction(transaction);
         return transaction;
@@ -125,7 +126,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
             postData.put("uniqueKey", transaction.getTransactionId());
             postData.put("amount", String.format("%.2f", transaction.getTransactionAmt()));
             postData.put("from", transaction.getSenderAccNo());
-            postData.put("to", transaction.getToBankNum());
+            postData.put("to", transaction.getRecipientAccNo());
         }catch (JSONException e)
         {
             e.printStackTrace();

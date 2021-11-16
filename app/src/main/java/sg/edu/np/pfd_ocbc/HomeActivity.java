@@ -1,8 +1,10 @@
 package sg.edu.np.pfd_ocbc;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.nfc.cardemulation.HostNfcFService;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -18,6 +20,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,6 +31,7 @@ import com.google.gson.reflect.TypeToken;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -115,6 +119,7 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true));
         transactionList = new ArrayList<>();
 
+
         //Setting up bottom nav bar
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         int size = navigation.getMenu().size();
@@ -157,6 +162,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onStart();
 
         FirebaseUser user = mAuth.getCurrentUser();
+        DBHandler dbHandler = new DBHandler(this);
 
         //Log.v("uid is:" ,user.getUid());
         String postUrlAccount = "https://pfd-server.azurewebsites.net/getAccountUsingUid";
@@ -200,6 +206,9 @@ public class HomeActivity extends AppCompatActivity {
                     editor.putString("issuingNetwork", issuingNetwork);
                     editor.apply();
                     //Log.v("accNumber is",accNo);
+
+                    CheckForFailedTransaction(accNo);
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -285,6 +294,9 @@ public class HomeActivity extends AppCompatActivity {
         });
         RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
         requestQueue.add(jsonObjectRequest);
+
+
+
     }
 
     @Override
@@ -302,4 +314,34 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
     }
 
+    private void CheckForFailedTransaction(String accNo){
+        DBHandler dbHandler = new DBHandler(HomeActivity.this);
+        Transaction transaction = dbHandler.CheckFailedTransaction(accNo);
+
+        if(transaction != null){
+            dbHandler.DeleteTransaction(transaction.getTransactionId());
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(false);
+            builder.setTitle("Failed Transaction Found!");
+            builder.setMessage("You tried to transfer S$" + String.format("%.2f", transaction.getTransactionAmt())
+                    + " to " + transaction.getRecipientName()
+                    + "\nDo you want to retry?");
+            builder.setNegativeButton("No", null);
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(HomeActivity.this, TransferConfirmationActivity.class);
+                    intent.putExtra("to", transaction.getRecipientAccNo());
+                    intent.putExtra("from", transaction.getSenderAccNo());
+                    intent.putExtra("amount", transaction.getTransactionAmt());
+                    intent.putExtra("name", transaction.getRecipientName());
+                    startActivity(intent);
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
+
+
+    }
 }

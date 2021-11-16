@@ -72,7 +72,7 @@ public class AccountTransferActivity extends AppCompatActivity {
                         break;
 
                     case R.id.mobileTransfer:
-                        Intent intent = new Intent(AccountTransferActivity.this, MobileTransferActivity.class);
+                        Intent intent = new Intent(AccountTransferActivity.this, MobileNumberActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(intent);
                         break;

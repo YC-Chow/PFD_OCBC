@@ -37,7 +37,7 @@ public class NricTransferActivity extends AppCompatActivity {
                         break;
 
                     case R.id.mobileTransfer:
-                        Intent b = new Intent(NricTransferActivity.this, MobileTransferActivity.class);
+                        Intent b = new Intent(NricTransferActivity.this, MobileNumberActivity.class);
                         b.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(b);
                         break;
