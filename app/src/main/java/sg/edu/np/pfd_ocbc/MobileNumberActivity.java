@@ -29,15 +29,16 @@ public class MobileNumberActivity extends AppCompatActivity {
         enterMobileNum = findViewById(R.id.customMobileNum);
         nextBtn = findViewById(R.id.nextBtnMobileNumber);
         backBtn = findViewById(R.id.backBtnMobileNumber);
+        backBtn.setVisibility(View.GONE);
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MobileNumberActivity.this, MobileTransferActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+//        backBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MobileNumberActivity.this, HomeActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
