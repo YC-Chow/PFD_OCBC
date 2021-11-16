@@ -73,7 +73,7 @@ public class AmountConfirmationActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int amount = Integer.parseInt(senderAmount.getText().toString());
+                double amount = Integer.parseInt(senderAmount.getText().toString());
                 if (amount <= 0)
                 {
                     Toast.makeText(AmountConfirmationActivity.this, "Please enter a valid amount!", Toast.LENGTH_SHORT).show();
