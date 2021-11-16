@@ -48,6 +48,7 @@ import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -69,6 +70,7 @@ public class HomeActivity extends AppCompatActivity {
     SharedPreferences sharedPref;
     private ArrayList<Transaction> transactionList;
     private static final String TAG = "HomeActivity";
+    private static final DecimalFormat df = new DecimalFormat("0.00");
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -188,7 +190,7 @@ public class HomeActivity extends AppCompatActivity {
                     editor.putString("accNo", accNo);
                     editor.putString("accName", accName);
                     editor.putString("accHolderName",accHolderName);
-                    editor.putString("cardBal", cardBal.toString());
+                    editor.putString("cardBal", df.format(cardBal));
                     editor.putString("fullCardNumber", cardNumber);
                     editor.putString("last4Digits", lastFourDigits);
                     editor.putString("issuingNetwork", issuingNetwork);
@@ -224,13 +226,22 @@ public class HomeActivity extends AppCompatActivity {
 
                                 String DebitOrCredit = "";
                                 String ReceivedOrTransferred = "";
+
                                 if (fromAcc.equals(sharedPref.getString("accNo", ""))){
+                                    Log.d("IM THE SENDER!","IM THE SENDER!");
                                     DebitOrCredit = "-";
                                     ReceivedOrTransferred = "Transferred to: ";
                                 }
                                 else{
                                     DebitOrCredit = "+";
                                     ReceivedOrTransferred = "Received from: ";
+                                }
+
+                                if(fromName == "null"){
+                                    fromName = fromAcc;
+                                }
+                                else{
+                                    fromName = fromName;
                                 }
 
                                 Transaction t = new Transaction();

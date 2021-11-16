@@ -10,9 +10,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class HomeTransactionAdapter extends RecyclerView.Adapter<HomeTransactionVH>{
+    private static final DecimalFormat df = new DecimalFormat("0.00");
     ArrayList<Transaction> transactionArrayList;
     Context mcontext;
 
@@ -34,8 +36,8 @@ public class HomeTransactionAdapter extends RecyclerView.Adapter<HomeTransaction
     @Override
     public void onBindViewHolder(@NonNull HomeTransactionVH holder, int position) {
         Transaction transaction = transactionArrayList.get(position);
-        holder.TransactionTo.setText(transaction.getRecipientName());
-        holder.TransactionAmt.setText(String.valueOf(transaction.getTransactionAmt()));
+        holder.TransactionTo.setText(transaction.getSenderName());
+        holder.TransactionAmt.setText((df.format(transaction.getTransactionAmt())));
         holder.TransactionDate.setText(transaction.getTransactionDate());
         holder.TransactionDebitOrCredit.setText(transaction.getDebitOrCredit());
         holder.ReceivedOrTransferred.setText(transaction.getReceivedOrSent());
