@@ -36,16 +36,30 @@ public class HomeTransactionAdapter extends RecyclerView.Adapter<HomeTransaction
     @Override
     public void onBindViewHolder(@NonNull HomeTransactionVH holder, int position) {
         Transaction transaction = transactionArrayList.get(position);
-        if(transaction.getRecipientName().equals("null")){
-            holder.TransactionTo.setText(transaction.getRecipientAccNo());
+
+        //If im receiving money
+        if(transaction.getDebitOrCredit().equals("-")){
+            if(transaction.getRecipientName().equals("null")){
+                holder.TransactionToOrFrom.setText("Sent to: " + transaction.getRecipientAccNo());
+            }
+            else{
+                holder.TransactionToOrFrom.setText("Sent to: " + transaction.getRecipientName());
+            }
+            holder.TransactionAmt.setText((df.format(transaction.getTransactionAmt())));
+            holder.TransactionDate.setText(transaction.getTransactionDate());
+            holder.TransactionDebitOrCredit.setText(transaction.getDebitOrCredit());
         }
         else{
-            holder.TransactionTo.setText(transaction.getRecipientName());
+            if(transaction.getSenderName().equals("null")){
+                holder.TransactionToOrFrom.setText("Received from: " + transaction.getSenderAccNo());
+            }
+            else{
+                holder.TransactionToOrFrom.setText("Received from: " + transaction.getSenderName());
+            }
+            holder.TransactionAmt.setText((df.format(transaction.getTransactionAmt())));
+            holder.TransactionDate.setText(transaction.getTransactionDate());
+            holder.TransactionDebitOrCredit.setText(transaction.getDebitOrCredit());
         }
-        holder.TransactionAmt.setText((df.format(transaction.getTransactionAmt())));
-        holder.TransactionDate.setText(transaction.getTransactionDate());
-        holder.TransactionDebitOrCredit.setText(transaction.getDebitOrCredit());
-        holder.ReceivedOrTransferred.setText(transaction.getReceivedOrSent());
     }
 
     @Override

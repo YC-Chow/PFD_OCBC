@@ -42,6 +42,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
     private ArrayList<Transaction> transactionList;
     private static final String TAG = "HomeActivity";
     private static final DecimalFormat df = new DecimalFormat("0.00");
+    boolean isSent;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -119,7 +121,15 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true));
         transactionList = new ArrayList<>();
 
-
+        Button showAllBtn = findViewById(R.id.showAllBtn);
+        showAllBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(HomeActivity.this, ShowAllTransactions.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(i);
+            }
+        });
         //Setting up bottom nav bar
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         int size = navigation.getMenu().size();
@@ -224,6 +234,7 @@ public class HomeActivity extends AppCompatActivity {
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlTransactions, postData,  new Response.Listener <JSONObject> () {
                     @Override
                     public void onResponse(JSONObject response) {
+
                         Log.d("SUCCESS", response.toString());
                         try {
                             JSONArray jsonArray = new JSONArray(response.getJSONArray("data").toString());
@@ -241,23 +252,12 @@ public class HomeActivity extends AppCompatActivity {
                                 Double amt = Double.parseDouble(jsonObject.getString("amount"));
 
                                 String DebitOrCredit = "";
-                                String ReceivedOrTransferred = "";
 
                                 if (fromAcc.equals(sharedPref.getString("accNo", ""))){
-                                    Log.d("IM THE SENDER!","IM THE SENDER!");
                                     DebitOrCredit = "-";
-                                    ReceivedOrTransferred = "Transferred to: ";
                                 }
                                 else{
                                     DebitOrCredit = "+";
-                                    ReceivedOrTransferred = "Received from: ";
-                                }
-
-                                if(fromName == "null"){
-                                    fromName = fromAcc;
-                                }
-                                else{
-                                    fromName = fromName;
                                 }
 
                                 Transaction t = new Transaction();
@@ -268,10 +268,7 @@ public class HomeActivity extends AppCompatActivity {
                                 t.setTransactionAmt(amt);
                                 t.setTransactionDate(date);
                                 t.setDebitOrCredit(DebitOrCredit);
-                                t.setReceivedOrSent(ReceivedOrTransferred);
                                 transactionList.add(0,t);
-
-
                             }
                             HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
                             recyclerView.setAdapter(homeTransactionAdapter);
@@ -298,8 +295,6 @@ public class HomeActivity extends AppCompatActivity {
         });
         RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
         requestQueue.add(jsonObjectRequest);
-
-
 
     }
 

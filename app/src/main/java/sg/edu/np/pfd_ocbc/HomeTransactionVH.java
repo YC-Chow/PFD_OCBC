@@ -7,18 +7,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeTransactionVH extends RecyclerView.ViewHolder{
-    TextView TransactionTo;
+    TextView TransactionToOrFrom;
     TextView TransactionDate;
     TextView TransactionAmt;
     TextView TransactionDebitOrCredit;
-    TextView ReceivedOrTransferred;
 
     public HomeTransactionVH(View itemView) {
         super(itemView);
-        TransactionTo = itemView.findViewById(R.id.transactionTo);
+        TransactionToOrFrom = itemView.findViewById(R.id.transactionTo);
         TransactionDate= itemView.findViewById(R.id.transactionDateTime);
         TransactionAmt = itemView.findViewById(R.id.transactionAmt);
         TransactionDebitOrCredit = itemView.findViewById(R.id.DebitOrCredit);
-        ReceivedOrTransferred = itemView.findViewById(R.id.recievedOrTransferred);
     }
 }
