@@ -24,79 +24,76 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="42dp"
         android:fontFamily="@font/poppins"
         android:text="From:"
         android:textColor="#000"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintHorizontal_bias="0.104"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView5" />
 
     <ImageView
         android:id="@+id/senderProf"
         android:layout_width="52dp"
         android:layout_height="54dp"
-        android:layout_marginStart="36dp"
-        android:background="@android:color/holo_blue_bright"
-        app:layout_constraintBottom_toTopOf="@+id/imageView20"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@+id/textView9"
         app:layout_constraintTop_toBottomOf="@+id/textView9"
-        app:layout_constraintVertical_bias="0.48"
-        app:srcCompat="@drawable/navbarprofile" />
+        app:srcCompat="@drawable/user" />
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/poppins"
-        android:text="Your Account"
-        android:textColor="#000"
-        android:textSize="16sp"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@id/senderProf"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-    <TextView
-        android:id="@+id/senderAccNo"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
-        android:text="accNum"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/imageView20"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@id/senderProf"
-        app:layout_constraintRight_toLeftOf="@id/senderBal"
-        app:layout_constraintTop_toBottomOf="@id/textView10"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintBottom_toBottomOf="@+id/senderProf"
+        app:layout_constraintStart_toEndOf="@+id/senderProf"
+        app:layout_constraintTop_toTopOf="@+id/senderProf">
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:text="Your Account"
+            android:textColor="#000"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/senderAccNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:text="accNum"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/senderBal"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="40dp"
         android:fontFamily="@font/poppins"
         android:text="TextView"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/imageView20"
+        app:layout_constraintBottom_toBottomOf="@+id/senderProf"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView10"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/senderProf" />
 
     <ImageView
         android:id="@+id/imageView20"
         android:layout_width="44dp"
         android:layout_height="78dp"
-        android:layout_marginTop="52dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/senderProf"
         app:srcCompat="@drawable/down_arrow" />
 
     <TextView
@@ -108,38 +105,47 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.152"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/senderProf"
         app:layout_constraintTop_toBottomOf="@+id/imageView20" />
 
     <ImageView
         android:id="@+id/receiverProfile"
         android:layout_width="52dp"
         android:layout_height="54dp"
-        android:layout_marginStart="36dp"
-        android:background="@android:color/holo_blue_bright"
-        app:layout_constraintBottom_toTopOf="@+id/textView30"
+        android:layout_marginTop="10dp"
         app:layout_constraintRight_toLeftOf="@id/receiverName"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView23"
         app:layout_constraintTop_toBottomOf="@+id/textView23"
-        app:layout_constraintVertical_bias="0.236"
-        app:srcCompat="@drawable/navbarprofile" />
+        app:srcCompat="@drawable/user" />
 
-    <TextView
-        android:id="@+id/receiverName"
-        android:layout_width="325dp"
-        android:layout_height="26dp"
-        android:fontFamily="@font/poppins"
-        android:text="Name"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView30"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@id/receiverProfile"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView20"
-        app:layout_constraintVertical_bias="0.362" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/receiverProfile"
+        app:layout_constraintStart_toEndOf="@+id/receiverProfile"
+        app:layout_constraintTop_toTopOf="@+id/receiverProfile">
+
+        <TextView
+            android:id="@+id/receiverName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:text="Name"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/recieverAccNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:text="accNum"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/receiverName" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/textView30"
@@ -198,12 +204,10 @@
         android:id="@+id/cancelBtnAmtConfirm"
         android:layout_width="0dp"
         android:layout_height="52dp"
-        android:layout_marginStart="120dp"
-        android:layout_marginEnd="120dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/nextBtnAmtConfirm"
+        app:layout_constraintStart_toStartOf="@+id/nextBtnAmtConfirm"
         app:srcCompat="@drawable/cancel_button" />
 
     <TextView
