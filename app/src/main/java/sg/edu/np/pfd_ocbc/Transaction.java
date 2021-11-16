@@ -11,7 +11,6 @@ public class Transaction {
     private String transactionDate;
     private String transactionId;
     private String DebitOrCredit;
-    private String ReceivedOrSent;
 
     public String getSenderAccNo() { return senderAccNo; }
 
@@ -69,13 +68,6 @@ public class Transaction {
         this.senderName = senderName;
     }
 
-    public String getReceivedOrSent() {
-        return ReceivedOrSent;
-    }
-
-    public void setReceivedOrSent(String receivedOrSent) {
-        ReceivedOrSent = receivedOrSent;
-    }
 
     public Transaction() {
     }

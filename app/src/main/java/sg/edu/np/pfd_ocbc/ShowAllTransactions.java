@@ -38,6 +38,7 @@ public class ShowAllTransactions extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_show_all_transactions); // setting the layout first
         mAuth = FirebaseAuth.getInstance();
         sharedPref = getSharedPreferences("MySharedPref", MODE_PRIVATE);
 
@@ -101,16 +102,13 @@ public class ShowAllTransactions extends AppCompatActivity {
                                 Double amt = Double.parseDouble(jsonObject.getString("amount"));
 
                                 String DebitOrCredit = "";
-                                String ReceivedOrTransferred = "";
 
                                 if (fromAcc.equals(sharedPref.getString("accNo", ""))){
                                     Log.d("IM THE SENDER!","IM THE SENDER!");
                                     DebitOrCredit = "-";
-                                    ReceivedOrTransferred = "Transferred to: ";
                                 }
                                 else{
                                     DebitOrCredit = "+";
-                                    ReceivedOrTransferred = "Received from: ";
                                 }
 
                                 if(fromName == "null"){
@@ -128,7 +126,6 @@ public class ShowAllTransactions extends AppCompatActivity {
                                 t.setTransactionAmt(amt);
                                 t.setTransactionDate(date);
                                 t.setDebitOrCredit(DebitOrCredit);
-                                t.setReceivedOrSent(ReceivedOrTransferred);
                                 transactionList.add(t);
 
                                 HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
