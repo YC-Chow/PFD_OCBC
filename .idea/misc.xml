@@ -39,6 +39,7 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_mobile_number.xml" value="0.33" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_mobile_transfer.xml" value="0.13802083333333334" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_notification.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_nric_transfer.xml" value="0.21105072463768115" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_otp.xml" value="0.5" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_personal_details.xml" value="0.5" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_profile.xml" value="0.5" />
@@ -56,7 +57,7 @@
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_notification.xml" value="0.151171875" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_otp.xml" value="0.151171875" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_personal_details.xml" value="0.25" />
-        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_profile.xml" value="0.33" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_profile.xml" value="0.151171875" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_see_all_card.xml" value="0.24863387978142076" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_settings.xml" value="0.151171875" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_signup.xml" value="0.151171875" />

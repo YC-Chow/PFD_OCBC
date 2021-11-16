@@ -227,7 +227,10 @@ public class HomeActivity extends AppCompatActivity {
                         Log.d("SUCCESS", response.toString());
                         try {
                             JSONArray jsonArray = new JSONArray(response.getJSONArray("data").toString());
-                            for (int i = 0; i <jsonArray.length() ; i++) {
+                            for (int i = jsonArray.length()-1; i >=0 ; i--) {
+                                if (i == jsonArray.length()-6){
+                                    break;
+                                }
                                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
 
                                 String toName = jsonObject.getString("to_name");
@@ -266,11 +269,12 @@ public class HomeActivity extends AppCompatActivity {
                                 t.setTransactionDate(date);
                                 t.setDebitOrCredit(DebitOrCredit);
                                 t.setReceivedOrSent(ReceivedOrTransferred);
-                                transactionList.add(t);
+                                transactionList.add(0,t);
 
-                                HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
-                                recyclerView.setAdapter(homeTransactionAdapter);
+
                             }
+                            HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
+                            recyclerView.setAdapter(homeTransactionAdapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
