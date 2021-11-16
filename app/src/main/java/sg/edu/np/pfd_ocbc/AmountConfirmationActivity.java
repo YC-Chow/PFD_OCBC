@@ -33,7 +33,7 @@ public class AmountConfirmationActivity extends AppCompatActivity {
     private FirebaseUser user;
     EditText senderAmount;
     ImageView nextBtn, cancelBtn;
-    TextView receiverName, senderAccNo, senderBal;
+    TextView receiverName, recieverAccNo,senderAccNo, senderBal;
     private String receiverAccNum, senderAccNum, nameOfReceiver;
 
     @Override
@@ -45,6 +45,7 @@ public class AmountConfirmationActivity extends AppCompatActivity {
         nextBtn = findViewById(R.id.nextBtnAmtConfirm);
         cancelBtn = findViewById(R.id.cancelBtnAmtConfirm);
         receiverName = findViewById(R.id.receiverName);
+        recieverAccNo = findViewById(R.id.recieverAccNo);
         senderAccNo = findViewById(R.id.senderAccNo);
         senderBal = findViewById(R.id.senderBal);
 
@@ -59,6 +60,9 @@ public class AmountConfirmationActivity extends AppCompatActivity {
         receiverAccNum = getIntent().getStringExtra("receiverAccNo");
         senderAccNum = getIntent().getStringExtra("senderAccNo");
         nameOfReceiver = getIntent().getStringExtra("receiverName");
+        if (nameOfReceiver.isEmpty()){
+            nameOfReceiver = "Unknown";
+        }
 
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +78,7 @@ public class AmountConfirmationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 double amount = Integer.parseInt(senderAmount.getText().toString());
-                if (amount <= 0)
+                if (amount <= 0 || amount >Integer.parseInt(senderBal.getText().toString()))
                 {
                     Toast.makeText(AmountConfirmationActivity.this, "Please enter a valid amount!", Toast.LENGTH_SHORT).show();
                 }
@@ -106,41 +110,8 @@ public class AmountConfirmationActivity extends AppCompatActivity {
 
     private void setReceiverName(RequestQueue queue, String accNo)
     {
-        if (nameOfReceiver == "Unknown")
-        {
-            receiverName.setText(receiverAccNum);
-        }
-        else
-        {
-            String requestUrl = "https://pfd-server.azurewebsites.net/getAccountUsingAccNo";
-            JSONObject postData = new JSONObject();
-            try {
-                postData.put("accNo", accNo);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, requestUrl, postData, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        String responseReceiverName = response.getString("acc_name");
-                        Log.v("AmountConfirmation", responseReceiverName);
-                        receiverName.setText(responseReceiverName);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
-                }
-            });
-
-            queue.add(request);
-        }
-
+        receiverName.setText(nameOfReceiver);
+        recieverAccNo.setText(receiverAccNum);
     }
 
     private void setSenderInfo(RequestQueue queue, String accNo)

@@ -343,6 +343,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("Error yo", "onErrorResponse: ");
+                Toast.makeText(LoginActivity.this, "Ensure internet is secure",
+                        Toast.LENGTH_SHORT).show();
             }
         });
         RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
