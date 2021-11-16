@@ -40,7 +40,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
     ImageView confirmBtn, backBtn;
     DBHandler dbHandler;
     private FirebaseAuth mAuth;
-    private String receiverAccNum, senderAccNum;
+    private String receiverAccNum, senderAccNum, receiveName;
     private double amount;
 
     @Override
@@ -48,6 +48,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transfer_confirmation);
 
+        //finding layout things
         transferAmt = findViewById(R.id.transferAmt);
         receiverCardNumber = findViewById(R.id.receiverCardNo);
         confirmBtn = findViewById(R.id.confirmBtnTransactionConfirm);
@@ -55,7 +56,21 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         senderCardNumber = findViewById(R.id.senderAccNo);
         receiverName = findViewById(R.id.receiverName);
 
+        //getting values
         dbHandler = new DBHandler(this);
+        receiverAccNum = getIntent().getStringExtra("to");
+        senderAccNum = getIntent().getStringExtra("from");
+        amount = getIntent().getIntExtra("amount", 0);
+        receiveName = getIntent().getStringExtra("name");
+
+        //setting info
+        transferAmt.setText("S$"+ String.format("%.2f", amount));
+        senderCardNumber.setText(senderAccNum);
+        receiverCardNumber.setText(receiverAccNum);
+        receiverName.setText(receiveName);
+
+
+        //kicks users out if not sign in
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         if (user == null){
@@ -93,10 +108,10 @@ public class TransferConfirmationActivity extends AppCompatActivity {
     private Transaction SetTransactionIntoDB(String senderCardNumber, String receiverCardNumber, double amount)
     {
         Transaction transaction = new Transaction();
+        transaction.setTransactionId((new RandomString()).nextString());
         transaction.setSenderAccNo(senderCardNumber);
         transaction.setToBankNum(receiverCardNumber);
         transaction.setTransactionAmt(amount);
-        transaction.setTransactionDate(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime()));
 
         dbHandler.MakeTransaction(transaction);
         return transaction;
@@ -107,10 +122,8 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         String queryUrl = "https://pfd-server.azurewebsites.net/createTransaction";
         JSONObject postData = new JSONObject();
         try {
-            RandomString session = new RandomString();
-            String code = session.nextString();
-            postData.put("uniqueKey", code);
-            postData.put("amount", transaction.getTransactionAmt());
+            postData.put("uniqueKey", transaction.getTransactionId());
+            postData.put("amount", String.format("%.2f", transaction.getTransactionAmt()));
             postData.put("from", transaction.getSenderAccNo());
             postData.put("to", transaction.getToBankNum());
         }catch (JSONException e)
@@ -122,7 +135,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 if (response.has("success")){
-                    dbHandler.DeleteTransaction(transaction);
+                    dbHandler.DeleteTransaction(transaction.getTransactionId());
                     SuccessDialogBuilder(transaction);
                 }
                 else {
@@ -163,7 +176,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                dbHandler.DeleteTransaction(transaction);
+                dbHandler.DeleteTransaction(transaction.getTransactionId());
                 Intent intent = new Intent(TransferConfirmationActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
@@ -177,9 +190,9 @@ public class TransferConfirmationActivity extends AppCompatActivity {
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
-        builder.setMessage("You have transferred " + transaction.getTransactionAmt() + " to " + transaction.getToBankNum());
+        builder.setMessage("You have transferred S$" + String.format("%.2f", transaction.getTransactionAmt()) + " to " + receiveName);
         builder.setTitle("Transaction Success");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(TransferConfirmationActivity.this, HomeActivity.class);
@@ -195,14 +208,6 @@ public class TransferConfirmationActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        receiverAccNum = getIntent().getStringExtra("to");
-        senderAccNum = getIntent().getStringExtra("from");
-        amount = getIntent().getIntExtra("amount", 0);
-        String receiveName = getIntent().getStringExtra("name");
 
-        transferAmt.setText("S$"+ amount);
-        senderCardNumber.setText(senderAccNum);
-        receiverCardNumber.setText(receiverAccNum);
-        receiverName.setText(receiveName);
     }
 }
