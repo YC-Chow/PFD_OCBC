@@ -83,6 +83,10 @@
         <activity
             android:name=".MobileNumberActivity"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

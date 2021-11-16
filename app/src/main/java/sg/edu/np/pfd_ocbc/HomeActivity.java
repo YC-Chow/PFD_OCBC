@@ -33,6 +33,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -92,9 +93,12 @@ public class HomeActivity extends AppCompatActivity {
         acc_HolderName.setText(accHolderName);
 
         //cardDetails
+        CardView cardView = findViewById(R.id.cardView);
+        cardView.setPreventCornerOverlap(false);
+
         TextView last4Digit = findViewById(R.id.last4Digit);
         String fourDigit = sharedPref.getString("last4Digits","");
-        last4Digit.setText("* " + fourDigit);
+        last4Digit.setText("XXXX XXXX XXXX " + fourDigit);
 
         TextView cardBalanceAmt = findViewById(R.id.balanceAmt);
         String cardBalance = sharedPref.getString("cardBal","");
@@ -107,9 +111,12 @@ public class HomeActivity extends AppCompatActivity {
         if(issuingNetwork.equals("Visa")){
             issuer.setImageResource(R.drawable.visa_icon);
         }
-
+        TextView cardName = findViewById(R.id.cardName);
+        String NameonCard = sharedPref.getString("accName","");
         recyclerView = findViewById(R.id.transactionRV);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        cardName.setText(NameonCard);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true));
         transactionList = new ArrayList<>();
 
 
@@ -142,9 +149,6 @@ public class HomeActivity extends AppCompatActivity {
                         b.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(b);
                         break;
-
-
-
 
                 }
                 return false;
