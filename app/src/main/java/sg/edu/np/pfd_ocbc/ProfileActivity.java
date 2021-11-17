@@ -129,6 +129,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        return;
+    }
+
 
 
 }

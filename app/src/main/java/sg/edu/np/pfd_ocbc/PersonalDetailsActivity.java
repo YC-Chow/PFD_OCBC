@@ -58,6 +58,12 @@ public class PersonalDetailsActivity extends AppCompatActivity {
         changename.setText(username);
         changetele.setText(usertele);
 
+        if(usertele.equals("null")){
+            changetele.setText("");
+        }
+
+
+
         ImageButton back = findViewById(R.id.pdback);
 
         back.setOnClickListener(new View.OnClickListener() {

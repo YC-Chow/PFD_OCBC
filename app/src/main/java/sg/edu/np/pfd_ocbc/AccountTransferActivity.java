@@ -202,4 +202,8 @@ public class AccountTransferActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onBackPressed() {
+        return;
+    }
 }

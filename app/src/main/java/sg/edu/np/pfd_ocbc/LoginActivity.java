@@ -400,16 +400,12 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+
     }
 
-
-
-
-
-
-
-
-
-
+    @Override
+    public void onBackPressed() {
+        return;
+    }
 
 }
