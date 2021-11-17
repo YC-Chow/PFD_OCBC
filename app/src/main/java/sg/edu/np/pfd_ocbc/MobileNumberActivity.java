@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -30,7 +31,7 @@ import java.util.regex.Pattern;
 public class MobileNumberActivity extends AppCompatActivity {
 
     EditText enterMobileNum;
-    ImageView nextBtn, backBtn;
+    Button nextBtn, backBtn;
     private SharedPreferences sharedPref;
 
     @Override
