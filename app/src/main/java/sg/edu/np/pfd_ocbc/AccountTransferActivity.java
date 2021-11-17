@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -45,7 +46,7 @@ public class AccountTransferActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account_transfer);
 
         EditText enterAccNum = (EditText) findViewById(R.id.enterCardNum);
-        ImageView nextBtn = (ImageView) findViewById(R.id.nextBtnBankTransfer);
+        Button nextBtn = findViewById(R.id.nextBtnBankTransfer);
         sharedPref = getSharedPreferences("MySharedPref", MODE_PRIVATE);
 
         enterAccNum.addTextChangedListener(new TextWatcher() {
