@@ -181,6 +181,7 @@ public class HomeActivity extends AppCompatActivity {
         String postUrlAccount = "https://pfd-server.azurewebsites.net/getAccountUsingUid";
         String postUrlTransactions = "https://pfd-server.azurewebsites.net/getTransactions";
         JSONObject postData = new JSONObject();
+        RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
 
         try{
             postData.put("uid", user.getUid());
@@ -220,7 +221,7 @@ public class HomeActivity extends AppCompatActivity {
                     editor.apply();
                     //Log.v("accNumber is",accNo);
 
-                    CheckForFailedTransaction(accNo);
+                    CheckForFailedTransaction(accNo,requestQueue);
 
 
                 } catch (JSONException e) {
@@ -290,7 +291,7 @@ public class HomeActivity extends AppCompatActivity {
                         error.printStackTrace();
                     }
                 });
-                RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
+
                 requestQueue.add(jsonObjectRequest);
             }
         }, new Response.ErrorListener() {
@@ -299,7 +300,6 @@ public class HomeActivity extends AppCompatActivity {
                 Log.d("Error yo", "onErrorResponse: ");
             }
         });
-        RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
         requestQueue.add(jsonObjectRequest);
 
     }
@@ -321,40 +321,71 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private void CheckForFailedTransaction(String accNo){
+    private void CheckForFailedTransaction(String accNo, RequestQueue queue){
         DBHandler dbHandler = new DBHandler(HomeActivity.this);
         Transaction transaction = dbHandler.CheckFailedTransaction(accNo);
-
-        if(transaction != null){
-            dbHandler.DeleteTransaction(transaction.getTransactionId());
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setCancelable(false);
-            builder.setTitle("Failed Transaction Found!");
-            builder.setMessage("You tried to transfer S$" + String.format("%.2f", transaction.getTransactionAmt())
-                    + " to " + transaction.getRecipientName()
-                    + "\nDo you want to retry?");
-            builder.setNegativeButton("No", null);
-            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(HomeActivity.this, TransferConfirmationActivity.class);
-                    intent.putExtra("to", transaction.getRecipientAccNo());
-                    intent.putExtra("from", transaction.getSenderAccNo());
-                    intent.putExtra("amount", transaction.getTransactionAmt());
-                    intent.putExtra("name", transaction.getRecipientName());
-                    intent.putExtra("uniqueCode", transaction.getUniqueCode());
-                    startActivity(intent);
-                    finish();
-                }
-            });
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
-        }
-
+        ValidateTransaction(transaction, dbHandler, queue);
 
     }
     @Override
     public void onBackPressed() {
         return;
+    }
+
+    private void ValidateTransaction(Transaction transaction, DBHandler dbHandler, RequestQueue queue){
+        if (transaction != null){
+            dbHandler.DeleteTransaction(transaction.getUniqueCode());
+            String postUri = "https://pfd-server.azurewebsites.net/validateTransaction";
+
+            JSONObject postData = new JSONObject();
+            try {
+                postData.put("uniqueKey", transaction.getUniqueCode());
+            }catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUri, postData, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        boolean success = response.getBoolean("success");
+                        if (success){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                            builder.setCancelable(false);
+                            builder.setTitle("Failed Transaction Found!");
+                            builder.setMessage("You tried to transfer S$" + String.format("%.2f", transaction.getTransactionAmt())
+                                    + " to " + transaction.getRecipientName()
+                                    + "\nDo you want to retry?");
+                            builder.setNegativeButton("No", null);
+                            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(HomeActivity.this, TransferConfirmationActivity.class);
+                                    intent.putExtra("to", transaction.getRecipientAccNo());
+                                    intent.putExtra("from", transaction.getSenderAccNo());
+                                    intent.putExtra("amount", transaction.getTransactionAmt());
+                                    intent.putExtra("name", transaction.getRecipientName());
+                                    intent.putExtra("uniqueCode", transaction.getUniqueCode());
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                }
+            });
+
+            queue.add(jsonObjectRequest);
+        }
     }
 }
