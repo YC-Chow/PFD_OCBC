@@ -54,6 +54,61 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView4"
+        android:layout_width="0dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="37dp"
+        android:background="#373434"
+        app:cardBackgroundColor="#F3F3F3"
+        app:cardCornerRadius="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView3">
+
+        <ImageButton
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="280dp"
+            android:layout_marginTop="5dp"
+            android:background="#00FFFFFF"
+            app:srcCompat="@drawable/informationbutton" />
+
+        <ImageView
+            android:id="@+id/imageView16"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@drawable/phone" />
+
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/poppins"
+            android:text="TelegramID"
+            android:textColor="#090909"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/changetelegram"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="25dp"
+            android:ems="10"
+            android:fontFamily="@font/poppins"
+            android:inputType="textPersonName"
+            tools:text="TelegramID" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/cardView3"
         android:layout_width="0dp"
         android:layout_height="72dp"
@@ -96,7 +151,7 @@
             android:ems="10"
             android:fontFamily="@font/poppins"
             android:inputType="textPersonName"
-            tools:text="Mobile No" />
+            tools:text="TelegramID" />
     </androidx.cardview.widget.CardView>
 
 
