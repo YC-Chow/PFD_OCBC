@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -77,7 +78,7 @@ public class HomeActivity extends AppCompatActivity {
     private ArrayList<Transaction> transactionList;
     private static final String TAG = "HomeActivity";
     private static final DecimalFormat df = new DecimalFormat("0.00");
-    boolean isSent;
+    private ShimmerFrameLayout mFrameLayout;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -88,7 +89,7 @@ public class HomeActivity extends AppCompatActivity {
 
         sharedPref = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         SharedPreferences accholdersharedpref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
-
+        mFrameLayout = findViewById(R.id.shimmerLayout);
 
         TextView acc_HolderName = findViewById(R.id.userName);
         String accHolderName = accholdersharedpref.getString("name","");
@@ -117,6 +118,8 @@ public class HomeActivity extends AppCompatActivity {
         String NameonCard = sharedPref.getString("accName","");
         recyclerView = findViewById(R.id.transactionRV);
         cardName.setText(NameonCard);
+
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true));
         transactionList = new ArrayList<>();
@@ -272,6 +275,9 @@ public class HomeActivity extends AppCompatActivity {
                             }
                             HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
                             recyclerView.setAdapter(homeTransactionAdapter);
+                            mFrameLayout.startShimmer();
+                            mFrameLayout.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -305,11 +311,13 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        mFrameLayout.stopShimmer();
         super.onPause();
     }
 
     @Override
     protected void onResume() {
+        mFrameLayout.startShimmer();
         super.onResume();
     }
 

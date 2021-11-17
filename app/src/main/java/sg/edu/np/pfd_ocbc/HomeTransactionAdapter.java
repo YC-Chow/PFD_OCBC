@@ -37,29 +37,29 @@ public class HomeTransactionAdapter extends RecyclerView.Adapter<HomeTransaction
     public void onBindViewHolder(@NonNull HomeTransactionVH holder, int position) {
         Transaction transaction = transactionArrayList.get(position);
 
-        //If im receiving money
-        if(transaction.getDebitOrCredit().equals("-")){
-            if(transaction.getRecipientName().equals("null")){
-                holder.TransactionToOrFrom.setText("Sent to: " + transaction.getRecipientAccNo());
+            //If im receiving money
+            if(transaction.getDebitOrCredit().equals("-")){
+                if(transaction.getRecipientName().equals("null")){
+                    holder.TransactionToOrFrom.setText("Sent to: " + transaction.getRecipientAccNo());
+                }
+                else{
+                    holder.TransactionToOrFrom.setText("Sent to: " + transaction.getRecipientName());
+                }
+                String credit = transaction.getDebitOrCredit();
+                holder.TransactionAmt.setText((credit + "" + df.format(transaction.getTransactionAmt())));
+                holder.TransactionDate.setText(transaction.getTransactionDate());
             }
             else{
-                holder.TransactionToOrFrom.setText("Sent to: " + transaction.getRecipientName());
+                if(transaction.getSenderName().equals("null")){
+                    holder.TransactionToOrFrom.setText("Received from: " + transaction.getSenderAccNo());
+                }
+                else{
+                    holder.TransactionToOrFrom.setText("Received from: " + transaction.getSenderName());
+                }
+                String debit = transaction.getDebitOrCredit();
+                holder.TransactionAmt.setText((debit + "" + df.format(transaction.getTransactionAmt())));
+                holder.TransactionDate.setText(transaction.getTransactionDate());
             }
-            String credit = transaction.getDebitOrCredit();
-            holder.TransactionAmt.setText((credit + "" + df.format(transaction.getTransactionAmt())));
-            holder.TransactionDate.setText(transaction.getTransactionDate());
-        }
-        else{
-            if(transaction.getSenderName().equals("null")){
-                holder.TransactionToOrFrom.setText("Received from: " + transaction.getSenderAccNo());
-            }
-            else{
-                holder.TransactionToOrFrom.setText("Received from: " + transaction.getSenderName());
-            }
-            String debit = transaction.getDebitOrCredit();
-            holder.TransactionAmt.setText((debit + "" + df.format(transaction.getTransactionAmt())));
-            holder.TransactionDate.setText(transaction.getTransactionDate());
-        }
     }
 
     @Override

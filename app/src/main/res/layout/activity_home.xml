@@ -142,7 +142,25 @@
                         android:text="TextView"
                         android:textColor="#FAFAFA"
                         android:textSize="18sp" />
+
                 </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/empty_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="48dp"
+                    android:fontFamily="@font/poppins"
+                    android:gravity="center"
+                    android:text="You have not made or receieved any transactions yet."
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
                 <TextView
                     android:id="@+id/textView12"
@@ -171,6 +189,34 @@
                     app:layout_constraintStart_toStartOf="@+id/textView12"
                     app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView7"
+                    tools:ignore="MissingConstraints">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!--add  several shimmer placeholder layout -->
+
+                        <include layout="@layout/shimmer_layout"></include>
+
+                        <include layout="@layout/shimmer_layout"></include>
+
+                        <include layout="@layout/shimmer_layout"></include>
+
+                        <include layout="@layout/shimmer_layout"></include>
+
+                    </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/transactionRV"
                     android:layout_width="0dp"
