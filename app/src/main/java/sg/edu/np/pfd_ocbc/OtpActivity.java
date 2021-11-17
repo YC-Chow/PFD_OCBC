@@ -139,7 +139,7 @@ public class OtpActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
-                                            afterlogin();
+                                            afterlogin(task.getResult().getUser().getUid());
                                         }
                                         else {
                                             // If sign in fails, display a message to the user.
@@ -149,7 +149,6 @@ public class OtpActivity extends AppCompatActivity {
                                         }
                                     }
                                 });
-                        afterlogin();
                     }
                 } else{
                     Toast.makeText(OtpActivity.this, "Disapproved",
@@ -165,7 +164,7 @@ public class OtpActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(OtpActivity.this);
         requestQueue.add(jsonObjectRequest);
     }
-    private void afterlogin(){
+    private void afterlogin(String uid){
         SharedPreferences sharedPreferences = getSharedPreferences("AccountHolder", MODE_PRIVATE);
 
         //Log.v("uid is:" ,user.getUid());

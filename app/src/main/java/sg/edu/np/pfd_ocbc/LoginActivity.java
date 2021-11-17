@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -101,7 +102,6 @@ public class LoginActivity extends AppCompatActivity {
         pin.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
         Button login = findViewById(R.id.login);
-        Log.d("onCreate", "onCreate: "+(mAuth.getCurrentUser() != null));
         if(mAuth.getCurrentUser() != null){
             Log.d("onCreate", "onCreate: "+mAuth.getCurrentUser().getUid());
             mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
@@ -267,7 +267,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        Button signup = findViewById(R.id.signup);
+        TextView signup = findViewById(R.id.signup);
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
