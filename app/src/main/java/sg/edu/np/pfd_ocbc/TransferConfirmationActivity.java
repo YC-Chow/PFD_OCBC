@@ -84,11 +84,18 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TransferConfirmationActivity.this, AmountConfirmationActivity.class);
-                intent.putExtra("receiverCardNumber", receiverAccNum);
-                intent.putExtra("senderCardNumber", senderAccNum);
-                startActivity(intent);
-                finish();
+                if (getIntent().getBooleanExtra("failed", false)){
+                    Intent intent = new Intent(TransferConfirmationActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else{
+                    Intent intent = new Intent(TransferConfirmationActivity.this, AmountConfirmationActivity.class);
+                    intent.putExtra("receiverCardNumber", receiverAccNum);
+                    intent.putExtra("senderCardNumber", senderAccNum);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
 

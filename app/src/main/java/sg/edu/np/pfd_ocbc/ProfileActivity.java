@@ -2,6 +2,7 @@ package sg.edu.np.pfd_ocbc;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -82,7 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton settings = findViewById(R.id.settings);
+        ConstraintLayout settings = findViewById(R.id.settingsContainer);
 
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +110,7 @@ public class ProfileActivity extends AppCompatActivity {
         email.setText(useremail);
         Log.v("hi", userphone);
 
-        ImageButton signout = findViewById(R.id.logout);
+        ConstraintLayout signout = findViewById(R.id.logoutContainer);
 
         signout.setOnClickListener(new View.OnClickListener() {
             @Override

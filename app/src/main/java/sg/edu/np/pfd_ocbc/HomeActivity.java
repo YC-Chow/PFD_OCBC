@@ -121,7 +121,7 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true));
         transactionList = new ArrayList<>();
 
-        Button showAllBtn = findViewById(R.id.showAllBtn);
+        TextView showAllBtn = findViewById(R.id.showAllBtn);
         showAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -334,7 +334,9 @@ public class HomeActivity extends AppCompatActivity {
                     intent.putExtra("from", transaction.getSenderAccNo());
                     intent.putExtra("amount", transaction.getTransactionAmt());
                     intent.putExtra("name", transaction.getRecipientName());
+                    intent.putExtra("failed", true);
                     startActivity(intent);
+                    finish();
                 }
             });
             AlertDialog alertDialog = builder.create();

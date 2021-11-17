@@ -28,6 +28,62 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/transfer_option_navigation_menu"/>
+        app:menu="@menu/transfer_option_navigation_menu"
+        style="@style/BottomNavigationView"/>
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="76dp"
+        android:fontFamily="@font/poppins"
+        android:text="Enter NRIC:"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.157"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TopBar" />
+
+    <EditText
+        android:id="@+id/enterNric"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="42dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:fontFamily="@font/poppins"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/nextBtnNricTransfer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.338"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        app:layout_constraintVertical_bias="0.074" />
+
+    <ImageView
+        android:id="@+id/nextBtnNricTransfer"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="52dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/bordered_button" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins"
+        android:text="Next"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="@id/nextBtnNricTransfer"
+        app:layout_constraintLeft_toLeftOf="@id/nextBtnNricTransfer"
+        app:layout_constraintRight_toRightOf="@id/nextBtnNricTransfer"
+        app:layout_constraintTop_toTopOf="@id/nextBtnNricTransfer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
