@@ -121,7 +121,7 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true));
         transactionList = new ArrayList<>();
 
-        Button showAllBtn = findViewById(R.id.showAllBtn);
+        TextView showAllBtn = findViewById(R.id.showAllBtn);
         showAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
