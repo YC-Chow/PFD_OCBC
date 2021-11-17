@@ -74,7 +74,7 @@ public class DBHandler extends SQLiteOpenHelper {
         Transaction transaction = new Transaction();
         if (cursor.moveToFirst())
         {
-            transaction.setTransactionId(cursor.getString(0));
+            transaction.setUniqueCode(cursor.getString(0));
             transaction.setSenderAccNo(cursor.getString(1));
             transaction.setRecipientAccNo(cursor.getString(2));
             transaction.setRecipientName(cursor.getString(3));

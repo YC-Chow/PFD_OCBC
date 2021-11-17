@@ -84,7 +84,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getIntent().getBooleanExtra("failed", false)){
+                if (getIntent().getStringExtra("uniqueCode") != ""){
                     Intent intent = new Intent(TransferConfirmationActivity.this, HomeActivity.class);
                     startActivity(intent);
                     finish();
@@ -115,7 +115,12 @@ public class TransferConfirmationActivity extends AppCompatActivity {
     private Transaction SetTransactionIntoDB(String senderCardNumber, String receiverCardNumber, double amount)
     {
         Transaction transaction = new Transaction();
-        transaction.setTransactionId((new RandomString()).nextString());
+        if (getIntent().getStringExtra("uniqueCode") != ""){
+            transaction.setUniqueCode(getIntent().getStringExtra("uniqueCode"));
+        }
+        else {
+            transaction.setUniqueCode((new RandomString()).nextString());
+        }
         transaction.setSenderAccNo(senderCardNumber);
         transaction.setRecipientAccNo(receiverCardNumber);
         transaction.setTransactionAmt(amount);
@@ -130,7 +135,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         String queryUrl = "https://pfd-server.azurewebsites.net/createTransaction";
         JSONObject postData = new JSONObject();
         try {
-            postData.put("uniqueKey", transaction.getTransactionId());
+            postData.put("uniqueKey", transaction.getUniqueCode());
             postData.put("amount", String.format("%.2f", transaction.getTransactionAmt()));
             postData.put("from", transaction.getSenderAccNo());
             postData.put("to", transaction.getRecipientAccNo());
@@ -143,7 +148,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 if (response.has("success")){
-                    dbHandler.DeleteTransaction(transaction.getTransactionId());
+                    dbHandler.DeleteTransaction(transaction.getUniqueCode());
                     SuccessDialogBuilder(transaction);
                 }
                 else {
@@ -184,7 +189,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dbHandler.DeleteTransaction(transaction.getTransactionId());
+                dbHandler.DeleteTransaction(transaction.getUniqueCode());
                 Intent intent = new Intent(TransferConfirmationActivity.this, HomeActivity.class);
                 startActivity(intent);
             }

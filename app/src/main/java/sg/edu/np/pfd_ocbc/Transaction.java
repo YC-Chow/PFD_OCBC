@@ -11,6 +11,11 @@ public class Transaction {
     private String transactionDate;
     private String transactionId;
     private String DebitOrCredit;
+    private String uniqueCode;
+
+    public String getUniqueCode() { return uniqueCode; }
+
+    public void setUniqueCode(String uniqueCode) { this.uniqueCode = uniqueCode; }
 
     public String getSenderAccNo() { return senderAccNo; }
 

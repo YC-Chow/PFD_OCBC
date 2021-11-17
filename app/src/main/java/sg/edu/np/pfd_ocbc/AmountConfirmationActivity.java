@@ -3,10 +3,13 @@ package sg.edu.np.pfd_ocbc;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,9 +35,10 @@ public class AmountConfirmationActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     EditText senderAmount;
-    ImageView nextBtn, cancelBtn;
+    Button nextBtn, cancelBtn;
     TextView receiverName, recieverAccNo,senderAccNo, senderBal;
     private String receiverAccNum, senderAccNum, nameOfReceiver;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,8 @@ public class AmountConfirmationActivity extends AppCompatActivity {
         recieverAccNo = findViewById(R.id.recieverAccNo);
         senderAccNo = findViewById(R.id.senderAccNo);
         senderBal = findViewById(R.id.senderBal);
+
+
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -78,9 +84,12 @@ public class AmountConfirmationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 double amount = Integer.parseInt(senderAmount.getText().toString());
-                if (amount <= 0 || amount >Integer.parseInt(senderBal.getText().toString()))
+                if (amount <= 0)
                 {
                     Toast.makeText(AmountConfirmationActivity.this, "Please enter a valid amount!", Toast.LENGTH_SHORT).show();
+                }
+                else if (amount > Integer.parseInt(senderBal.getText().toString())){
+                    Toast.makeText(AmountConfirmationActivity.this, "No enough balance!", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
@@ -99,13 +108,28 @@ public class AmountConfirmationActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("Please wait");
+        progressDialog.show();
+
         //getting receiver information
         RequestQueue requestQueue = Volley.newRequestQueue(AmountConfirmationActivity.this);
 
         setReceiverName(requestQueue, receiverAccNum);
         setSenderInfo(requestQueue, senderAccNum);
+
+
     }
 
     private void setReceiverName(RequestQueue queue, String accNo)
@@ -131,6 +155,7 @@ public class AmountConfirmationActivity extends AppCompatActivity {
                     int responseSenderBal = response.getInt("balance");
                     senderAccNo.setText(senderAccNum);
                     senderBal.setText(String.valueOf(responseSenderBal));
+                    progressDialog.dismiss();
                 }catch (JSONException e)
                 {
                     e.printStackTrace();
