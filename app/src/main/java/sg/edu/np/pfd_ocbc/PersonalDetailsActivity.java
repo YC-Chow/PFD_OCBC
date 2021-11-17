@@ -44,9 +44,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
         EditText changemobileno = findViewById(R.id.changemobileno);
         EditText changename = findViewById(R.id.changeusername);
         EditText changetele = findViewById(R.id.changetelegram);
-
         Button save = findViewById(R.id.save);
-
 
         SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
 
@@ -61,8 +59,6 @@ public class PersonalDetailsActivity extends AppCompatActivity {
         if(usertele.equals("null")){
             changetele.setText("");
         }
-
-
 
         ImageButton back = findViewById(R.id.pdback);
 
@@ -146,27 +142,17 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                                     @Override
                                     public void onResponse(JSONObject response) {
                                         //Log.d("lolza",response.toString());
-
-
-
                                         editor.putString("tele", changetele.getText().toString());
                                         editor.apply();
-
-
                                         editor.apply();
                                         //Log.v("accNumber is",accNo);
 
                                         //Send otp to updated number to verify that the user owns the phone number
                                         Intent intent = new Intent(PersonalDetailsActivity.this, PersonalDetailsOtpActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                         intent.putExtra("phoneNo", changemobileno.getText().toString());
                                         intent.putExtra("situation", "updatephoneNo");
                                         startActivity(intent);
-
-
-
-
-
-
                                     }
                                 }, new Response.ErrorListener() {
                                     @Override
@@ -177,12 +163,6 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                                 });
                                 RequestQueue requestQueue = Volley.newRequestQueue(PersonalDetailsActivity.this);
                                 requestQueue.add(jsonObjectRequest);
-
-
-
-
-
-
                             }
                         }, new Response.ErrorListener() {
                             @Override
@@ -193,14 +173,13 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                         });
                         RequestQueue namerequestQueue = Volley.newRequestQueue(PersonalDetailsActivity.this);
                         namerequestQueue.add(nameObjectRequest);
-
-
                     }
 
                     //if user only changed phone number
                     else if (!changemobileno.getText().toString().equals(userphone)) {
                         //Send otp to updated number to verify that the user owns the phone number
                         Intent intent = new Intent(PersonalDetailsActivity.this, PersonalDetailsOtpActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         intent.putExtra("phoneNo", changemobileno.getText().toString());
                         intent.putExtra("situation", "updatephoneNo");
                         startActivity(intent);
@@ -217,13 +196,6 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = sharedPref.edit();
                                 editor.putString("name", changename.getText().toString());
                                 editor.apply();
-
-
-
-
-
-
-
                             }
                         }, new Response.ErrorListener() {
                             @Override
@@ -235,11 +207,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                         RequestQueue namerequestQueue = Volley.newRequestQueue(PersonalDetailsActivity.this);
                         namerequestQueue.add(nameObjectRequest);
 
-
-
                         JSONObject postData = new JSONObject();
-
-
 
                         try{
                             postData.put("uid", user.getUid());
@@ -254,23 +222,12 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                                 //Log.d("lolza",response.toString());
                                 SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPref.edit();
-
-
-
-
                                 editor.putString("tele", changetele.getText().toString());
                                 editor.apply();
-
-
                                 editor.apply();
                                 //Log.v("accNumber is",accNo);
                                 Toast.makeText(getApplicationContext(),
                                         "Personal Details Updated", Toast.LENGTH_SHORT).show();
-
-
-
-
-
 
                             }
                         }, new Response.ErrorListener() {
@@ -302,11 +259,6 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                                 //Log.d("lolza",response.toString());
                                 SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPref.edit();
-
-
-
-
-
                                 editor.putString("tele", changetele.getText().toString());
                                 editor.apply();
                                 Toast.makeText(getApplicationContext(),
@@ -348,13 +300,6 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                                 editor.apply();
                                 Toast.makeText(getApplicationContext(),
                                         "Personal Details Updated", Toast.LENGTH_SHORT).show();
-
-
-
-
-
-
-
                             }
                         }, new Response.ErrorListener() {
                             @Override
@@ -371,17 +316,6 @@ public class PersonalDetailsActivity extends AppCompatActivity {
 
 
                 }
-
-
-
-
-
-
-
-
-
-
-
             }
         });
 
@@ -398,8 +332,6 @@ public class PersonalDetailsActivity extends AppCompatActivity {
 
                 TextView botlink = popupView.findViewById(R.id.botlink);
                 botlink.setMovementMethod(LinkMovementMethod.getInstance());
-
-
 
                 // create the popup window
                 int width = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -421,10 +353,6 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                 });
             }
         });
-
-
-
-
     }
 }
 

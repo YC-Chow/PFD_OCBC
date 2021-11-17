@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +38,7 @@ public class ShowAllTransactions extends AppCompatActivity {
     FirebaseAuth mAuth;
     private ArrayList<Transaction> transactionList;
     private ShimmerFrameLayout mFrameLayout;
+    ImageView backBtn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,18 @@ public class ShowAllTransactions extends AppCompatActivity {
         recyclerView = findViewById(R.id.showAllRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true));
         transactionList = new ArrayList<>();
+
+        backBtn = findViewById(R.id.transactionBackBtn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ShowAllTransactions.this,HomeActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(i);
+
+            }
+        });
+
     }
 
     @Override
@@ -163,4 +177,9 @@ public class ShowAllTransactions extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
 
     }
+    @Override
+    public void onBackPressed() {
+        return;
+    }
 }
+

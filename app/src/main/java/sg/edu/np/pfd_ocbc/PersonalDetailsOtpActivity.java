@@ -27,6 +27,7 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +49,7 @@ public class PersonalDetailsOtpActivity extends AppCompatActivity {
 
         TextView paragraph = findViewById(R.id.otptext);
         EditText opt = findViewById(R.id.otp);
-        Button resend = findViewById(R.id.resend);
+        TextView resend = findViewById(R.id.resend);
         Button submit = findViewById(R.id.submit);
         paragraph.setText("A one-time password has been sent to your phone ("+phoneNo+").");
         //requestSettingOTP(phoneNo);
@@ -127,13 +128,8 @@ public class PersonalDetailsOtpActivity extends AppCompatActivity {
                             public void onSuccess(GetTokenResult result) {
                                 String idToken = result.getToken();
                                 try {
-
-
                                     phoneData.put("uid", user.getUid());
                                     phoneData.put("phoneNo", phoneNo);
-
-
-
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -150,11 +146,8 @@ public class PersonalDetailsOtpActivity extends AppCompatActivity {
                                         Toast.makeText(PersonalDetailsOtpActivity.this, "Personal Details Updated",
                                                 Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(PersonalDetailsOtpActivity.this, PersonalDetailsActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                         startActivity(intent);
-
-
-
-
                                     }
                                 }, new Response.ErrorListener() {
                                     @Override
@@ -162,6 +155,7 @@ public class PersonalDetailsOtpActivity extends AppCompatActivity {
                                         Toast.makeText(PersonalDetailsOtpActivity.this, "Error: Phone Number Belongs to Another Account Holder",
                                                 Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(PersonalDetailsOtpActivity.this, PersonalDetailsActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                         startActivity(intent);
                                     }
                                 });

@@ -75,6 +75,7 @@ public class AmountConfirmationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AmountConfirmationActivity.this, AccountTransferActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
                 finish();
             }
@@ -94,6 +95,7 @@ public class AmountConfirmationActivity extends AppCompatActivity {
                 else
                 {
                     Intent intent = new Intent(AmountConfirmationActivity.this, TransferConfirmationActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     intent.putExtra("from", senderAccNum);
                     intent.putExtra("to", receiverAccNum);
                     intent.putExtra("amount", amount);

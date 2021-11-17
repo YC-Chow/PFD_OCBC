@@ -87,6 +87,7 @@ public class MobileNumberActivity extends AppCompatActivity {
                                     }
 
                                     Intent intent = new Intent(MobileNumberActivity.this, AmountConfirmationActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                     intent.putExtra("receiverName" , receiverName);
                                     intent.putExtra("receiverAccNo", receiverAccNo);
                                     intent.putExtra("senderAccNo", senderAccNo);
@@ -164,6 +165,7 @@ public class MobileNumberActivity extends AppCompatActivity {
 
                     case R.id.page_1:
                         Intent a = new Intent(MobileNumberActivity.this, HomeActivity.class);
+                        a.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(a);
 
 
@@ -172,11 +174,13 @@ public class MobileNumberActivity extends AppCompatActivity {
                     case R.id.page_2:
 
                         Intent intent = new Intent(MobileNumberActivity.this, MobileTransferActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(intent);
                         break;
 
                     case R.id.page_3:
                         Intent b = new Intent(MobileNumberActivity.this, ProfileActivity.class);
+                        b.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(b);
                         break;
 

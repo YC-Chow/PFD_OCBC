@@ -76,6 +76,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user == null){
             Intent intent = new Intent(TransferConfirmationActivity.this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
             finish();
         }
@@ -87,11 +88,13 @@ public class TransferConfirmationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (getIntent().getStringExtra("uniqueCode") != ""){
                     Intent intent = new Intent(TransferConfirmationActivity.this, HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
                     finish();
                 }
                 else{
                     Intent intent = new Intent(TransferConfirmationActivity.this, AmountConfirmationActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     intent.putExtra("receiverCardNumber", receiverAccNum);
                     intent.putExtra("senderCardNumber", senderAccNum);
                     startActivity(intent);
@@ -156,6 +159,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
                     try {
                         Toast.makeText(TransferConfirmationActivity.this, response.getString("error_message"),Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(TransferConfirmationActivity.this, HomeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(intent);
                         finish();
                     } catch (JSONException e) {
@@ -192,6 +196,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 dbHandler.DeleteTransaction(transaction.getUniqueCode());
                 Intent intent = new Intent(TransferConfirmationActivity.this, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
         });
@@ -210,6 +215,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(TransferConfirmationActivity.this, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
                 finish();
             }

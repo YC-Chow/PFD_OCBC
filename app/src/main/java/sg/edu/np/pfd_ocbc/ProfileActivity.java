@@ -42,8 +42,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("AccountHolder", MODE_PRIVATE);
 
-
-
         //Setting up bottom nav bar
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         int size = navigation.getMenu().size();
