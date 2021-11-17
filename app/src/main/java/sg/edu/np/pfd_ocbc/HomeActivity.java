@@ -334,7 +334,9 @@ public class HomeActivity extends AppCompatActivity {
                     intent.putExtra("from", transaction.getSenderAccNo());
                     intent.putExtra("amount", transaction.getTransactionAmt());
                     intent.putExtra("name", transaction.getRecipientName());
+                    intent.putExtra("failed", true);
                     startActivity(intent);
+                    finish();
                 }
             });
             AlertDialog alertDialog = builder.create();
