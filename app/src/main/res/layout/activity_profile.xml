@@ -55,15 +55,15 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="104dp"
-        android:layout_height="83dp"
-        android:layout_marginTop="40dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="@+id/imageView6"
-        app:layout_constraintStart_toStartOf="@+id/imageView6"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/settingsContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:focusable="auto"
+        app:layout_constraintEnd_toStartOf="@+id/logoutContainer"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileemail">
 
         <ImageButton
@@ -71,18 +71,60 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@drawable/button_shadow"
+            android:clickable="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/settings"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/textView133"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins"
             android:gravity="center"
             android:text="Settings"
-            android:textSize="12sp" />
-    </LinearLayout>
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/settings"
+            app:layout_constraintStart_toStartOf="@+id/settings"
+            app:layout_constraintTop_toBottomOf="@+id/settings" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/logoutContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="auto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/settingsContainer"
+        app:layout_constraintTop_toTopOf="@+id/settingsContainer">
+
+        <ImageButton
+            android:id="@+id/logout"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/button_shadow"
+            android:clickable="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logout"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/textview111"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:gravity="center"
+            android:text="Log Out"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/logout"
+            app:layout_constraintStart_toStartOf="@id/logout"
+            app:layout_constraintTop_toBottomOf="@id/logout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -96,30 +138,6 @@
         app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navigation_menu" />
-
-    <ImageButton
-        android:id="@+id/logout"
-        android:layout_width="55dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="7dp"
-        android:background="#00FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logout"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
-        android:gravity="center"
-        android:text="Sign Out"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/logout"
-        app:layout_constraintStart_toStartOf="@+id/logout"
-        app:layout_constraintTop_toBottomOf="@+id/logout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
