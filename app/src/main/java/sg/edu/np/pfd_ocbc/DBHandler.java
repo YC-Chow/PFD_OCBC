@@ -50,7 +50,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(TRANSFER_COLUMN_SENDER, transaction.getSenderAccNo());
         values.put(TRANSFER_COLUMN_RECEIVER, transaction.getRecipientAccNo());
         values.put(TRANSFER_COLUMN_AMOUNT, transaction.getTransactionAmt());
-        values.put(TRANSFER_COLUMN_UNIQUECODE, transaction.getTransactionId());
+        values.put(TRANSFER_COLUMN_UNIQUECODE, transaction.getUniqueCode());
         values.put(TRANSFER_COLUMN_RECEIVERNAME, transaction.getRecipientName());
 
         db.insert(TABLE_TRANSFER, null, values);

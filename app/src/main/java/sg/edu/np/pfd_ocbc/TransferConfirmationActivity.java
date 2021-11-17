@@ -86,7 +86,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getIntent().getStringExtra("uniqueCode") != ""){
+                if (getIntent().getStringExtra("uniqueCode") != null){
                     Intent intent = new Intent(TransferConfirmationActivity.this, HomeActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
@@ -119,7 +119,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
     private Transaction SetTransactionIntoDB(String senderCardNumber, String receiverCardNumber, double amount)
     {
         Transaction transaction = new Transaction();
-        if (getIntent().getStringExtra("uniqueCode") != ""){
+        if (getIntent().getStringExtra("uniqueCode") != null){
             transaction.setUniqueCode(getIntent().getStringExtra("uniqueCode"));
         }
         else {
