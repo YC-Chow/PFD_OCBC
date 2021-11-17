@@ -57,7 +57,7 @@
                 android:text="Name:"
                 android:textAlignment="center"
                 android:textColor="#000000"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/name"
                 app:layout_constraintTop_toBottomOf="@+id/sixpin" />
 
@@ -176,7 +176,7 @@
                 android:text="IC Number:"
                 android:textAlignment="center"
                 android:textColor="#000000"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/icNo"
                 app:layout_constraintTop_toBottomOf="@+id/name" />
 
@@ -188,7 +188,7 @@
                 android:text="Phone number:"
                 android:textAlignment="center"
                 android:textColor="#000000"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/phoneNo"
                 app:layout_constraintTop_toBottomOf="@+id/icNo" />
 
@@ -200,7 +200,7 @@
                 android:text="Email:"
                 android:textAlignment="center"
                 android:textColor="#000000"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/email"
                 app:layout_constraintTop_toBottomOf="@+id/phoneNo" />
 
@@ -212,7 +212,7 @@
                 android:text="Password:"
                 android:textAlignment="center"
                 android:textColor="#000000"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/password"
                 app:layout_constraintTop_toBottomOf="@+id/email" />
 
@@ -224,7 +224,7 @@
                 android:text="6-digit pin:"
                 android:textAlignment="center"
                 android:textColor="#000000"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/sixpin"
                 app:layout_constraintTop_toBottomOf="@+id/cardNo" />
 
@@ -252,7 +252,7 @@
                 android:layout_marginBottom="10dp"
                 android:text="Back"
                 android:textColor="#000000"
-                app:backgroundTint="#F7BEC0"
+                app:backgroundTint="#EF4B4C"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/signup"
                 app:layout_constraintStart_toStartOf="@+id/password"
@@ -267,7 +267,7 @@
                 android:text="Last 8-digits of Atm/Debit/Credit card:"
                 android:textAlignment="center"
                 android:textColor="#000000"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/cardNo"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
         </androidx.constraintlayout.widget.ConstraintLayout>

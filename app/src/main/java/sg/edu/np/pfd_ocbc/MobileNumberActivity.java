@@ -4,22 +4,35 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.regex.Pattern;
 
 public class MobileNumberActivity extends AppCompatActivity {
 
     EditText enterMobileNum;
-    ImageView nextBtn, backBtn;
+    Button nextBtn, backBtn;
+    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +43,10 @@ public class MobileNumberActivity extends AppCompatActivity {
         nextBtn = findViewById(R.id.nextBtnMobileNumber);
         backBtn = findViewById(R.id.backBtnMobileNumber);
         backBtn.setVisibility(View.GONE);
+
+
+
+        sharedPref = getSharedPreferences("MySharedPref", MODE_PRIVATE);
 
 //        backBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -46,9 +63,52 @@ public class MobileNumberActivity extends AppCompatActivity {
                 String receiverMobileNum = enterMobileNum.getText().toString();
                 if(Pattern.matches("^[89]\\d{7}$",receiverMobileNum))
                 {
-                    Intent intent = new Intent(MobileNumberActivity.this, AmountConfirmationActivity.class);
-                    intent.putExtra("receiverMobileNum", receiverMobileNum);
-                    startActivity(intent);
+                    String postUrl = "https://pfd-server.azurewebsites.net/getAccountUsingPhoneNo";
+
+                    JSONObject postData = new JSONObject();
+                    try {
+                        postData.put("phoneNo", receiverMobileNum);
+                    }catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if (response.has("acc_no"))
+                                {
+                                    String receiverAccNo = response.getString("acc_no");
+                                    String receiverName = response.getString("account_holder_name");
+                                    String senderAccNo = sharedPref.getString("accNo","");
+
+                                    if (receiverName == null){
+                                        receiverName = "Unknown";
+                                    }
+
+                                    Intent intent = new Intent(MobileNumberActivity.this, AmountConfirmationActivity.class);
+                                    intent.putExtra("receiverName" , receiverName);
+                                    intent.putExtra("receiverAccNo", receiverAccNo);
+                                    intent.putExtra("senderAccNo", senderAccNo);
+                                    startActivity(intent);
+                                }
+                                else
+                                {
+                                    Toast.makeText(MobileNumberActivity.this, "Invalid Account Number",Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(MobileNumberActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                            error.printStackTrace();
+                        }
+                    });
+                    RequestQueue requestQueue = Volley.newRequestQueue(MobileNumberActivity.this);
+                    requestQueue.add(jsonObjectRequest);
                 }
                 else
                 {

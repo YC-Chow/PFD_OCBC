@@ -241,4 +241,8 @@ public class SignupActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(SignupActivity.this);
         requestQueue.add(jsonObjectRequest);
     }
+    @Override
+    public void onBackPressed() {
+        return;
+    }
 }

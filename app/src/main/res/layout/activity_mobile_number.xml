@@ -9,29 +9,27 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/TopBar"
+        style="@style/BottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         app:itemBackground="@color/white"
         app:itemTextColor="@drawable/navbar_selected_item"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/transfer_option_navigation_menu"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/transfer_option_navigation_menu" />
 
     <TextView
         android:id="@+id/mobileLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="72dp"
         android:fontFamily="@font/poppins"
         android:text="Enter Mobile Number"
         android:textColor="#000000"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/customMobileNum"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/mobileno"
         app:layout_constraintTop_toBottomOf="@+id/TopBar" />
 
     <EditText
@@ -42,6 +40,8 @@
         android:ems="10"
         android:fontFamily="@font/poppins"
         android:inputType="phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/mobileno"
         app:layout_constraintTop_toBottomOf="@+id/mobileLabel" />
 
@@ -49,7 +49,6 @@
         android:id="@+id/mobileno"
         android:layout_width="54dp"
         android:layout_height="45dp"
-        android:layout_marginStart="16dp"
         android:fontFamily="@font/poppins"
         android:gravity="center"
         android:text="+65"
@@ -57,6 +56,8 @@
         android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/customMobileNum"
+        app:layout_constraintEnd_toStartOf="@+id/customMobileNum"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/customMobileNum" />
 
@@ -73,53 +74,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navigation_menu" />
 
-    <ImageView
-        android:id="@+id/nextBtnMobileNumber"
-        android:layout_width="240dp"
-        android:layout_height="40dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/customMobileNum"
-        app:layout_constraintVertical_bias="0.717"
-        app:srcCompat="@drawable/bordered_button" />
-
-    <TextView
-        android:id="@+id/textView25"
+    <Button
+        android:id="@+id/backBtnMobileNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="72dp"
+        android:fontFamily="@font/poppins"
+        android:text="Cancel"
+        android:textColor="#000000"
+        app:backgroundTint="#EF4B4C"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="@+id/nextBtnMobileNumber"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/nextBtnMobileNumber" />
+
+    <Button
+        android:id="@+id/nextBtnMobileNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bordered_button"
         android:fontFamily="@font/poppins"
         android:text="Next"
         android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="@+id/nextBtnMobileNumber"
-        app:layout_constraintEnd_toEndOf="@+id/nextBtnMobileNumber"
-        app:layout_constraintStart_toStartOf="@+id/nextBtnMobileNumber"
-        app:layout_constraintTop_toTopOf="@+id/nextBtnMobileNumber" />
-
-    <ImageView
-        android:id="@+id/backBtnMobileNumber"
-        android:layout_width="128dp"
-        android:layout_height="40dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:backgroundTint="#EF4B4C"
+        app:layout_constraintBottom_toTopOf="@+id/backBtnMobileNumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextBtnMobileNumber"
-        app:layout_constraintVertical_bias="0.25"
-        app:srcCompat="@drawable/cancel_button" />
-
-    <TextView
-        android:id="@+id/textView26"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
-        android:text="Cancel"
-        android:textColor="#ffffff"
-        app:layout_constraintBottom_toBottomOf="@+id/backBtnMobileNumber"
-        app:layout_constraintEnd_toEndOf="@+id/backBtnMobileNumber"
-        app:layout_constraintStart_toStartOf="@+id/backBtnMobileNumber"
-        app:layout_constraintTop_toTopOf="@+id/backBtnMobileNumber" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,218 +10,222 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/poppins"
         android:text="Transfer"
         android:textColor="#000"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="42dp"
-        android:fontFamily="@font/poppins"
-        android:text="From:"
-        android:textColor="#000"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView5" />
-
-    <ImageView
-        android:id="@+id/senderProf"
-        android:layout_width="52dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"
-        app:srcCompat="@drawable/user" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/senderProf"
-        app:layout_constraintStart_toEndOf="@+id/senderProf"
-        app:layout_constraintTop_toTopOf="@+id/senderProf">
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="42dp"
+        android:background="@drawable/login_box"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enterTransferAmt">
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:text="From:"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/senderProf"
+            app:layout_constraintStart_toStartOf="@+id/senderProf"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/senderProf"
+            android:layout_width="52dp"
+            android:layout_height="54dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/user" />
 
         <TextView
             android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:fontFamily="@font/poppins"
             android:text="Your Account"
             android:textColor="#000"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/senderAccNo"
+            app:layout_constraintStart_toEndOf="@+id/senderProf" />
 
         <TextView
             android:id="@+id/senderAccNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:fontFamily="@font/poppins"
             android:text="accNum"
             android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/senderBal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="40dp"
-        android:fontFamily="@font/poppins"
-        android:text="TextView"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/senderProf"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/senderProf" />
-
-    <ImageView
-        android:id="@+id/imageView20"
-        android:layout_width="44dp"
-        android:layout_height="78dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/senderProf"
-        app:srcCompat="@drawable/down_arrow" />
-
-    <TextView
-        android:id="@+id/textView23"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
-        android:text="To:"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/senderProf"
-        app:layout_constraintTop_toBottomOf="@+id/imageView20" />
-
-    <ImageView
-        android:id="@+id/receiverProfile"
-        android:layout_width="52dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintRight_toLeftOf="@id/receiverName"
-        app:layout_constraintStart_toStartOf="@+id/textView23"
-        app:layout_constraintTop_toBottomOf="@+id/textView23"
-        app:srcCompat="@drawable/user" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/receiverProfile"
-        app:layout_constraintStart_toEndOf="@+id/receiverProfile"
-        app:layout_constraintTop_toTopOf="@+id/receiverProfile">
+            app:layout_constraintBottom_toBottomOf="@+id/senderProf"
+            app:layout_constraintStart_toStartOf="@+id/textView10" />
 
         <TextView
-            android:id="@+id/receiverName"
+            android:id="@+id/senderBal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="28dp"
             android:fontFamily="@font/poppins"
-            android:text="Name"
-            android:textColor="@color/black"
+            android:text="TextView"
+            android:textColor="#020202"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/senderAccNo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView10" />
 
-        <TextView
-            android:id="@+id/recieverAccNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins"
-            android:text="accNum"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/receiverName" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/transfer"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:srcCompat="@drawable/transfer" />
 
     <TextView
         android:id="@+id/textView30"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/poppins"
         android:text="Enter Amount - SGD"
         android:textColor="@color/black"
+        android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/enterTransferAmt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.111"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/enterTransferAmt"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <EditText
         android:id="@+id/enterTransferAmt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="70dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="50dp"
         android:ems="10"
+        android:fontFamily="@font/poppins"
         android:inputType="numberDecimal"
-        app:layout_constraintBottom_toTopOf="@+id/nextBtnAmtConfirm"
+        android:textAlignment="center"
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView30" />
 
-    <ImageView
-        android:id="@+id/nextBtnAmtConfirm"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout3"
         android:layout_width="0dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="70dp"
-        android:layout_marginEnd="70dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/cancelBtnAmtConfirm"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="42dp"
+        android:background="@drawable/login_box"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/bordered_button" />
+        app:layout_constraintTop_toBottomOf="@+id/transfer">
 
-    <TextView
-        android:id="@+id/textView33"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:text="To:"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/receiverProfile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/receiverName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/poppins"
+            android:text="Name"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/recieverAccNo"
+            app:layout_constraintStart_toEndOf="@+id/receiverProfile" />
+
+        <TextView
+            android:id="@+id/recieverAccNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/poppins"
+            android:text="accNum"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/receiverProfile"
+            app:layout_constraintStart_toStartOf="@+id/receiverName" />
+
+        <ImageView
+            android:id="@+id/receiverProfile"
+            android:layout_width="52dp"
+            android:layout_height="54dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/user" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/nextBtnAmtConfirm"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bordered_button"
+        android:fontFamily="@font/poppins"
         android:text="Next"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toTopOf="@id/nextBtnAmtConfirm"
-        app:layout_constraintBottom_toBottomOf="@id/nextBtnAmtConfirm"
-        app:layout_constraintLeft_toLeftOf="@id/nextBtnAmtConfirm"
-        app:layout_constraintRight_toRightOf="@id/nextBtnAmtConfirm"
-        tools:layout_editor_absoluteX="177dp"
-        tools:layout_editor_absoluteY="624dp" />
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:backgroundTint="#EF4B4C"
+        app:layout_constraintBottom_toTopOf="@+id/cancelBtnAmtConfirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
+    <Button
         android:id="@+id/cancelBtnAmtConfirm"
         android:layout_width="0dp"
-        android:layout_height="52dp"
-        android:layout_marginBottom="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:fontFamily="@font/poppins"
+        android:padding="8dp"
+        android:text="Cancel"
+        android:textSize="16sp"
+        app:backgroundTint="#EF4B4C"
+        app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/nextBtnAmtConfirm"
-        app:layout_constraintStart_toStartOf="@+id/nextBtnAmtConfirm"
-        app:srcCompat="@drawable/cancel_button" />
-
-    <TextView
-        android:id="@+id/textView34"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:textColor="@color/white"
-        android:fontFamily="@font/poppins"
-        app:layout_constraintTop_toTopOf="@id/cancelBtnAmtConfirm"
-        app:layout_constraintBottom_toBottomOf="@id/cancelBtnAmtConfirm"
-        app:layout_constraintLeft_toLeftOf="@id/cancelBtnAmtConfirm"
-        app:layout_constraintRight_toRightOf="@id/cancelBtnAmtConfirm"
-        tools:layout_editor_absoluteX="174dp"
-        tools:layout_editor_absoluteY="694dp" />
+        app:layout_constraintStart_toStartOf="@+id/nextBtnAmtConfirm" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

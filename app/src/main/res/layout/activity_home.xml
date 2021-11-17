@@ -33,7 +33,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="48dp"
+                    android:layout_marginTop="36dp"
                     android:fontFamily="@font/poppins"
                     android:text="Welcome back,"
                     android:textColor="#000000"
@@ -166,7 +166,7 @@
                     android:fontFamily="@font/poppins"
                     android:text="$"
                     android:textColor="#000000"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="@+id/textView12"
                     app:layout_constraintStart_toStartOf="@+id/textView12"
                     app:layout_constraintTop_toBottomOf="@+id/textView12" />
@@ -184,17 +184,19 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-                <Button
+                <TextView
                     android:id="@+id/showAllBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/poppins"
                     android:text="Show All"
-                    android:textColor="#DF7A7A"
-                    app:backgroundTint="#FFFFFF"
+                    android:textColor="#EF4B4C"
+                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="@+id/textView7"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/textView7" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

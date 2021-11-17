@@ -6,8 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -43,8 +46,30 @@ public class AccountTransferActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account_transfer);
 
         EditText enterAccNum = (EditText) findViewById(R.id.enterCardNum);
-        ImageView nextBtn = (ImageView) findViewById(R.id.nextBtnBankTransfer);
+        Button nextBtn = findViewById(R.id.nextBtnBankTransfer);
         sharedPref = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+
+        enterAccNum.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (count == 1){
+                    if (start == 2){
+                        enterAccNum.setText(enterAccNum.getText() + "-");
+                        enterAccNum.setSelection(enterAccNum.getText().length());
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -123,7 +148,7 @@ public class AccountTransferActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String receiverCardNum = enterAccNum.getText().toString();
-                if(receiverCardNum != "")
+                if(receiverCardNum != "" && receiverCardNum.length() >= 10)
                 {
                     String postUrl = "https://pfd-server.azurewebsites.net/getAccountUsingAccNo";
 
@@ -176,5 +201,9 @@ public class AccountTransferActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+        return;
     }
 }
