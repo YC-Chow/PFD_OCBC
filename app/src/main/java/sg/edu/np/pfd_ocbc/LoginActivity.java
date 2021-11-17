@@ -398,6 +398,11 @@ public class LoginActivity extends AppCompatActivity {
         } catch (IllegalBlockSizeException e) {
             e.printStackTrace();
         }
+
+    }
+    @Override
+    public void onBackPressed() {
+        return;
     }
 
 
