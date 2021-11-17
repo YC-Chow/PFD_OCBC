@@ -111,7 +111,7 @@ public class NricTransferActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String receiverMobileNum = enterNric.getText().toString();
-                if(Pattern.matches("^[STFG]\\d{7}[A-Z]$",receiverMobileNum))
+                if(Pattern.matches("^[STFG]\\d{8}[A-Z]$",receiverMobileNum))
                 {
                     String postUrl = "https://pfd-server.azurewebsites.net/getAccountUsingIcNo";
 
