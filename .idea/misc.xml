@@ -3,6 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/65878/AndroidStudioProjects/PFD_OCBC/app/src/main/res/drawable/rounded.xml" value="0.1925925925925926" />
+        <entry key="..\:/Users/65878/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_home.xml" value="0.1" />
+        <entry key="..\:/Users/65878/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_personal_details.xml" value="0.22" />
+        <entry key="..\:/Users/65878/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_settings.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/65878/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/popupwindow.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/65878/AndroidStudioProjects/PFD_OCBC/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.1648148148148148" />
+        <entry key="..\:/Users/65878/AndroidStudioProjects/PFD_OCBC/app/src/main/res/menu/transfer_option_navigation_menu.xml" value="0.1648148148148148" />
+        <entry key="..\:/Users/65878/AndroidStudioProjects/PFD_OCBC/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.15052083333333333" />
+        <entry key="..\:/Users/65878/AndroidStudioProjects/PFD_OCBC/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.15052083333333333" />
         <entry key="..\:/Users/Ng Hung Meng/AndroidStudioProjects/PFD_OCBC/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2630208333333333" />
         <entry key="..\:/Users/Ng Hung Meng/AndroidStudioProjects/PFD_OCBC/app/src/main/res/drawable/black_line.xml" value="0.32395833333333335" />
         <entry key="..\:/Users/Ng Hung Meng/AndroidStudioProjects/PFD_OCBC/app/src/main/res/drawable/button_shadow.xml" value="0.2630208333333333" />
@@ -32,19 +41,17 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/drawable/button_shadow.xml" value="0.234375" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/drawable/cancel_button.xml" value="0.234375" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/drawable/login_box.xml" value="0.3828125" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_amount_confirmation.xml" value="0.5" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_amount_confirmation.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_home.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_home_transaction_item.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_login.xml" value="0.28940217391304346" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_mobile_number.xml" value="0.33" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_mobile_transfer.xml" value="0.13802083333333334" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_notification.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_nric_transfer.xml" value="0.21105072463768115" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_otp.xml" value="0.5" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_personal_details.xml" value="0.5" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_profile.xml" value="0.5" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_settings.xml" value="0.6114832535885167" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_show_all_transactions.xml" value="0.21105072463768115" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_signup.xml" value="0.33" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_transfer_confirmation.xml" value="0.25104166666666666" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_two_factor.xml" value="0.25364583333333335" />

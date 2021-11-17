@@ -131,7 +131,7 @@
         android:id="@+id/save"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/bordered_button"
         android:stateListAnimator="@null"
         android:text="Save"
@@ -140,6 +140,64 @@
         app:cornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/cardView3"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/cardView3"
-        app:layout_constraintTop_toBottomOf="@+id/cardView3" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView4"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView4"
+        android:layout_width="0dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="41dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="42dp"
+        android:background="#373434"
+        app:cardBackgroundColor="#F3F3F3"
+        app:cardCornerRadius="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView3">
+
+        <ImageButton
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="280dp"
+            android:layout_marginTop="5dp"
+            android:background="#00FFFFFF"
+            app:srcCompat="@drawable/informationbutton" />
+
+        <ImageView
+            android:id="@+id/imageView16"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@drawable/telegram" />
+
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/poppins"
+            android:text="Telegram ID"
+            android:textColor="#090909"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/changetelegram"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="25dp"
+            android:ems="10"
+            android:fontFamily="@font/poppins"
+            android:inputType="textPersonName"
+            tools:text="Telegram ID" />
+    </androidx.cardview.widget.CardView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
