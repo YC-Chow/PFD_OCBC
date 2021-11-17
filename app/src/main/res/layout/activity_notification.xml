@@ -31,13 +31,14 @@
             android:textStyle="bold" />
 
         <RadioGroup
+            android:id="@+id/notifpref"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
             android:layout_marginTop="55dp">
 
             <RadioButton
-                android:id="@+id/radioButton"
+                android:id="@+id/sms"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:checked="true"
@@ -45,10 +46,10 @@
                 app:buttonTint="#EF4B4C" />
 
             <RadioButton
-                android:id="@+id/radioButton2"
+                android:id="@+id/telegram"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Email"
+                android:text="Telegram"
                 app:buttonTint="#EF4B4C" />
         </RadioGroup>
 

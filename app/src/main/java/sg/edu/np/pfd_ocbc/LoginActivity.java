@@ -101,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Button login = findViewById(R.id.login);
 
+
         if(mAuth.getCurrentUser() != null){
             mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
 
@@ -396,7 +397,9 @@ public class LoginActivity extends AppCompatActivity {
         } catch (IllegalBlockSizeException e) {
             e.printStackTrace();
         }
+
     }
+
 
 
 
