@@ -45,9 +45,9 @@ public class HomeTransactionAdapter extends RecyclerView.Adapter<HomeTransaction
             else{
                 holder.TransactionToOrFrom.setText("Sent to: " + transaction.getRecipientName());
             }
-            holder.TransactionAmt.setText((df.format(transaction.getTransactionAmt())));
+            String credit = transaction.getDebitOrCredit();
+            holder.TransactionAmt.setText((credit + "" + df.format(transaction.getTransactionAmt())));
             holder.TransactionDate.setText(transaction.getTransactionDate());
-            holder.TransactionDebitOrCredit.setText(transaction.getDebitOrCredit());
         }
         else{
             if(transaction.getSenderName().equals("null")){
@@ -56,9 +56,9 @@ public class HomeTransactionAdapter extends RecyclerView.Adapter<HomeTransaction
             else{
                 holder.TransactionToOrFrom.setText("Received from: " + transaction.getSenderName());
             }
-            holder.TransactionAmt.setText((df.format(transaction.getTransactionAmt())));
+            String debit = transaction.getDebitOrCredit();
+            holder.TransactionAmt.setText((debit + "" + df.format(transaction.getTransactionAmt())));
             holder.TransactionDate.setText(transaction.getTransactionDate());
-            holder.TransactionDebitOrCredit.setText(transaction.getDebitOrCredit());
         }
     }
 
