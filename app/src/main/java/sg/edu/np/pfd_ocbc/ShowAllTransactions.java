@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -34,6 +36,7 @@ public class ShowAllTransactions extends AppCompatActivity {
     SharedPreferences sharedPref;
     FirebaseAuth mAuth;
     private ArrayList<Transaction> transactionList;
+    private ShimmerFrameLayout mFrameLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,8 @@ public class ShowAllTransactions extends AppCompatActivity {
         setContentView(R.layout.activity_show_all_transactions); // setting the layout first
         mAuth = FirebaseAuth.getInstance();
         sharedPref = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+
+        mFrameLayout = findViewById(R.id.shimmerLayoutShowAll);
 
         recyclerView = findViewById(R.id.showAllRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true));
@@ -104,7 +109,6 @@ public class ShowAllTransactions extends AppCompatActivity {
                                 String DebitOrCredit = "";
 
                                 if (fromAcc.equals(sharedPref.getString("accNo", ""))){
-                                    Log.d("IM THE SENDER!","IM THE SENDER!");
                                     DebitOrCredit = "-";
                                 }
                                 else{
@@ -126,10 +130,13 @@ public class ShowAllTransactions extends AppCompatActivity {
                                 t.setTransactionAmt(amt);
                                 t.setTransactionDate(date);
                                 t.setDebitOrCredit(DebitOrCredit);
-                                transactionList.add(t);
+                                transactionList.add(0,t);
 
                                 HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
                                 recyclerView.setAdapter(homeTransactionAdapter);
+                                mFrameLayout.startShimmer();
+                                mFrameLayout.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
