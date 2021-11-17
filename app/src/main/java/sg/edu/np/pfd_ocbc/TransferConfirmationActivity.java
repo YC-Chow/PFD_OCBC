@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +38,7 @@ import java.util.Calendar;
 public class TransferConfirmationActivity extends AppCompatActivity {
 
     private TextView transferAmt, receiverCardNumber, senderCardNumber, receiverName;
-    ImageView confirmBtn, backBtn;
+    Button confirmBtn, backBtn;
     DBHandler dbHandler;
     private FirebaseAuth mAuth;
     private String receiverAccNum, senderAccNum, receiveName;
