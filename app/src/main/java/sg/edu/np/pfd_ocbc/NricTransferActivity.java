@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -29,7 +30,7 @@ import java.util.regex.Pattern;
 public class NricTransferActivity extends AppCompatActivity {
 
     EditText enterNric;
-    ImageView nextBtn;
+    Button nextBtn;
     private SharedPreferences sharedPreferences;
 
     @Override

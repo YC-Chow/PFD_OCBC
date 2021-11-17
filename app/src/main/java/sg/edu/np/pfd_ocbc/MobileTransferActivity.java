@@ -11,13 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
 public class MobileTransferActivity extends AppCompatActivity {
 
-    ImageView transferBtn;
+    Button transferBtn;
     TextView customNum;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
