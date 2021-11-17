@@ -76,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
     private Executor executor;
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
+    private String email;
 
 
 
@@ -100,8 +101,9 @@ public class LoginActivity extends AppCompatActivity {
         pin.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
         Button login = findViewById(R.id.login);
-
+        Log.d("onCreate", "onCreate: "+(mAuth.getCurrentUser() != null));
         if(mAuth.getCurrentUser() != null){
+            Log.d("onCreate", "onCreate: "+mAuth.getCurrentUser().getUid());
             mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
 
             executor = ContextCompat.getMainExecutor(this);
@@ -214,7 +216,7 @@ public class LoginActivity extends AppCompatActivity {
                     JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            String email = "";
+                            email = "";
                             System.out.println(response);
                             try {
                                 email = response.getString("email");
@@ -228,9 +230,15 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
                                             if (task.isSuccessful()) {
-                                                afterlogin();
-
-
+                                                Log.d("onDestroy", "onDestroy3: "+mAuth.getCurrentUser().getUid());
+                                                Intent intent = new Intent(LoginActivity.this, OtpActivity.class);
+                                                intent.putExtra("situation","signin");
+                                                intent.putExtra("phoneNo",mobiletxt);
+                                                intent.putExtra("email", email);
+                                                intent.putExtra("pintxt", pintxt);
+                                                mAuth.signOut();
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                startActivity(intent);
                                             }
                                             else {
                                                 // If sign in fails, display a message to the user.
