@@ -57,7 +57,7 @@ public class OtpActivity extends AppCompatActivity {
         String situation = intent.getStringExtra("situation");
         TextView paragraph = findViewById(R.id.otptext);
         EditText opt = findViewById(R.id.otp);
-        Button resend = findViewById(R.id.resend);
+        TextView resend = findViewById(R.id.resend);
         Button submit = findViewById(R.id.submit);
         paragraph.setText("A one-time password has been sent to your phone ("+phoneNo+").");
         requestOTP(phoneNo);
