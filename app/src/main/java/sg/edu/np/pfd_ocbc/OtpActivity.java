@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +60,8 @@ public class OtpActivity extends AppCompatActivity {
         EditText opt = findViewById(R.id.otp);
         TextView resend = findViewById(R.id.resend);
         Button submit = findViewById(R.id.submit);
+        ImageView back = findViewById(R.id.backBtnOTP);
+
         paragraph.setText("A one-time password has been sent to your phone ("+phoneNo+").");
         requestOTP(phoneNo);
 //        createAccountHolder();
@@ -74,6 +77,15 @@ public class OtpActivity extends AppCompatActivity {
                 if (!opt.getText().toString().equals("")){
                     submitOTP(phoneNo,opt.getText().toString(),situation);
                 }
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(OtpActivity.this, LoginActivity.class);
+                startActivity(intent1);
+                finish();
             }
         });
     }
