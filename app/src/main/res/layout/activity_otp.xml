@@ -52,7 +52,7 @@
         app:srcCompat="@drawable/message" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/backBtnOTP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -65,14 +65,13 @@
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="52dp"
         android:fontFamily="@font/poppins"
         android:text="Continue with phone"
         android:textColor="#000000"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/backBtnOTP"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout

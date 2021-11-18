@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/poppins"
-        android:text="Transfer"
+        android:text="Funds Transfer"
+        android:textAlignment="center"
         android:textColor="#000"
         android:textSize="20sp"
         app:layout_constraintHorizontal_bias="0.498"
@@ -114,7 +115,7 @@
         android:fontFamily="@font/poppins"
         android:text="Enter Amount - SGD"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/enterTransferAmt"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -195,7 +196,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/nextBtnAmtConfirm"
+        android:id="@+id/nextBtnMobileNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
@@ -207,12 +208,12 @@
         android:textColor="#000000"
         android:textSize="16sp"
         app:backgroundTint="#EF4B4C"
-        app:layout_constraintBottom_toTopOf="@+id/cancelBtnAmtConfirm"
+        app:layout_constraintBottom_toTopOf="@+id/backBtnMobileNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/cancelBtnAmtConfirm"
+        android:id="@+id/backBtnMobileNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -221,11 +222,12 @@
         android:fontFamily="@font/poppins"
         android:padding="8dp"
         android:text="Cancel"
+        android:textColor="#020202"
         android:textSize="16sp"
         app:backgroundTint="#EF4B4C"
         app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/nextBtnAmtConfirm"
-        app:layout_constraintStart_toStartOf="@+id/nextBtnAmtConfirm" />
+        app:layout_constraintEnd_toEndOf="@+id/nextBtnMobileNumber"
+        app:layout_constraintStart_toStartOf="@+id/nextBtnMobileNumber" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

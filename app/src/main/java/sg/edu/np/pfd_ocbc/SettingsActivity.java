@@ -8,24 +8,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -59,7 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton back = findViewById(R.id.back);
+        ImageButton back = findViewById(R.id.backBtnSettings);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
