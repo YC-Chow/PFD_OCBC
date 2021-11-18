@@ -80,6 +80,8 @@ public class HomeActivity extends AppCompatActivity {
     private static final String TAG = "HomeActivity";
     private static final DecimalFormat df = new DecimalFormat("0.00");
     private ShimmerFrameLayout mFrameLayout;
+    private ShimmerFrameLayout mFrameLayoutBalance;
+    TextView cardBalText;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -91,6 +93,7 @@ public class HomeActivity extends AppCompatActivity {
         sharedPref = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         SharedPreferences accholdersharedpref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
         mFrameLayout = findViewById(R.id.shimmerLayout);
+        mFrameLayoutBalance = findViewById(R.id.shimmerLayout2);
 
         TextView acc_HolderName = findViewById(R.id.userName);
         String accHolderName = accholdersharedpref.getString("name","");
@@ -104,9 +107,9 @@ public class HomeActivity extends AppCompatActivity {
         String fourDigit = sharedPref.getString("last4Digits","");
         last4Digit.setText("XXXX XXXX XXXX " + fourDigit);
 
-        TextView cardBalanceAmt = findViewById(R.id.balanceAmt);
-        String cardBalance = sharedPref.getString("cardBal","");
-        cardBalanceAmt.setText(cardBalance);
+        cardBalText = findViewById(R.id.balanceAmt);
+        //String cardBalance = sharedPref.getString("cardBal","");
+
 
         emptyText = findViewById(R.id.empty_view);
 
@@ -191,7 +194,7 @@ public class HomeActivity extends AppCompatActivity {
         }catch (JSONException e) {
             e.printStackTrace();
         }
-
+        mFrameLayoutBalance.startShimmer();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlAccount, postData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -210,7 +213,9 @@ public class HomeActivity extends AppCompatActivity {
                     {
                         lastFourDigits = c.getCardNo().substring(c.getCardNo().length() - 4);
                     }
+                    cardBalText.setText(df.format(cardBal));
                     Log.d("lolza", lastFourDigits);
+                    mFrameLayoutBalance.setVisibility(View.GONE);
 
                     // Creating an Editor object to edit(write to the file)
                     SharedPreferences.Editor editor = sharedPref.edit();
