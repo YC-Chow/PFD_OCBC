@@ -96,7 +96,13 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                 else if (changemobileno.getText().toString().length() != 8) {
                     Toast.makeText(PersonalDetailsActivity.this, "Mobile Number Nedds To Be 8 Digits",
                             Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                //if name is less than 5 characters
+                else if (changename.getText().toString().length() < 5) {
+                    Toast.makeText(PersonalDetailsActivity.this, "Name needs to be at least 5 characters long",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else {
                     FirebaseUser user = mAuth.getCurrentUser();
                     String updatename = "https://pfd-server.azurewebsites.net/updateName";
                     String postUrlTelegram = "https://pfd-server.azurewebsites.net/updateTeleId";
