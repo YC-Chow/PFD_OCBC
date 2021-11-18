@@ -44,12 +44,27 @@ public class NotificationsActivity extends AppCompatActivity {
             }
         });
 
+        SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
+        String pref = sharedPref.getString("preference", "");
+
         RadioGroup notipref = findViewById(R.id.notifpref);
+
+
 
         RadioButton telegram = findViewById(R.id.telegram);
         RadioButton sms = findViewById(R.id.sms);
 
         String postUrlTelegram = "https://pfd-server.azurewebsites.net/updatePreference";
+
+        if(pref.equals("sms")){
+            sms.setChecked(true);
+            telegram.setChecked(false);
+
+        }
+        else {
+            telegram.setChecked(true);
+            sms.setChecked(false);
+        }
 
         telegram.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +85,11 @@ public class NotificationsActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         Toast.makeText(getApplicationContext(),
                                 "Preference changed to Telegram", Toast.LENGTH_SHORT).show();
+
+                        SharedPreferences.Editor editor = sharedPref.edit();
+
+                        editor.putString("preference", "tele");
+                        editor.apply();
 
                     }
                 }, new Response.ErrorListener() {
@@ -103,6 +123,10 @@ public class NotificationsActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         Toast.makeText(getApplicationContext(),
                                 "Preference changed to SMS", Toast.LENGTH_SHORT).show();
+                        SharedPreferences.Editor editor = sharedPref.edit();
+
+                        editor.putString("preference", "sms");
+                        editor.apply();
                     }
                 }, new Response.ErrorListener() {
                     @Override

@@ -325,6 +325,11 @@ public class LoginActivity extends AppCompatActivity {
                     String phoneno = response.getString("phone_no");
                     String holdername = response.getString("name");
                     String email = response.getString("email");
+                    String tele = "";
+                    String preference = response.getString("preference");
+                    if(response.getString("telegram_id") != null){
+                        tele = response.getString("telegram_id");
+                    }
 
 
                     // Creating an Editor object to edit(write to the file)
@@ -332,6 +337,9 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("name", holdername);
                     editor.putString("phoneno", phoneno);
                     editor.putString("email", email);
+                    editor.putString("tele", tele);
+                    editor.putString("preference", preference);
+
 
                     editor.apply();
                     //Log.v("accNumber is",accNo);
