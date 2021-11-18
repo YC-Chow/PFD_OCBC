@@ -10,23 +10,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -81,7 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        ConstraintLayout settings = findViewById(R.id.settingsContainer);
+        ConstraintLayout settings = findViewById(R.id.settingContainer);
 
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
