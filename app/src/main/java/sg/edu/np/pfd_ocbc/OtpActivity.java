@@ -83,9 +83,21 @@ public class OtpActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(OtpActivity.this, LoginActivity.class);
-                startActivity(intent1);
-                finish();
+                if(situation.equals("signup")|| situation.equals("signin")){
+                    Intent intent1 = new Intent(OtpActivity.this, LoginActivity.class);
+                    startActivity(intent1);
+                    finish();
+                }
+                else if (situation.equals("settings")){
+                    Intent intent1 = new Intent(OtpActivity.this, ProfileActivity.class);
+                    startActivity(intent1);
+                    finish();
+                }
+                else if (situation.equals("updatephoneNo")){
+                    Intent intent1 = new Intent(OtpActivity.this, PersonalDetailsActivity.class);
+                    startActivity(intent1);
+                    finish();
+                }
             }
         });
     }
