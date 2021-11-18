@@ -188,6 +188,9 @@ public class OtpActivity extends AppCompatActivity {
                     String phoneno = response.getString("phone_no");
                     String holdername = response.getString("name");
                     String email = response.getString("email");
+                    String preference = response.getString("preference");
+                    String tele = response.getString("telegram_id");
+
                     Log.d("data123", "onResponse: "+phoneno+holdername+" "+email);
 
                     // Creating an Editor object to edit(write to the file)
@@ -195,6 +198,8 @@ public class OtpActivity extends AppCompatActivity {
                     editor.putString("name", holdername);
                     editor.putString("phoneno", phoneno);
                     editor.putString("email", email);
+                    editor.putString("tele", tele);
+                    editor.putString("preference", preference);
 
                     editor.apply();
                     //Log.v("accNumber is",accNo);

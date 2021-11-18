@@ -325,11 +325,9 @@ public class LoginActivity extends AppCompatActivity {
                     String phoneno = response.getString("phone_no");
                     String holdername = response.getString("name");
                     String email = response.getString("email");
-                    String tele = "";
                     String preference = response.getString("preference");
-                    if(response.getString("telegram_id") != null){
-                        tele = response.getString("telegram_id");
-                    }
+                    String tele = response.getString("telegram_id");
+
 
 
                     // Creating an Editor object to edit(write to the file)
