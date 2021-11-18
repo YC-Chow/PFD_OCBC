@@ -50,7 +50,7 @@ public class ShowAllTransactions extends AppCompatActivity {
         mFrameLayout = findViewById(R.id.shimmerLayoutShowAll);
 
         recyclerView = findViewById(R.id.showAllRV);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         transactionList = new ArrayList<>();
 
         backBtn = findViewById(R.id.transactionBackBtn);
