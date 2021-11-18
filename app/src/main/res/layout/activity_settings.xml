@@ -48,18 +48,6 @@
         app:layout_constraintTop_toBottomOf="@+id/personaldetails"
         app:srcCompat="@drawable/black_line" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/twofa"
-        app:layout_constraintStart_toStartOf="@+id/twofa"
-        app:layout_constraintTop_toBottomOf="@+id/twofa"
-        app:srcCompat="@drawable/black_line" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/personaldetails"
         android:layout_width="0dp"
@@ -106,61 +94,16 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/twofa"
-        android:layout_width="0dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6">
-
-        <ImageView
-            android:id="@+id/imageView8"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="31dp"
-            android:layout_marginBottom="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/authentication" />
-
-        <TextView
-            android:id="@+id/textView17"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="12dp"
-            android:fontFamily="@font/poppins"
-            android:text="Two Factor Authentication"
-            android:textColor="#090909"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/imageView8"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/imageView9"
-            android:layout_width="19dp"
-            android:layout_height="19dp"
-            android:layout_marginTop="13dp"
-            android:layout_marginEnd="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/arrow_point_to_right" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/notifications"
         android:layout_width="0dp"
         android:layout_height="41dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        app:layout_constraintTop_toBottomOf="@+id/imageView6">
 
         <ImageView
             android:id="@+id/imageView10"

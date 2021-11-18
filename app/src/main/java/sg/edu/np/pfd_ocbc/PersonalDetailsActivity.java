@@ -144,7 +144,6 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                                         //Log.d("lolza",response.toString());
                                         editor.putString("tele", changetele.getText().toString());
                                         editor.apply();
-                                        editor.apply();
                                         //Log.v("accNumber is",accNo);
 
                                         //Send otp to updated number to verify that the user owns the phone number
