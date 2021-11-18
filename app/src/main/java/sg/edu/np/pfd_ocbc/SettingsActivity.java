@@ -36,7 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         ConstraintLayout personal = findViewById(R.id.personaldetails);
-        ConstraintLayout twofa = findViewById(R.id.twofa);
+
         ConstraintLayout notification = findViewById(R.id.notifications);
 
         personal.setOnClickListener(new View.OnClickListener() {
@@ -48,14 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        twofa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SettingsActivity.this, TwoFactorActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
-            }
-        });
+
 
         notification.setOnClickListener(new View.OnClickListener() {
             @Override

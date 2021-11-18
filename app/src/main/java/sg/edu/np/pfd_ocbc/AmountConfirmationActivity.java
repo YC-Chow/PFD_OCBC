@@ -84,29 +84,31 @@ public class AmountConfirmationActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double amount = Double.parseDouble(senderAmount.getText().toString());
-                if (amount <= 0)
-                {
-                    Toast.makeText(AmountConfirmationActivity.this, "Please enter a valid amount!", Toast.LENGTH_SHORT).show();
+                if (senderAmount.getText().toString() == ""){
+                    Toast.makeText(AmountConfirmationActivity.this, "Please enter a amount!", Toast.LENGTH_SHORT).show();
                 }
-                else if (amount > Double.parseDouble(senderBal.getText().toString())){
-                    Toast.makeText(AmountConfirmationActivity.this, "No enough balance!", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    Intent intent = new Intent(AmountConfirmationActivity.this, TransferConfirmationActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    intent.putExtra("from", senderAccNum);
-                    intent.putExtra("to", receiverAccNum);
-                    intent.putExtra("amount", amount);
-                    intent.putExtra("name", receiverName.getText().toString());
-                    startActivity(intent);
+                else{
+                    double amount = Double.parseDouble(senderAmount.getText().toString());
+                    if (amount <= 0)
+                    {
+                        Toast.makeText(AmountConfirmationActivity.this, "Please enter a valid amount!", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (amount > Double.parseDouble(senderBal.getText().toString())){
+                        Toast.makeText(AmountConfirmationActivity.this, "No enough balance!", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Intent intent = new Intent(AmountConfirmationActivity.this, TransferConfirmationActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        intent.putExtra("from", senderAccNum);
+                        intent.putExtra("to", receiverAccNum);
+                        intent.putExtra("amount", amount);
+                        intent.putExtra("name", receiverName.getText().toString());
+                        startActivity(intent);
+                    }
                 }
             }
         });
-
-
-
     }
 
     @Override

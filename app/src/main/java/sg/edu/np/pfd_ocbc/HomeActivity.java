@@ -72,6 +72,7 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Account userAccount;
     RecyclerView recyclerView;
+    TextView emptyText;
     HomeTransactionAdapter TransactionAdapter;
     Context mContext;
     SharedPreferences sharedPref;
@@ -106,6 +107,8 @@ public class HomeActivity extends AppCompatActivity {
         TextView cardBalanceAmt = findViewById(R.id.balanceAmt);
         String cardBalance = sharedPref.getString("cardBal","");
         cardBalanceAmt.setText(cardBalance);
+
+        emptyText = findViewById(R.id.empty_view);
 
         //card type or issuingNetwork
         ImageView issuer = findViewById(R.id.cardType);
@@ -242,43 +245,56 @@ public class HomeActivity extends AppCompatActivity {
                         Log.d("SUCCESS", response.toString());
                         try {
                             JSONArray jsonArray = new JSONArray(response.getJSONArray("data").toString());
-                            for (int i = jsonArray.length()-1; i >=0 ; i--) {
-                                if (i == jsonArray.length()-6){
-                                    break;
-                                }
-                                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                            if (jsonArray.length() == 0 || jsonArray == null){
+                                mFrameLayout.startShimmer();
+                                mFrameLayout.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.GONE);
+                                emptyText.setVisibility(View.VISIBLE);
 
-                                String toName = jsonObject.getString("to_name");
-                                String fromName = jsonObject.getString("from_name");
-                                String toAcc = jsonObject.getString("to_acc");
-                                String fromAcc = jsonObject.getString("from_acc");
-                                String date = jsonObject.getString("date").substring(0,10);
-                                Double amt = Double.parseDouble(jsonObject.getString("amount"));
-
-                                String DebitOrCredit = "";
-
-                                if (fromAcc.equals(sharedPref.getString("accNo", ""))){
-                                    DebitOrCredit = "-";
-                                }
-                                else{
-                                    DebitOrCredit = "+";
-                                }
-
-                                Transaction t = new Transaction();
-                                t.setRecipientName(toName);
-                                t.setSenderName(fromName);
-                                t.setRecipientAccNo(toAcc);
-                                t.setSenderAccNo(fromAcc);
-                                t.setTransactionAmt(amt);
-                                t.setTransactionDate(date);
-                                t.setDebitOrCredit(DebitOrCredit);
-                                transactionList.add(0,t);
                             }
-                            HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
-                            recyclerView.setAdapter(homeTransactionAdapter);
-                            mFrameLayout.startShimmer();
-                            mFrameLayout.setVisibility(View.GONE);
-                            recyclerView.setVisibility(View.VISIBLE);
+                            else {
+                                for (int i = jsonArray.length()-1; i >=0 ; i--) {
+                                    if (i == jsonArray.length()-6){
+                                        break;
+                                    }
+                                    JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+
+                                    String toName = jsonObject.getString("to_name");
+                                    String fromName = jsonObject.getString("from_name");
+                                    String toAcc = jsonObject.getString("to_acc");
+                                    String fromAcc = jsonObject.getString("from_acc");
+                                    String date = jsonObject.getString("date").substring(0,10);
+                                    Double amt = Double.parseDouble(jsonObject.getString("amount"));
+
+                                    String DebitOrCredit = "";
+
+                                    if (fromAcc.equals(sharedPref.getString("accNo", ""))){
+                                        DebitOrCredit = "-";
+                                    }
+                                    else{
+                                        DebitOrCredit = "+";
+                                    }
+
+                                    Transaction t = new Transaction();
+                                    t.setRecipientName(toName);
+                                    t.setSenderName(fromName);
+                                    t.setRecipientAccNo(toAcc);
+                                    t.setSenderAccNo(fromAcc);
+                                    t.setTransactionAmt(amt);
+                                    t.setTransactionDate(date);
+                                    t.setDebitOrCredit(DebitOrCredit);
+                                    transactionList.add(0,t);
+
+
+
+                                    HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
+                                    recyclerView.setAdapter(homeTransactionAdapter);
+                                    mFrameLayout.startShimmer();
+                                    mFrameLayout.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                }
+                            }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
