@@ -278,12 +278,4 @@ public class OtpActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d("onDestroy", "onDestroy1: ");
-        mAuth = FirebaseAuth.getInstance();
-        mAuth.signOut();
-        Log.d("onDestroy", "onDestroy2: "+mAuth.getCurrentUser());
-    }
 }
