@@ -196,7 +196,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/nextBtnMobileNumber"
+        android:id="@+id/nextBtnAmtConfirm"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
@@ -208,12 +208,12 @@
         android:textColor="#000000"
         android:textSize="16sp"
         app:backgroundTint="#EF4B4C"
-        app:layout_constraintBottom_toTopOf="@+id/backBtnMobileNumber"
+        app:layout_constraintBottom_toTopOf="@+id/cancelBtnAmtConfirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/backBtnMobileNumber"
+        android:id="@+id/cancelBtnAmtConfirm"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -227,7 +227,7 @@
         app:backgroundTint="#EF4B4C"
         app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/nextBtnMobileNumber"
-        app:layout_constraintStart_toStartOf="@+id/nextBtnMobileNumber" />
+        app:layout_constraintEnd_toEndOf="@+id/nextBtnAmtConfirm"
+        app:layout_constraintStart_toStartOf="@+id/nextBtnAmtConfirm" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
