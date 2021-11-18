@@ -95,8 +95,9 @@ public class TransferConfirmationActivity extends AppCompatActivity {
                 else{
                     Intent intent = new Intent(TransferConfirmationActivity.this, AmountConfirmationActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    intent.putExtra("receiverCardNumber", receiverAccNum);
-                    intent.putExtra("senderCardNumber", senderAccNum);
+                    intent.putExtra("receiverAccNo", receiverAccNum);
+                    intent.putExtra("senderAccNo", senderAccNum);
+                    intent.putExtra("receiverName", receiveName);
                     startActivity(intent);
                     finish();
                 }

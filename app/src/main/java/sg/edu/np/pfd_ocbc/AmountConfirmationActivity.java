@@ -66,7 +66,7 @@ public class AmountConfirmationActivity extends AppCompatActivity {
         receiverAccNum = getIntent().getStringExtra("receiverAccNo");
         senderAccNum = getIntent().getStringExtra("senderAccNo");
         nameOfReceiver = getIntent().getStringExtra("receiverName");
-        if (nameOfReceiver.isEmpty()){
+        if (nameOfReceiver == null){
             nameOfReceiver = "Unknown";
         }
 
@@ -84,20 +84,16 @@ public class AmountConfirmationActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (senderAmount.getText().toString() == ""){
-                    Toast.makeText(AmountConfirmationActivity.this, "Please enter a amount!", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                try {
                     double amount = Double.parseDouble(senderAmount.getText().toString());
                     if (amount <= 0)
                     {
                         Toast.makeText(AmountConfirmationActivity.this, "Please enter a valid amount!", Toast.LENGTH_SHORT).show();
                     }
                     else if (amount > Double.parseDouble(senderBal.getText().toString())){
-                        Toast.makeText(AmountConfirmationActivity.this, "No enough balance!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AmountConfirmationActivity.this, "Not enough balance!", Toast.LENGTH_SHORT).show();
                     }
-                    else
-                    {
+                    else {
                         Intent intent = new Intent(AmountConfirmationActivity.this, TransferConfirmationActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         intent.putExtra("from", senderAccNum);
@@ -106,6 +102,8 @@ public class AmountConfirmationActivity extends AppCompatActivity {
                         intent.putExtra("name", receiverName.getText().toString());
                         startActivity(intent);
                     }
+                }catch (NumberFormatException e){
+                    Toast.makeText(AmountConfirmationActivity.this, "Please enter a valid amount!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
