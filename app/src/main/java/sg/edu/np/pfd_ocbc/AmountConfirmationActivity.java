@@ -84,12 +84,12 @@ public class AmountConfirmationActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double amount = Integer.parseInt(senderAmount.getText().toString());
+                double amount = Double.parseDouble(senderAmount.getText().toString());
                 if (amount <= 0)
                 {
                     Toast.makeText(AmountConfirmationActivity.this, "Please enter a valid amount!", Toast.LENGTH_SHORT).show();
                 }
-                else if (amount > Integer.parseInt(senderBal.getText().toString())){
+                else if (amount > Double.parseDouble(senderBal.getText().toString())){
                     Toast.makeText(AmountConfirmationActivity.this, "No enough balance!", Toast.LENGTH_SHORT).show();
                 }
                 else
@@ -154,9 +154,9 @@ public class AmountConfirmationActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    int responseSenderBal = response.getInt("balance");
+                    double responseSenderBal = response.getDouble("balance");
                     senderAccNo.setText(senderAccNum);
-                    senderBal.setText(String.valueOf(responseSenderBal));
+                    senderBal.setText(String.format("%.2f", responseSenderBal));
                     progressDialog.dismiss();
                 }catch (JSONException e)
                 {
