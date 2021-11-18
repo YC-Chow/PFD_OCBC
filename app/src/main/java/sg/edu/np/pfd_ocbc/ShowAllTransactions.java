@@ -8,6 +8,7 @@ import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 
 public class ShowAllTransactions extends AppCompatActivity {
     RecyclerView recyclerView;
+    TextView emptyText;
     Context mContext;
     SharedPreferences sharedPref;
     FirebaseAuth mAuth;
@@ -48,6 +50,7 @@ public class ShowAllTransactions extends AppCompatActivity {
         sharedPref = getSharedPreferences("MySharedPref", MODE_PRIVATE);
 
         mFrameLayout = findViewById(R.id.shimmerLayoutShowAll);
+        emptyText = findViewById(R.id.empty_view);
 
         recyclerView = findViewById(R.id.showAllRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true));
@@ -110,47 +113,54 @@ public class ShowAllTransactions extends AppCompatActivity {
                         Log.d("SUCCESS", response.toString());
                         try {
                             JSONArray jsonArray = new JSONArray(response.getJSONArray("data").toString());
-                            for (int i = 0; i <jsonArray.length() ; i++) {
-                                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-
-                                String toName = jsonObject.getString("to_name");
-                                String fromName = jsonObject.getString("from_name");
-                                String toAcc = jsonObject.getString("to_acc");
-                                String fromAcc = jsonObject.getString("from_acc");
-                                String date = jsonObject.getString("date").substring(0,10);
-                                Double amt = Double.parseDouble(jsonObject.getString("amount"));
-
-                                String DebitOrCredit = "";
-
-                                if (fromAcc.equals(sharedPref.getString("accNo", ""))){
-                                    DebitOrCredit = "-";
-                                }
-                                else{
-                                    DebitOrCredit = "+";
-                                }
-
-                                if(fromName == "null"){
-                                    fromName = fromAcc;
-                                }
-                                else{
-                                    fromName = fromName;
-                                }
-
-                                Transaction t = new Transaction();
-                                t.setRecipientName(toName);
-                                t.setSenderName(fromName);
-                                t.setRecipientAccNo(toAcc);
-                                t.setSenderAccNo(fromAcc);
-                                t.setTransactionAmt(amt);
-                                t.setTransactionDate(date);
-                                t.setDebitOrCredit(DebitOrCredit);
-                                transactionList.add(0,t);
-
-                                HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
-                                recyclerView.setAdapter(homeTransactionAdapter);
+                            if (jsonArray.length() == 0 || jsonArray == null){
                                 mFrameLayout.startShimmer();
                                 mFrameLayout.setVisibility(View.GONE);
-                                recyclerView.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
+                                emptyText.setVisibility(View.VISIBLE);
+
+                            }
+                            else {
+                                for (int i = jsonArray.length()-1; i >=0 ; i--) {
+                                    if (i == jsonArray.length()-6){
+                                        break;
+                                    }
+                                    JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+
+                                    String toName = jsonObject.getString("to_name");
+                                    String fromName = jsonObject.getString("from_name");
+                                    String toAcc = jsonObject.getString("to_acc");
+                                    String fromAcc = jsonObject.getString("from_acc");
+                                    String date = jsonObject.getString("date").substring(0,10);
+                                    Double amt = Double.parseDouble(jsonObject.getString("amount"));
+
+                                    String DebitOrCredit = "";
+
+                                    if (fromAcc.equals(sharedPref.getString("accNo", ""))){
+                                        DebitOrCredit = "-";
+                                    }
+                                    else{
+                                        DebitOrCredit = "+";
+                                    }
+
+                                    Transaction t = new Transaction();
+                                    t.setRecipientName(toName);
+                                    t.setSenderName(fromName);
+                                    t.setRecipientAccNo(toAcc);
+                                    t.setSenderAccNo(fromAcc);
+                                    t.setTransactionAmt(amt);
+                                    t.setTransactionDate(date);
+                                    t.setDebitOrCredit(DebitOrCredit);
+                                    transactionList.add(0,t);
+
+
+
+                                    HomeTransactionAdapter homeTransactionAdapter = new HomeTransactionAdapter(mContext,transactionList);
+                                    recyclerView.setAdapter(homeTransactionAdapter);
+                                    mFrameLayout.startShimmer();
+                                    mFrameLayout.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
