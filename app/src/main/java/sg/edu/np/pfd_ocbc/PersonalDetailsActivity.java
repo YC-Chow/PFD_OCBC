@@ -147,7 +147,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                                         //Log.v("accNumber is",accNo);
 
                                         //Send otp to updated number to verify that the user owns the phone number
-                                        Intent intent = new Intent(PersonalDetailsActivity.this, PersonalDetailsOtpActivity.class);
+                                        Intent intent = new Intent(PersonalDetailsActivity.this, OtpActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                         intent.putExtra("phoneNo", changemobileno.getText().toString());
                                         intent.putExtra("situation", "updatephoneNo");
@@ -177,7 +177,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                     //if user only changed phone number
                     else if (!changemobileno.getText().toString().equals(userphone)) {
                         //Send otp to updated number to verify that the user owns the phone number
-                        Intent intent = new Intent(PersonalDetailsActivity.this, PersonalDetailsOtpActivity.class);
+                        Intent intent = new Intent(PersonalDetailsActivity.this, OtpActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         intent.putExtra("phoneNo", changemobileno.getText().toString());
                         intent.putExtra("situation", "updatephoneNo");

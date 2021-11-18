@@ -11,16 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PFD_OCBC.NoActionBar">
         <activity
-            android:name=".PersonalDetailsOtpActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PFD_OCBC.NoActionBar"/>
-        <activity
             android:name=".ShowAllTransactions"
             android:exported="false"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar"/>
-        <activity
-            android:name=".SettingOtpActivity"
-            android:theme="@style/Theme.PFD_OCBC.NoActionBar"></activity>
         <activity
             android:name=".NricTransferActivity"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar"></activity>

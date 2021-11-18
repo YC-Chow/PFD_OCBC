@@ -150,6 +150,61 @@ public class OtpActivity extends AppCompatActivity {
                                     }
                                 });
                     }
+                    else if (situation.equals("settings")){
+                        Log.d("SettingOtpActivity", "settings");
+                        Intent intent = new Intent(OtpActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                    }
+                    else if (situation.equals("updatephoneNo")){
+                        Log.d("situation", "updatephoneNo");
+                        String updatephoneno = "https://pfd-server.azurewebsites.net/updatePhoneNo";
+                        FirebaseAuth mAuth;
+                        mAuth = FirebaseAuth.getInstance();
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        JSONObject phoneData = new JSONObject();
+
+                        user.getIdToken(true).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
+                            @Override
+                            public void onSuccess(GetTokenResult result) {
+                                String idToken = result.getToken();
+                                try {
+                                    phoneData.put("uid", user.getUid());
+                                    phoneData.put("phoneNo", phoneNo);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                //POST api to update phone number
+                                JsonObjectRequest phoneObjectRequest = new JsonObjectRequest(Request.Method.POST, updatephoneno, phoneData, new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPref.edit();
+
+                                        editor.putString("phoneno", phoneNo);
+                                        editor.apply();
+                                        Toast.makeText(OtpActivity.this, "Personal Details Updated",
+                                                Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(OtpActivity.this, PersonalDetailsActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                        startActivity(intent);
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(OtpActivity.this, "Error: Phone Number Belongs to Another Account Holder",
+                                                Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(OtpActivity.this, PersonalDetailsActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                        startActivity(intent);
+                                    }
+                                });
+                                RequestQueue phonerequestQueue = Volley.newRequestQueue(OtpActivity.this);
+                                phonerequestQueue.add(phoneObjectRequest);
+                            }
+                        });
+
+                    }
                 } else{
                     Toast.makeText(OtpActivity.this, "Disapproved",
                             Toast.LENGTH_SHORT).show();

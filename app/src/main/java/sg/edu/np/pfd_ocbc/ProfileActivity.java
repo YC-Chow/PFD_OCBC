@@ -86,8 +86,9 @@ public class ProfileActivity extends AppCompatActivity {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProfileActivity.this, SettingOtpActivity.class);
+                Intent intent = new Intent(ProfileActivity.this, OtpActivity.class);
                 intent.putExtra("situation", "settings");
+                intent.putExtra("phoneNo", sharedPreferences.getString("phoneno", ""));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
