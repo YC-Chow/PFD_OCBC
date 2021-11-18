@@ -97,9 +97,9 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                     Toast.makeText(PersonalDetailsActivity.this, "Mobile Number Nedds To Be 8 Digits",
                             Toast.LENGTH_SHORT).show();
                 }
-                //if name is less than 5 characters
-                else if (changename.getText().toString().length() < 5) {
-                    Toast.makeText(PersonalDetailsActivity.this, "Name needs to be at least 5 characters long",
+                //if name is less than 5 characters or more than 20 characters
+                else if (changename.getText().toString().length() < 5 || changename.getText().toString().length() > 24) {
+                    Toast.makeText(PersonalDetailsActivity.this, "Name needs to be between 5 to 24 characters",
                             Toast.LENGTH_SHORT).show();
                 }
                 else {
