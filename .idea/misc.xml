@@ -60,23 +60,29 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_signup.xml" value="0.33" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_transfer_confirmation.xml" value="0.25104166666666666" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PFD_OCBC/app/src/main/res/layout/activity_two_factor.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_amount_confirmation.xml" value="0.15390625" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_account_transfer.xml" value="0.2864583333333333" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_amount_confirmation.xml" value="0.22" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_card_transfer.xml" value="0.233984375" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_home_transaction_item.xml" value="0.24863387978142076" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_login.xml" value="0.151171875" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_mobile_number.xml" value="0.151171875" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_mobile_transfer.xml" value="0.246875" />
-        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_notification.xml" value="0.151171875" />
-        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_otp.xml" value="0.151171875" />
-        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_personal_details.xml" value="0.25" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_notification.xml" value="0.33" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_otp.xml" value="0.25" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_personal_details.xml" value="0.5" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_profile.xml" value="0.151171875" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_receiver_account.xml" value="0.33" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_see_all_card.xml" value="0.24863387978142076" />
-        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_settings.xml" value="0.151171875" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_settings.xml" value="0.25" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_show_all_transactions.xml" value="0.2864583333333333" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_signup.xml" value="0.151171875" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_transfer_confirmation.xml" value="0.15390625" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_two_factor.xml" value="0.33" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/multiple_accounts_recycler.xml" value="0.5" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/popupwindow.xml" value="0.5" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/see_all_card_recycler.xml" value="0.24863387978142076" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/shimmer_layout_cardbal.xml" value="0.28489583333333335" />
       </map>
     </option>
   </component>
