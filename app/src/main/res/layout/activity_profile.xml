@@ -12,12 +12,13 @@
         android:id="@+id/settingContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
         android:clickable="true"
         android:focusable="auto"
+        app:layout_constraintBottom_toBottomOf="@+id/QRCodeContainer"
+        app:layout_constraintEnd_toStartOf="@+id/QRCodeContainer"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/QRCodeContainer">
 
         <ImageButton
             android:id="@+id/logout1"
@@ -52,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="50dp"
         android:background="@drawable/login_box"
         android:paddingLeft="20dp"
         android:paddingTop="30dp"
@@ -60,7 +61,8 @@
         android:paddingBottom="30dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/QRCodeContainer">
 
         <TextView
             android:id="@+id/mobileno"
@@ -141,21 +143,20 @@
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout10"
-        app:layout_constraintEnd_toEndOf="@+id/constraintLayout10"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/constraintLayout10"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="72dp"
+        app:layout_constraintEnd_toEndOf="@+id/QRCodeContainer"
+        app:layout_constraintStart_toStartOf="@+id/settingContainer"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/user" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/logoutContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:clickable="true"
         android:focusable="auto"
         app:layout_constraintEnd_toEndOf="parent"
@@ -187,6 +188,42 @@
             app:layout_constraintEnd_toEndOf="@id/logout"
             app:layout_constraintStart_toStartOf="@+id/logout"
             app:layout_constraintTop_toBottomOf="@+id/logout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/QRCodeContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/settingContainer"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6">
+
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_qr_code_24" />
+
+        <TextView
+            android:id="@+id/textView34"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:gravity="center"
+            android:text="Your QR Code"
+            android:textAlignment="center"
+            android:textColor="#020202"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="@+id/imageView9"
+            app:layout_constraintStart_toStartOf="@+id/imageView9"
+            app:layout_constraintTop_toBottomOf="@+id/imageView9" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
