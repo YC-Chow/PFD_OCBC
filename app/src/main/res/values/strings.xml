@@ -17,5 +17,7 @@
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="title_activity_see_all_cards">SeeAllCards</string>
     <string name="bot"><a href='https://t.me/Tele_notifybot'> Telegrambot </a></string>
+    <string name="title_activity_view_qractivity">ViewQRActivity</string>
+    <string name="title_activity_qrcode_scanner">QRCodeScannerActivity</string>
 
 </resources>

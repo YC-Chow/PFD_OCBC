@@ -3,7 +3,7 @@
     package="sg.edu.np.pfd_ocbc">
 
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
-
+    <uses-permission android:name="android.permission.CAMERA" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,6 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PFD_OCBC.NoActionBar">
+        <activity
+            android:name=".QRCodeScannerActivity"
+            android:label="@string/title_activity_qrcode_scanner"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar.NoActionBar"></activity>
+        <activity
+            android:name=".ViewQRActivity"
+            android:label="@string/title_activity_view_qractivity"
+            android:theme="@style/Theme.PFD_OCBC.NoActionBar.NoActionBar" />
         <activity
             android:name=".ReceiverAccountActivity"
             android:exported="false" />
