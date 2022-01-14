@@ -105,11 +105,22 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mAuth.signOut();
                 Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
         });
 
 
+        ConstraintLayout qrCodeView = findViewById(R.id.QRCodeContainer);
+
+        qrCodeView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, ViewQRActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+            }
+        });
 
 
 
