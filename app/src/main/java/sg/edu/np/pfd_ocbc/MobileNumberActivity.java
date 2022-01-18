@@ -82,6 +82,8 @@ public class MobileNumberActivity extends AppCompatActivity {
                                     String receiverName = response.getString("account_holder_name");
                                     String senderAccNo = sharedPref.getString("accNo","");
 
+
+
                                     if (receiverName == null){
                                         receiverName = "Unknown";
                                     }
@@ -144,6 +146,12 @@ public class MobileNumberActivity extends AppCompatActivity {
                         Intent b = new Intent(MobileNumberActivity.this, NricTransferActivity.class);
                         b.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(b);
+                        break;
+
+                    case R.id.qrTransfer:
+                        Intent c = new Intent(MobileNumberActivity.this, QRCodeScannerActivity.class);
+                        c.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(c);
                         break;
                 }
                 return false;

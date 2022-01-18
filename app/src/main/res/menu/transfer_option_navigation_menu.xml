@@ -18,4 +18,10 @@
         android:checkable="false"
         android:enabled="true">
     </item>
+    <item
+        android:id="@+id/qrTransfer"
+        android:title="QR"
+        android:checkable="false"
+        android:enabled="true">
+    </item>
 </menu>

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -68,6 +69,12 @@ public class NricTransferActivity extends AppCompatActivity {
                         break;
 
                     case R.id.nricTransfer:
+                        break;
+
+                    case R.id.qrTransfer:
+                        Intent c = new Intent(NricTransferActivity.this, QRCodeScannerActivity.class);
+                        c.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(c);
                         break;
                 }
                 return false;
@@ -132,6 +139,8 @@ public class NricTransferActivity extends AppCompatActivity {
                                     String receiverAccNo = response.getString("acc_no");
                                     String receiverName = response.getString("account_holder_name");
                                     String senderAccNo = sharedPreferences.getString("accNo","");
+
+                                    Log.v("WTH", response.toString());
 
                                     if (receiverName == null){
                                         receiverName = "Unknown";
