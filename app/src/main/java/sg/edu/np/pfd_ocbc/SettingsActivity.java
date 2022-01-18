@@ -20,7 +20,18 @@ public class SettingsActivity extends AppCompatActivity {
 
         ConstraintLayout personal = findViewById(R.id.personaldetails);
 
-        ConstraintLayout notification = findViewById(R.id.receiveraccount);
+        ConstraintLayout notification = findViewById(R.id.notification_background);
+
+        ConstraintLayout receiver = findViewById(R.id.receiveraccount);
+
+        receiver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SettingsActivity.this, ReceiverAccountActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+            }
+        });
 
         personal.setOnClickListener(new View.OnClickListener() {
             @Override

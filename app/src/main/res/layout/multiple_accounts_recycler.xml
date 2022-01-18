@@ -16,7 +16,7 @@
         app:srcCompat="@drawable/user" />
 
     <TextView
-        android:id="@+id/textView28"
+        android:id="@+id/accname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -34,15 +34,15 @@
         android:fontFamily="@font/poppins"
         android:text="Balance"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView33"
-        app:layout_constraintEnd_toEndOf="@+id/textView33"
+        app:layout_constraintBottom_toTopOf="@+id/balance"
+        app:layout_constraintEnd_toEndOf="@+id/balance"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView33"
-        app:layout_constraintTop_toTopOf="@+id/textView28"
+        app:layout_constraintStart_toStartOf="@+id/balance"
+        app:layout_constraintTop_toTopOf="@+id/accname"
         app:layout_constraintVertical_bias="0.8" />
 
     <TextView
-        android:id="@+id/textView33"
+        android:id="@+id/balance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="35dp"

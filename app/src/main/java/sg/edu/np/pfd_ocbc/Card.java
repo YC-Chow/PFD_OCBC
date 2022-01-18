@@ -10,6 +10,10 @@ public class Card implements Serializable{
     private Double balance;
     private String accNo;
 
+    public Card() {
+
+    }
+
     public String getAccNo() {
         return accNo;
     }
@@ -53,7 +57,7 @@ public class Card implements Serializable{
 
 
     public Card(String cardNo) {
-        this.cardNo = cardNo;
+
     }
 
     public Card(String cardNo, String nameOnCard, String issuingNetwork, Double balance, String accNo) {
