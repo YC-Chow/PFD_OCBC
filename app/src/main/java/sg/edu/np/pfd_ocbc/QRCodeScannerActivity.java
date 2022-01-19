@@ -1,7 +1,12 @@
 package sg.edu.np.pfd_ocbc;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.provider.Settings;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +28,8 @@ import com.google.zxing.Result;
 
 public class QRCodeScannerActivity extends AppCompatActivity {
 
-    public static final int CAMERA_PERMISSION_CODE = 100;
+    final int CAMERA_PERM = 1;
+    boolean CameraPermission = false;
     CodeScanner codeScanner;
     CodeScannerView scanView;
     TextView resultData;
@@ -34,6 +41,7 @@ public class QRCodeScannerActivity extends AppCompatActivity {
 
         scanView = findViewById(R.id.codeScannerView);
         codeScanner = new CodeScanner(this,scanView);
+        askPermission();
         resultData = findViewById(R.id.result);
 
         codeScanner.setDecodeCallback(new DecodeCallback() {
@@ -47,12 +55,106 @@ public class QRCodeScannerActivity extends AppCompatActivity {
                 });
             }
         });
-        scanView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
+        if (CameraPermission) {
+            scanView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    codeScanner.startPreview();
+                }
+            });
+        }
+    }
+
+    private void askPermission(){
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
+
+
+            if (ActivityCompat.checkSelfPermission(this,Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ){
+
+                ActivityCompat.requestPermissions(QRCodeScannerActivity.this,new String[]{Manifest.permission.CAMERA},CAMERA_PERM);
+
+
+            }else {
+
                 codeScanner.startPreview();
+                CameraPermission = true;
             }
-        });
+
+        }
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if (requestCode == CAMERA_PERM){
+
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+                codeScanner.startPreview();
+                CameraPermission = true;
+            }else {
+
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.CAMERA)){
+
+                    new AlertDialog.Builder(this)
+                            .setTitle("Permission")
+                            .setMessage("Please provide the camera permission for using all the features of the app")
+                            .setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    ActivityCompat.requestPermissions(QRCodeScannerActivity.this,new String[]{Manifest.permission.CAMERA},CAMERA_PERM);
+
+                                }
+                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.dismiss();
+
+                        }
+                    }).create().show();
+
+                }else {
+
+                    new AlertDialog.Builder(this)
+                            .setTitle("Permission")
+                            .setMessage("You have denied some permission. Allow all permission at [Settings] > [Permissions]")
+                            .setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    dialog.dismiss();
+                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                            Uri.fromParts("package",getPackageName(),null));
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    finish();
+
+
+                                }
+                            }).setNegativeButton("No, Exit app", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.dismiss();
+                            finish();
+
+                        }
+                    }).create().show();
+
+
+
+                }
+
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
