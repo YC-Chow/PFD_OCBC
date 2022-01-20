@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,9 +35,20 @@ public class ReceiverAccountActivity extends AppCompatActivity {
 
         CardView changeacc = findViewById(R.id.changeacc);
 
-        TextView accname = findViewById(R.id.accname);
+        TextView accname = findViewById(R.id.accountname);
 
         SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
+
+        ImageButton back = findViewById(R.id.notiback3);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ReceiverAccountActivity.this, SettingsActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+            }
+        });
 
 
         String userphone = sharedPref.getString("phoneno", "");
@@ -97,6 +109,11 @@ public class ReceiverAccountActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        return;
     }
 
 

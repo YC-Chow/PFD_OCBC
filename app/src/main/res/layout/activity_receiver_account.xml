@@ -52,7 +52,6 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:fontFamily="@font/poppins"
-                android:text="AccountName"
                 android:textColor="#000000"
                 android:textSize="17sp" />
 
