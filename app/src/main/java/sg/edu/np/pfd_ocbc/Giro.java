@@ -5,6 +5,7 @@ import java.util.Date;
 public class Giro {
     private int giro_id;
     private int biz_id;
+    private String biz_name;
     private String giro_acc_no;
     private Date giro_date;
     private String description;
@@ -66,6 +67,10 @@ public class Giro {
     public void setGiro_amount(double giro_amount) {
         this.giro_amount = giro_amount;
     }
+
+    public String getBiz_name() { return biz_name; }
+
+    public void setBiz_name(String biz_name) { this.biz_name = biz_name; }
 
     public Giro() {
     }
