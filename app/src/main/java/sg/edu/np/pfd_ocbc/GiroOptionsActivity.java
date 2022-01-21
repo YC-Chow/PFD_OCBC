@@ -69,5 +69,14 @@ public class GiroOptionsActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        giroAcceptedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GiroOptionsActivity.this, GiroAcceptedListActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 }

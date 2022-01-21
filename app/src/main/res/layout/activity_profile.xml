@@ -147,7 +147,7 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="72dp"
-        app:layout_constraintEnd_toEndOf="@+id/constraintLayout11"
+        app:layout_constraintEnd_toEndOf="@+id/giroContainer"
         app:layout_constraintStart_toStartOf="@+id/settingContainer"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/user" />
@@ -196,11 +196,11 @@
         android:id="@+id/QRCodeContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout11"
-        app:layout_constraintEnd_toStartOf="@+id/constraintLayout11"
+        app:layout_constraintBottom_toBottomOf="@+id/giroContainer"
+        app:layout_constraintEnd_toStartOf="@+id/giroContainer"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/settingContainer"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout11">
+        app:layout_constraintTop_toTopOf="@+id/giroContainer">
 
         <ImageView
             android:id="@+id/imageView9"
@@ -229,7 +229,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout11"
+        android:id="@+id/giroContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"

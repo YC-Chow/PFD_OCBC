@@ -122,6 +122,17 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        ConstraintLayout giroOption = findViewById(R.id.giroContainer);
+
+        giroOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, GiroOptionsActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+            }
+        });
+
 
 
 

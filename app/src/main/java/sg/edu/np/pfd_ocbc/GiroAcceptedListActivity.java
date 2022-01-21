@@ -1,11 +1,13 @@
 package sg.edu.np.pfd_ocbc;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -38,6 +40,8 @@ public class GiroAcceptedListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_giro_accepted_list);
+
+        back = findViewById(R.id.giroOptBack);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,12 +85,27 @@ public class GiroAcceptedListActivity extends AppCompatActivity {
             }
         });
 
-        RecyclerView recyclerView = findViewById(R.id.giroRecyclerView);
-        GiroAcceptedAdapter adapter = new GiroAcceptedAdapter(giroList);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        if (giroList != null){
+            RecyclerView recyclerView = findViewById(R.id.giroRecyclerView);
+            GiroAcceptedAdapter adapter = new GiroAcceptedAdapter(giroList);
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(manager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+        }
+        else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("TEMPORARY WARNING");
+            builder.setMessage("TEMPORARY WARNING FOR NO EMPTY LIST");
+            builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
     }
 
     private void LoadData(){
