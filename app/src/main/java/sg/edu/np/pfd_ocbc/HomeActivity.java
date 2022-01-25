@@ -245,6 +245,7 @@ public class HomeActivity extends AppCompatActivity {
                     //Log.v("accNumber is",accNo);
 
                     CheckForFailedTransaction(accNo,requestQueue);
+                    CheckForPendingGiro(accNo, requestQueue);
 
 
                 } catch (JSONException e) {
@@ -338,6 +339,8 @@ public class HomeActivity extends AppCompatActivity {
         });
         requestQueue.add(jsonObjectRequest);
 
+
+
     }
 
     @Override
@@ -363,6 +366,119 @@ public class HomeActivity extends AppCompatActivity {
         ValidateTransaction(transaction, dbHandler, queue);
 
     }
+
+    private  void CheckForPendingGiro(String accNo, RequestQueue queue){
+        String giroUrl = "https://pfd-server.azurewebsites.net/getPendingGiro";
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("giro_acc_no", accNo);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, giroUrl, postData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray giroArray = response.getJSONArray("data");
+                    if (giroArray.length() == 1){
+                        JSONObject giroObject = giroArray.getJSONObject(0);
+                        Giro giro = new Giro();
+                        giro.setBiz_id(giroObject.getInt("business_id"));
+                        giro.setDescription(giroObject.getString("description"));
+                        giro.setGiro_acc_no(giroObject.getString("giro_acc_no"));
+                        giro.setGiro_amount(giroObject.getDouble("giro_amount"));
+                        giro.setGiro_id(giroObject.getInt("giro_id"));
+                        //Function
+                        SingleGiroAlert(giro, queue);
+                    }
+                    else if (giroArray.length() > 1){
+                        //Multiple pending giro, intent to a list activity
+                    }
+                    else{
+                        Toast.makeText(HomeActivity.this, "No Pending Giro", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
+    }
+
+    private void SingleGiroAlert(Giro giro, RequestQueue queue){
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+        builder.setTitle("Pending Giro");
+        builder.setMessage(String.format("You have a pending Giro request from %s for %s. \n " +
+                                        "Amount: %.2f\n " +
+                                        "Do you want to accept?"));
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                GiroAcceptance(true, giro, queue);
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                GiroAcceptance(false, giro, queue);
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void GiroAcceptance(boolean accept,Giro giro, RequestQueue queue){
+        String giroAcceptUri = "https://pfd-server.azurewebsites.net/updateGiroVerification";
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("giro_acc_no", giro.getGiro_acc_no());
+            postData.put("giro_id", giro.getGiro_id());
+            if (accept){
+                postData.put("verified", "true");
+            }
+            else {
+                postData.put("verified", "false");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, giroAcceptUri, postData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    boolean success = response.getBoolean("success");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                    builder.setTitle("Giro");
+                    if (success){
+                        builder.setMessage("You have successfully confirmed Giro request");
+                    }
+                    else{
+                        builder.setMessage("Giro request confirmation failed");
+                    }
+
+                    builder.setPositiveButton("OK", null);
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        queue.add(jsonObjectRequest);
+    }
+
     @Override
     public void onBackPressed() {
         return;
