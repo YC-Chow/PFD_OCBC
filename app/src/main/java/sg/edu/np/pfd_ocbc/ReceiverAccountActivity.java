@@ -61,6 +61,7 @@ public class ReceiverAccountActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ReceiverAccountActivity.this, AccountSelectorActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.putExtra("situation", "changeacc");
                 startActivity(intent);
             }
         });

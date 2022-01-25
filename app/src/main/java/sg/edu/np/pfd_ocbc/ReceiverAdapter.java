@@ -1,6 +1,7 @@
 package sg.edu.np.pfd_ocbc;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,15 +25,16 @@ import org.json.JSONObject;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class ReciverAdapter extends RecyclerView.Adapter<ReceiverVH>{
+public class ReceiverAdapter extends RecyclerView.Adapter<ReceiverVH>{
     private static final DecimalFormat df = new DecimalFormat("0.00");
     ArrayList<Card> cardArrayList;
     Context mcontext;
     private FirebaseAuth mAuth;
 
-    public ReciverAdapter(Context c, ArrayList<Card> input) {
-        mcontext = c;
-        cardArrayList = input;
+
+    public ReceiverAdapter(Context c, ArrayList<Card> input) {
+        this.mcontext = c;
+        this.cardArrayList = input;
     }
 
     @NonNull
@@ -68,7 +70,7 @@ public class ReciverAdapter extends RecyclerView.Adapter<ReceiverVH>{
                 JSONObject nameData = new JSONObject();
                 try {
                     nameData.put("uid", user.getUid());
-                    nameData.put("accNo", holder.accno);
+                    nameData.put("acc_no", card.getAccNo());
 
 
 
@@ -80,6 +82,10 @@ public class ReciverAdapter extends RecyclerView.Adapter<ReceiverVH>{
                 JsonObjectRequest nameObjectRequest = new JsonObjectRequest(Request.Method.POST, getcard, nameData, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+
+                        Intent intent = new Intent(mcontext, ReceiverAccountActivity .class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        mcontext.startActivity(intent);
 
 
                     }

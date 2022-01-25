@@ -93,6 +93,18 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         mAuth =FirebaseAuth.getInstance();
 
+        CardView card = findViewById(R.id.cardView);
+
+        card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, AccountSelectorActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.putExtra("situation", "home");
+                startActivity(intent);
+            }
+        });
+
         sharedPref = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         SharedPreferences accholdersharedpref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
         mFrameLayout = findViewById(R.id.shimmerLayout);

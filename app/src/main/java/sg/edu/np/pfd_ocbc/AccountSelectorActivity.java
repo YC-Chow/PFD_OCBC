@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -34,6 +35,9 @@ public class AccountSelectorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_selector);
         mAuth = FirebaseAuth.getInstance();
+        mContext = AccountSelectorActivity.this;
+        Intent intent = getIntent();
+        String situation = intent.getStringExtra("situation");
 
         RecyclerView recyclerView = findViewById(R.id.recycler);
 
@@ -93,12 +97,22 @@ public class AccountSelectorActivity extends AppCompatActivity {
 
 
                     }
-                    ReciverAdapter reciverAdapter= new ReciverAdapter(mContext, cardList);
-                    LinearLayoutManager mLayoutManager = new LinearLayoutManager(mContext);
-                    recyclerView.setLayoutManager(mLayoutManager);
-                    recyclerView.setAdapter(reciverAdapter);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    if(situation.equals("receiveracc")){
+                        ReceiverAdapter receiverAdapter= new ReceiverAdapter(mContext, cardList);
+                        LinearLayoutManager mLayoutManager = new LinearLayoutManager(mContext);
+                        recyclerView.setLayoutManager(mLayoutManager);
+                        recyclerView.setAdapter(receiverAdapter);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    }
+                    if(situation.equals("home")){
+                        ChangeAccountAdapter changeAccountAdapter = new ChangeAccountAdapter(mContext, cardList);
+                        LinearLayoutManager mLayoutManager = new LinearLayoutManager(mContext);
+                        recyclerView.setLayoutManager(mLayoutManager);
+                        recyclerView.setAdapter(changeAccountAdapter);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    }
 
 
                 } catch (JSONException e) {
