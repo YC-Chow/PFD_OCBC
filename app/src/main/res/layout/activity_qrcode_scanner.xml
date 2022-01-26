@@ -33,25 +33,15 @@
 
     <com.budiyev.android.codescanner.CodeScannerView
         android:id="@+id/codeScannerView"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:frameAspectRatioHeight="1"
         app:frameAspectRatioWidth="1"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TopBar">
 
     </com.budiyev.android.codescanner.CodeScannerView>
-
-    <TextView
-        android:id="@+id/result"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="TextView"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/codeScannerView"
-        app:layout_constraintStart_toStartOf="@+id/codeScannerView"
-        app:layout_constraintTop_toBottomOf="@+id/codeScannerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
