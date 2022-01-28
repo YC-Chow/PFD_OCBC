@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -21,15 +22,23 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.Result;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class QRCodeScannerActivity extends AppCompatActivity {
 
-    boolean CameraPermission = false;
-    final int CAMERA_PERM = 1;
+    private static final int PERMISSION_REQUEST_CODE = 200;
     CodeScanner codeScanner;
     CodeScannerView scanView;
     TextView resultData;
@@ -39,23 +48,28 @@ public class QRCodeScannerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrcode_scanner);
 
+        SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
         scanView = findViewById(R.id.codeScannerView);
         codeScanner = new CodeScanner(this,scanView);
-        resultData = findViewById(R.id.result);
-        askPermission();
 
         codeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull Result result) {
                 runOnUiThread(new Runnable() {
                     @Override
-                    public void run() {
-                        resultData.setText(result.getText());
+                    public void run()
+                    {
+                        Intent intent = new Intent(QRCodeScannerActivity.this, AmountConfirmationActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(intent);
                     }
                 });
             }
         });
-        if (CameraPermission) {
+
+        if (checkPermission()) {
             scanView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -63,86 +77,62 @@ public class QRCodeScannerActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-    private void askPermission(){
-
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
-
-
-            if (ActivityCompat.checkSelfPermission(this,Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ){
-
-                ActivityCompat.requestPermissions(QRCodeScannerActivity.this,new String[]{Manifest.permission.CAMERA},CAMERA_PERM);
-            }else {
-                codeScanner.startPreview();
-                CameraPermission = true;
-            }
-
+        else{
+            requestPermission();
         }
 
+    }
 
+    private boolean checkPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+            return false;
+        }
+        return true;
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE);
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
 
-        if (requestCode == CAMERA_PERM){
-
-
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-
-                codeScanner.startPreview();
-                CameraPermission = true;
-            }else {
-
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.CAMERA)){
-
-                    new AlertDialog.Builder(this)
-                            .setTitle("Permission")
-                            .setMessage("Please provide the camera permission for QR Code scanner")
-                            .setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    ActivityCompat.requestPermissions(QRCodeScannerActivity.this,new String[]{Manifest.permission.CAMERA},CAMERA_PERM);
-
-                                }
-                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            dialog.dismiss();
-
+                    // main logic
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            showMessageOKCancel("You need to allow access permissions",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                requestPermission();
+                                            }
+                                        }
+                                    });
                         }
-                    }).create().show();
-
-                }else {
-                    new AlertDialog.Builder(this)
-                            .setTitle("Permission")
-                            .setMessage("You have denied camera permission. Allow all permission at [Settings] > [Permissions]")
-                            .setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    dialog.dismiss();
-                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                                            Uri.fromParts("package",getPackageName(),null));
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }).setNegativeButton("No, Exit app", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            dialog.dismiss();
-                            finish();
-
-                        }
-                    }).create().show();
+                    }
                 }
-            }
+                break;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(QRCodeScannerActivity.this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
     }
 
     @Override
@@ -153,9 +143,7 @@ public class QRCodeScannerActivity extends AppCompatActivity {
 
     @Override
     public void onPause() {
-        if (CameraPermission) {
-            codeScanner.releaseResources();
-        }
+        codeScanner.releaseResources();
         super.onPause();
     }
 }

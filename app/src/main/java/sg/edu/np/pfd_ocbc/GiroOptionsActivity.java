@@ -24,9 +24,9 @@ public class GiroOptionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_giro_options);
 
-        giroAcceptedButton = findViewById(R.id.giroCheckAcceptedButton);
+        /*giroAcceptedButton = findViewById(R.id.giroCheckAcceptedButton);
         giroPendingButton = findViewById(R.id.giroCheckPendingButton);
-        back = findViewById(R.id.giroOptBack);
+        back = findViewById(R.id.giroOptBack);*/
 
         //Setting up bottom nav bar
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);

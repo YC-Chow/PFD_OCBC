@@ -53,8 +53,6 @@ public class AmountConfirmationActivity extends AppCompatActivity {
         senderAccNo = findViewById(R.id.senderAccNo);
         senderBal = findViewById(R.id.senderBal);
 
-
-
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         if (user == null){

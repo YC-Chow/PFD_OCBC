@@ -41,7 +41,7 @@ public class GiroAcceptedListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_giro_accepted_list);
 
-        back = findViewById(R.id.giroOptBack);
+        /*back = findViewById(R.id.giroOptBack);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +50,7 @@ public class GiroAcceptedListActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        });
+        });*/
 
         //Setting up bottom nav bar
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
