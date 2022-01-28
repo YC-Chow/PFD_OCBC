@@ -76,7 +76,6 @@ public class GiroOptionsActivity extends AppCompatActivity {
                 Intent intent = new Intent(GiroOptionsActivity.this, GiroListActivity.class);
                 intent.putExtra("Mode" , "Accept");
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -86,7 +85,6 @@ public class GiroOptionsActivity extends AppCompatActivity {
                 Intent intent = new Intent(GiroOptionsActivity.this, GiroListActivity.class);
                 intent.putExtra("Mode" , "Pending");
                 startActivity(intent);
-                finish();
             }
         });
     }

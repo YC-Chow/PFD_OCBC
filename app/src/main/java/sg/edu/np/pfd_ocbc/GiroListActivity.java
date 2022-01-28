@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -33,18 +35,24 @@ import java.util.ArrayList;
 
 public class GiroListActivity extends AppCompatActivity {
 
-    ImageButton back;
     private ArrayList<Giro> giroList;
     private  String Mode;
+    private  TextView title;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_giro_list);
 
-        back = findViewById(R.id.giroOptBack);
+        ImageButton back = findViewById(R.id.giroOptBack);
+        title = findViewById(R.id.giroTitle);
 
         Mode = getIntent().getStringExtra("Mode");
+        if (Mode.equals("Pending")){
+                title.setText("Pending Giro");
+        }
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +99,18 @@ public class GiroListActivity extends AppCompatActivity {
         LoadData();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("Please wait");
+        progressDialog.show();
+    }
+
     private void LoadData(){
 
         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
@@ -121,12 +141,28 @@ public class GiroListActivity extends AppCompatActivity {
                         Giro giro = new Giro(GiroListActivity.this);
                         giro.setDescription(giroArray.getJSONObject(i).getString("description"));
                         giro.setBiz_id(giroArray.getJSONObject(i).getInt("business_id"));
+                        giro.setGiro_id(giroArray.getJSONObject(i).getInt("giro_id"));
+                        giro.setGiro_acc_no(giroArray.getJSONObject(i).getString("giro_acc_no"));
+                        giro.setGiro_amount(giroArray.getJSONObject(i).getDouble("giro_amount"));
                         giroList.add(giro);
 
                         updateRecyclerView();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(GiroListActivity.this);
+                    builder.setTitle("Giro");
+                    builder.setMessage("No Giro records found!");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            progressDialog.dismiss();
+                            finish();
+                        }
+                    });
+
+                    builder.create().show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -148,6 +184,7 @@ public class GiroListActivity extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(manager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
+            progressDialog.dismiss();
         }
         else{
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -160,6 +197,7 @@ public class GiroListActivity extends AppCompatActivity {
                 }
             });
             AlertDialog alertDialog = builder.create();
+            progressDialog.dismiss();
             alertDialog.show();
         }
     }
