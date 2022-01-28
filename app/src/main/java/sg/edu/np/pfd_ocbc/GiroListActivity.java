@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 public class GiroListActivity extends AppCompatActivity {
 
-    private ArrayList<Giro> giroList;
+    private ArrayList<Giro> giroList = new ArrayList<Giro>();
     private  String Mode;
     private  TextView title;
     private ProgressDialog progressDialog;
@@ -140,7 +140,7 @@ public class GiroListActivity extends AppCompatActivity {
                     for (int i = 0; i < giroArray.length(); i++){
                         Giro giro = new Giro(GiroListActivity.this);
                         giro.setDescription(giroArray.getJSONObject(i).getString("description"));
-                        giro.setBiz_id(giroArray.getJSONObject(i).getInt("business_id"));
+                        giro.setBiz_id(giroArray.getJSONObject(i).getString("business_id"));
                         giro.setGiro_id(giroArray.getJSONObject(i).getInt("giro_id"));
                         giro.setGiro_acc_no(giroArray.getJSONObject(i).getString("giro_acc_no"));
                         giro.setGiro_amount(giroArray.getJSONObject(i).getDouble("giro_amount"));

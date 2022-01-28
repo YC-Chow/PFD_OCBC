@@ -50,6 +50,7 @@ public class QRCodeScannerActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
 
         scanView = findViewById(R.id.codeScannerView);
         codeScanner = new CodeScanner(this,scanView);
@@ -61,9 +62,50 @@ public class QRCodeScannerActivity extends AppCompatActivity {
                     @Override
                     public void run()
                     {
-                        Intent intent = new Intent(QRCodeScannerActivity.this, AmountConfirmationActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        startActivity(intent);
+                        String postUrl = "https://pfd-server.azurewebsites.net/getAccountUsingAccNo";
+
+                        JSONObject postData = new JSONObject();
+                        try {
+                            postData.put("accNo", result.getText());
+                        }catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    if (response.has("acc_no"))
+                                    {
+                                        String receiverAccNo = response.getString("acc_no");
+                                        String receiverName = response.getString("account_holder_name");
+                                        if (receiverName == null){
+                                            receiverName = "Unknown";
+                                        }
+                                        Intent intent = new Intent(QRCodeScannerActivity.this, AmountConfirmationActivity.class);
+                                        intent.putExtra("receiverName" , receiverName);
+                                        intent.putExtra("receiverAccNo", receiverAccNo);
+                                        intent.putExtra("senderAccNo", sharedPreferences.getString("accNo",""));
+                                        startActivity(intent);
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(QRCodeScannerActivity.this, "Invalid Account Number",Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(QRCodeScannerActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                                error.printStackTrace();
+                            }
+                        });
+                        RequestQueue requestQueue = Volley.newRequestQueue(QRCodeScannerActivity.this);
+                        requestQueue.add(jsonObjectRequest);
+
                     }
                 });
             }

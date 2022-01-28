@@ -17,7 +17,7 @@ import java.util.Date;
 
 public class Giro {
     private int giro_id;
-    private int biz_id;
+    private String biz_id;
     private String biz_name;
     private String giro_acc_no;
     private Date giro_date;
@@ -34,11 +34,11 @@ public class Giro {
         this.giro_id = giro_id;
     }
 
-    public int getBiz_id() {
+    public String getBiz_id() {
         return biz_id;
     }
 
-    public void setBiz_id(int biz_id) {
+    public void setBiz_id(String biz_id) {
         this.biz_id = biz_id;
     }
 
