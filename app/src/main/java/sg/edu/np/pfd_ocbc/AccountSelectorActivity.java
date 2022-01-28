@@ -57,7 +57,6 @@ public class AccountSelectorActivity extends AppCompatActivity {
             nameData.put("uid", user.getUid());
 
 
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
