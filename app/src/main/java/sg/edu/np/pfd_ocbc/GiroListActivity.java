@@ -26,6 +26,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,6 +54,7 @@ public class GiroListActivity extends AppCompatActivity {
         if (Mode.equals("Pending")){
                 title.setText("Pending Giro");
         }
+
 
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +99,7 @@ public class GiroListActivity extends AppCompatActivity {
             }
         });
 
-        LoadData();
+        LoadDataPart1();
     }
 
     @Override
@@ -111,10 +114,45 @@ public class GiroListActivity extends AppCompatActivity {
         progressDialog.show();
     }
 
-    private void LoadData(){
+    private  void LoadDataPart1(){
+        String postUrl = "https://pfd-server.azurewebsites.net/getAccountUsingUid";
+        JSONObject postData = new JSONObject();
+        RequestQueue requestQueue = Volley.newRequestQueue(GiroListActivity.this);
+        try{
+            postData.put("uid", FirebaseAuth.getInstance().getUid());
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray data = response.getJSONArray("data");
+                    JSONArray accounts = new JSONArray();
+                    for (int i = 0; i < data.length(); i++){
+                        accounts.put(data.getJSONObject(i).getString("acc_no"));
+                        System.out.println(data.getJSONObject(i).getString("acc_no"));
+                    }
+                    LoadDataPart2(requestQueue, accounts);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
-        String accNo = sharedPreferences.getString("accNo", "");
+                }catch (JSONException e){
+                    e.printStackTrace();
+                    Toast.makeText(GiroListActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void LoadDataPart2(RequestQueue requestQueue, JSONArray accounts){
+
         String postUrl;
 
         if (Mode.equals("Accept")){
@@ -126,7 +164,7 @@ public class GiroListActivity extends AppCompatActivity {
 
         JSONObject postData = new JSONObject();
         try {
-            postData.put("giro_acc_no", accNo);
+            postData.put("giro_acc_no", accounts);
         }catch (JSONException e)
         {
             e.printStackTrace();
@@ -141,7 +179,7 @@ public class GiroListActivity extends AppCompatActivity {
                         Giro giro = new Giro(GiroListActivity.this);
                         giro.setDescription(giroArray.getJSONObject(i).getString("description"));
                         giro.setBiz_id(giroArray.getJSONObject(i).getString("business_id"));
-                        giro.setGiro_id(giroArray.getJSONObject(i).getInt("giro_id"));
+                        giro.setGiro_id(giroArray.getJSONObject(i).getString("giro_id"));
                         giro.setGiro_acc_no(giroArray.getJSONObject(i).getString("giro_acc_no"));
                         giro.setGiro_amount(giroArray.getJSONObject(i).getDouble("giro_amount"));
                         giroList.add(giro);
@@ -168,11 +206,21 @@ public class GiroListActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(GiroListActivity.this, "Error!", Toast.LENGTH_SHORT).show();
                 error.printStackTrace();
+                AlertDialog.Builder builder = new AlertDialog.Builder(GiroListActivity.this);
+                builder.setTitle("Error");
+                builder.setMessage("Error Retrieving");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        progressDialog.dismiss();
+                        finish();
+                    }
+                });
+
+                builder.create().show();
             }
         });
-        RequestQueue requestQueue = Volley.newRequestQueue(GiroListActivity.this);
         requestQueue.add(jsonObjectRequest);
     }
 
