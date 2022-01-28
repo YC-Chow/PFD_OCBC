@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PFD_OCBC.NoActionBar">
         <activity android:name=".GiroDetailsActivity"></activity>
-        <activity android:name=".GiroAcceptedListActivity" />
+        <activity android:name=".GiroListActivity" />
         <activity android:name=".GiroOptionsActivity" />
         <activity
             android:name=".AccountSelectorActivity"

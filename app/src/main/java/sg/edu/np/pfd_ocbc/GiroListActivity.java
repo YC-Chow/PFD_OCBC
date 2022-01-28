@@ -31,7 +31,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class GiroAcceptedListActivity extends AppCompatActivity {
+public class GiroListActivity extends AppCompatActivity {
 
     ImageButton back;
     private ArrayList<Giro> giroList;
@@ -40,7 +40,7 @@ public class GiroAcceptedListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_giro_accepted_list);
+        setContentView(R.layout.activity_giro_list);
 
         back = findViewById(R.id.giroOptBack);
 
@@ -49,7 +49,7 @@ public class GiroAcceptedListActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GiroAcceptedListActivity.this, GiroOptionsActivity.class);
+                Intent intent = new Intent(GiroListActivity.this, GiroOptionsActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -69,13 +69,13 @@ public class GiroAcceptedListActivity extends AppCompatActivity {
 
 
                     case R.id.page_1:
-                        Intent b = new Intent(GiroAcceptedListActivity.this, HomeActivity.class);
+                        Intent b = new Intent(GiroListActivity.this, HomeActivity.class);
                         b.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(b);
                         break;
 
                     case R.id.page_2:
-                        Intent a = new Intent(GiroAcceptedListActivity.this, AccountTransferActivity.class);
+                        Intent a = new Intent(GiroListActivity.this, AccountTransferActivity.class);
                         a.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(a);
                         break;
@@ -89,28 +89,6 @@ public class GiroAcceptedListActivity extends AppCompatActivity {
         });
 
         LoadData();
-
-        if (giroList != null || giroList.size() == 0){
-            RecyclerView recyclerView = findViewById(R.id.giroRecyclerView);
-            GiroAcceptedAdapter adapter = new GiroAcceptedAdapter(giroList, Mode);
-            LinearLayoutManager manager = new LinearLayoutManager(this);
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(manager);
-            recyclerView.setItemAnimator(new DefaultItemAnimator());
-        }
-        else{
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("TEMPORARY WARNING");
-            builder.setMessage("TEMPORARY WARNING FOR NO EMPTY LIST");
-            builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
-        }
     }
 
     private void LoadData(){
@@ -140,10 +118,12 @@ public class GiroAcceptedListActivity extends AppCompatActivity {
                     JSONArray giroArray = response.getJSONArray("data");
                     //Server function not returning an array
                     for (int i = 0; i < giroArray.length(); i++){
-                        Giro giro = new Giro(GiroAcceptedListActivity.this);
+                        Giro giro = new Giro(GiroListActivity.this);
                         giro.setDescription(giroArray.getJSONObject(i).getString("description"));
                         giro.setBiz_id(giroArray.getJSONObject(i).getInt("business_id"));
                         giroList.add(giro);
+
+                        updateRecyclerView();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -152,11 +132,35 @@ public class GiroAcceptedListActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(GiroAcceptedListActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(GiroListActivity.this, "Error!", Toast.LENGTH_SHORT).show();
                 error.printStackTrace();
             }
         });
-        RequestQueue requestQueue = Volley.newRequestQueue(GiroAcceptedListActivity.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(GiroListActivity.this);
         requestQueue.add(jsonObjectRequest);
+    }
+
+    private void updateRecyclerView(){
+        if (giroList != null){
+            RecyclerView recyclerView = findViewById(R.id.giroRecyclerView);
+            GiroListAdapter adapter = new GiroListAdapter(giroList, Mode);
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(manager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+        }
+        else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("TEMPORARY WARNING");
+            builder.setMessage("TEMPORARY WARNING FOR NO EMPTY LIST");
+            builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
     }
 }

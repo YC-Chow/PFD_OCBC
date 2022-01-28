@@ -2,12 +2,12 @@ package sg.edu.np.pfd_ocbc;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -15,8 +15,8 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class GiroOptionsActivity extends AppCompatActivity {
 
-    Button giroAcceptedButton;
-    Button giroPendingButton;
+    ConstraintLayout giroAcceptedButton;
+    ConstraintLayout giroPendingButton;
     ImageButton back;
 
     @Override
@@ -73,7 +73,7 @@ public class GiroOptionsActivity extends AppCompatActivity {
         giroAcceptedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GiroOptionsActivity.this, GiroAcceptedListActivity.class);
+                Intent intent = new Intent(GiroOptionsActivity.this, GiroListActivity.class);
                 intent.putExtra("Mode" , "Accept");
                 startActivity(intent);
                 finish();
@@ -83,7 +83,7 @@ public class GiroOptionsActivity extends AppCompatActivity {
         giroPendingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GiroOptionsActivity.this, GiroAcceptedListActivity.class);
+                Intent intent = new Intent(GiroOptionsActivity.this, GiroListActivity.class);
                 intent.putExtra("Mode" , "Pending");
                 startActivity(intent);
                 finish();

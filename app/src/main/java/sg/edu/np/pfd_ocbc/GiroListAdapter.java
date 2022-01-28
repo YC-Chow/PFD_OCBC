@@ -9,18 +9,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class GiroAcceptedAdapter extends RecyclerView.Adapter<GiroAcceptedViewHolder> {
+public class GiroListAdapter extends RecyclerView.Adapter<GiroListVH> {
     ArrayList<Giro> data;
     String Mode;
 
-    public GiroAcceptedAdapter(ArrayList<Giro> input, String mode){data = input; this.Mode = Mode;}
+    public GiroListAdapter(ArrayList<Giro> input, String mode){data = input; this.Mode = Mode;}
 
-    public GiroAcceptedViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
+    public GiroListVH onCreateViewHolder(ViewGroup parent, int viewType) {
         View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.giro_accepted_recyclerview,parent, false);
-        return new GiroAcceptedViewHolder(item);
+        return new GiroListVH(item);
     }
 
-    public void onBindViewHolder(GiroAcceptedViewHolder holder, int position) {
+    public void onBindViewHolder(GiroListVH holder, int position) {
         Giro giro = data.get(position);
 
         //temporary set to biz id, no way of getting biz name
