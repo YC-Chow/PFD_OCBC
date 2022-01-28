@@ -7,7 +7,7 @@
     tools:context=".ReceiverAccountActivity">
 
     <ImageButton
-        android:id="@+id/pdback5"
+        android:id="@+id/receiverback"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -84,6 +84,6 @@
         android:text="Receiver Account"
         android:textColor="#000000"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/pdback5"
+        app:layout_constraintStart_toEndOf="@+id/receiverback"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

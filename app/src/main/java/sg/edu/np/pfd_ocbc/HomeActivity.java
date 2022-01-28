@@ -76,6 +76,7 @@ public class HomeActivity extends AppCompatActivity {
     private Account userAccount;
     RecyclerView recyclerView;
     TextView emptyText;
+    SharedPreferences accholdersharedpref;
     HomeTransactionAdapter TransactionAdapter;
     Context mContext;
     SharedPreferences sharedPref;
@@ -106,7 +107,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         sharedPref = getSharedPreferences("MySharedPref", MODE_PRIVATE);
-        SharedPreferences accholdersharedpref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
+        accholdersharedpref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
         mFrameLayout = findViewById(R.id.shimmerLayout);
         mFrameLayoutBalance = findViewById(R.id.shimmerLayout2);
 
@@ -199,13 +200,13 @@ public class HomeActivity extends AppCompatActivity {
         DBHandler dbHandler = new DBHandler(this);
 
         //Log.v("uid is:" ,user.getUid());
-        String postUrlAccount = "https://pfd-server.azurewebsites.net/getAccountUsingUid";
+        String postUrlAccount = "https://pfd-server.azurewebsites.net/getAccountUsingPhoneNo";
         String postUrlTransactions = "https://pfd-server.azurewebsites.net/getTransactions";
         JSONObject postData = new JSONObject();
         RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
 
         try{
-            postData.put("uid", user.getUid());
+            postData.put("phoneNo", accholdersharedpref.getString("phoneno", ""));
         }catch (JSONException e) {
             e.printStackTrace();
         }

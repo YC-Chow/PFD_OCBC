@@ -39,7 +39,7 @@ public class ReceiverAccountActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
 
-        ImageButton back = findViewById(R.id.notiback3);
+        ImageButton back = findViewById(R.id.receiverback);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +61,7 @@ public class ReceiverAccountActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ReceiverAccountActivity.this, AccountSelectorActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                intent.putExtra("situation", "changeacc");
+                intent.putExtra("situation", "receiveracc");
                 startActivity(intent);
             }
         });
