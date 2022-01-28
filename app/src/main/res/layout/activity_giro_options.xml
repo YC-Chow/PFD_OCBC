@@ -13,9 +13,9 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/notification_background"
-        app:layout_constraintStart_toStartOf="@+id/notification_background"
-        app:layout_constraintTop_toBottomOf="@+id/notification_background"
+        app:layout_constraintEnd_toEndOf="@+id/giroCheckPendingButton"
+        app:layout_constraintStart_toStartOf="@+id/giroCheckPendingButton"
+        app:layout_constraintTop_toBottomOf="@+id/giroCheckPendingButton"
         app:srcCompat="@drawable/black_line" />
 
     <ImageView
@@ -25,10 +25,10 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/personaldetails"
+        app:layout_constraintEnd_toEndOf="@+id/giroCheckAcceptedButton"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/personaldetails"
-        app:layout_constraintTop_toBottomOf="@+id/personaldetails"
+        app:layout_constraintStart_toStartOf="@+id/giroCheckAcceptedButton"
+        app:layout_constraintTop_toBottomOf="@+id/giroCheckAcceptedButton"
         app:srcCompat="@drawable/black_line" />
 
     <TextView
@@ -41,11 +41,11 @@
         android:text="GIRO Applications"
         android:textColor="#000000"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/pdback3"
+        app:layout_constraintStart_toEndOf="@+id/giroOptBack"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/pdback3"
+        android:id="@+id/giroOptBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -57,7 +57,7 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/notification_background"
+        android:id="@+id/giroCheckPendingButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -105,7 +105,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/personaldetails"
+        android:id="@+id/giroCheckAcceptedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
