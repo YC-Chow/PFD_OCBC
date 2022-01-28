@@ -11,8 +11,9 @@ import java.util.ArrayList;
 
 public class GiroAcceptedAdapter extends RecyclerView.Adapter<GiroAcceptedViewHolder> {
     ArrayList<Giro> data;
+    String Mode;
 
-    public GiroAcceptedAdapter(ArrayList<Giro> input){data = input;}
+    public GiroAcceptedAdapter(ArrayList<Giro> input, String mode){data = input; this.Mode = Mode;}
 
     public GiroAcceptedViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
         View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.giro_accepted_recyclerview,parent, false);
@@ -28,6 +29,7 @@ public class GiroAcceptedAdapter extends RecyclerView.Adapter<GiroAcceptedViewHo
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), GiroDetailsActivity.class);
+                intent.putExtra("Mode", Mode);
                 v.getContext().startActivity(intent);
             }
         });

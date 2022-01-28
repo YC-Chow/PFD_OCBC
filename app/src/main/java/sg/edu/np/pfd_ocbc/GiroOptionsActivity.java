@@ -74,6 +74,17 @@ public class GiroOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GiroOptionsActivity.this, GiroAcceptedListActivity.class);
+                intent.putExtra("Mode" , "Accept");
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        giroPendingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GiroOptionsActivity.this, GiroAcceptedListActivity.class);
+                intent.putExtra("Mode" , "Pending");
                 startActivity(intent);
                 finish();
             }

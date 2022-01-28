@@ -35,6 +35,7 @@ public class GiroAcceptedListActivity extends AppCompatActivity {
 
     ImageButton back;
     private ArrayList<Giro> giroList;
+    private  String Mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,8 @@ public class GiroAcceptedListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_giro_accepted_list);
 
         back = findViewById(R.id.giroOptBack);
+
+        Mode = getIntent().getStringExtra("Mode");
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,9 +88,11 @@ public class GiroAcceptedListActivity extends AppCompatActivity {
             }
         });
 
-        if (giroList != null){
+        LoadData();
+
+        if (giroList != null || giroList.size() == 0){
             RecyclerView recyclerView = findViewById(R.id.giroRecyclerView);
-            GiroAcceptedAdapter adapter = new GiroAcceptedAdapter(giroList);
+            GiroAcceptedAdapter adapter = new GiroAcceptedAdapter(giroList, Mode);
             LinearLayoutManager manager = new LinearLayoutManager(this);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(manager);
@@ -112,8 +117,14 @@ public class GiroAcceptedListActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         String accNo = sharedPreferences.getString("accNo", "");
+        String postUrl;
 
-        String postUrl = "https://pfd-server.azurewebsites.net/getAcceptedGiro";
+        if (Mode.equals("Accept")){
+            postUrl = "https://pfd-server.azurewebsites.net/getAcceptedGiro";
+        }
+        else{
+            postUrl = "https://pfd-server.azurewebsites.net/getPendingGiro";
+        }
 
         JSONObject postData = new JSONObject();
         try {
@@ -129,7 +140,7 @@ public class GiroAcceptedListActivity extends AppCompatActivity {
                     JSONArray giroArray = response.getJSONArray("data");
                     //Server function not returning an array
                     for (int i = 0; i < giroArray.length(); i++){
-                        Giro giro = new Giro();
+                        Giro giro = new Giro(GiroAcceptedListActivity.this);
                         giro.setDescription(giroArray.getJSONObject(i).getString("description"));
                         giro.setBiz_id(giroArray.getJSONObject(i).getInt("business_id"));
                         giroList.add(giro);
