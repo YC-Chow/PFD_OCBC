@@ -59,7 +59,7 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
-        android:id="@+id/nextBtnAmtConfirm2"
+        android:id="@+id/giroDetailsNextBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -69,14 +69,15 @@
         android:text="Next"
         android:textColor="#000000"
         android:textSize="16sp"
+        android:visibility="gone"
         app:backgroundTint="#EF4B4C"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cancelBtnAmtConfirm2" />
+        app:layout_constraintStart_toEndOf="@+id/giroDetailsCancelBtn" />
 
     <Button
-        android:id="@+id/cancelBtnAmtConfirm2"
+        android:id="@+id/giroDetailsCancelBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -86,13 +87,14 @@
         android:text="Cancel"
         android:textColor="#020202"
         android:textSize="16sp"
+        android:visibility="gone"
         app:backgroundTint="#EF4B4C"
         app:cornerRadius="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/nextBtnAmtConfirm2"
-        app:layout_constraintEnd_toStartOf="@+id/nextBtnAmtConfirm2"
+        app:layout_constraintBottom_toBottomOf="@+id/giroDetailsNextBtn"
+        app:layout_constraintEnd_toStartOf="@+id/giroDetailsNextBtn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/nextBtnAmtConfirm2" />
+        app:layout_constraintTop_toTopOf="@+id/giroDetailsNextBtn" />
 
     <TextView
         android:id="@+id/orgName"
@@ -112,7 +114,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView40" />
 
     <TextView
-        android:id="@+id/textView43"
+        android:id="@+id/giroDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
