@@ -6,14 +6,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
-public class GIroDetailsActivity extends AppCompatActivity {
+public class GiroDetailsActivity extends AppCompatActivity {
 
     ImageButton back;
+    private String Mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_giro_details);
+
+        back = findViewById(R.id.giroOptBack);
+        Mode = getIntent().getStringExtra("Mode");
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -21,6 +25,8 @@ public class GIroDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
 
     }
 }

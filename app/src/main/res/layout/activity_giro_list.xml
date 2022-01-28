@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GiroAcceptedListActivity">
+    tools:context=".GiroListActivity">
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -29,11 +29,11 @@
         android:text="Accepted GIRO"
         android:textColor="#000000"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/pdback4"
+        app:layout_constraintStart_toEndOf="@+id/giroOptBack"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/pdback4"
+        android:id="@+id/giroOptBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

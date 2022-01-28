@@ -31,22 +31,25 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class GiroAcceptedListActivity extends AppCompatActivity {
+public class GiroListActivity extends AppCompatActivity {
 
     ImageButton back;
     private ArrayList<Giro> giroList;
+    private  String Mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_giro_accepted_list);
+        setContentView(R.layout.activity_giro_list);
 
         /*back = findViewById(R.id.giroOptBack);
+
+        Mode = getIntent().getStringExtra("Mode");
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GiroAcceptedListActivity.this, GiroOptionsActivity.class);
+                Intent intent = new Intent(GiroListActivity.this, GiroOptionsActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -66,13 +69,13 @@ public class GiroAcceptedListActivity extends AppCompatActivity {
 
 
                     case R.id.page_1:
-                        Intent b = new Intent(GiroAcceptedListActivity.this, HomeActivity.class);
+                        Intent b = new Intent(GiroListActivity.this, HomeActivity.class);
                         b.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(b);
                         break;
 
                     case R.id.page_2:
-                        Intent a = new Intent(GiroAcceptedListActivity.this, AccountTransferActivity.class);
+                        Intent a = new Intent(GiroListActivity.this, AccountTransferActivity.class);
                         a.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(a);
                         break;
@@ -85,9 +88,62 @@ public class GiroAcceptedListActivity extends AppCompatActivity {
             }
         });
 
+        LoadData();
+    }
+
+    private void LoadData(){
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        String accNo = sharedPreferences.getString("accNo", "");
+        String postUrl;
+
+        if (Mode.equals("Accept")){
+            postUrl = "https://pfd-server.azurewebsites.net/getAcceptedGiro";
+        }
+        else{
+            postUrl = "https://pfd-server.azurewebsites.net/getPendingGiro";
+        }
+
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("giro_acc_no", accNo);
+        }catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray giroArray = response.getJSONArray("data");
+                    //Server function not returning an array
+                    for (int i = 0; i < giroArray.length(); i++){
+                        Giro giro = new Giro(GiroListActivity.this);
+                        giro.setDescription(giroArray.getJSONObject(i).getString("description"));
+                        giro.setBiz_id(giroArray.getJSONObject(i).getInt("business_id"));
+                        giroList.add(giro);
+
+                        updateRecyclerView();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(GiroListActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                error.printStackTrace();
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(GiroListActivity.this);
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void updateRecyclerView(){
         if (giroList != null){
             RecyclerView recyclerView = findViewById(R.id.giroRecyclerView);
-            GiroAcceptedAdapter adapter = new GiroAcceptedAdapter(giroList);
+            GiroListAdapter adapter = new GiroListAdapter(giroList, Mode);
             LinearLayoutManager manager = new LinearLayoutManager(this);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(manager);
@@ -106,46 +162,5 @@ public class GiroAcceptedListActivity extends AppCompatActivity {
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
         }
-    }
-
-    private void LoadData(){
-
-        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
-        String accNo = sharedPreferences.getString("accNo", "");
-
-        String postUrl = "https://pfd-server.azurewebsites.net/getAcceptedGiro";
-
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("giro_acc_no", accNo);
-        }catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONArray giroArray = response.getJSONArray("data");
-                    //Server function not returning an array
-                    for (int i = 0; i < giroArray.length(); i++){
-                        Giro giro = new Giro();
-                        giro.setDescription(giroArray.getJSONObject(i).getString("description"));
-                        giro.setBiz_id(giroArray.getJSONObject(i).getInt("business_id"));
-                        giroList.add(giro);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(GiroAcceptedListActivity.this, "Error!", Toast.LENGTH_SHORT).show();
-                error.printStackTrace();
-            }
-        });
-        RequestQueue requestQueue = Volley.newRequestQueue(GiroAcceptedListActivity.this);
-        requestQueue.add(jsonObjectRequest);
     }
 }

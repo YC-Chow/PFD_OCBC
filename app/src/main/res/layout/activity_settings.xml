@@ -67,7 +67,7 @@
         app:srcCompat="@drawable/black_line" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/notification_background"
+        android:id="@+id/giroCheckPendingButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -118,10 +118,10 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginTop="2dp"
-        app:layout_constraintEnd_toEndOf="@+id/notification_background"
+        app:layout_constraintEnd_toEndOf="@+id/giroCheckPendingButton"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/notification_background"
-        app:layout_constraintTop_toBottomOf="@+id/notification_background"
+        app:layout_constraintStart_toStartOf="@+id/giroCheckPendingButton"
+        app:layout_constraintTop_toBottomOf="@+id/giroCheckPendingButton"
         app:srcCompat="@drawable/black_line" />
 
     <TextView
@@ -157,14 +157,14 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/personaldetails"
+        app:layout_constraintEnd_toEndOf="@+id/giroCheckAcceptedButton"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/personaldetails"
-        app:layout_constraintTop_toBottomOf="@+id/personaldetails"
+        app:layout_constraintStart_toStartOf="@+id/giroCheckAcceptedButton"
+        app:layout_constraintTop_toBottomOf="@+id/giroCheckAcceptedButton"
         app:srcCompat="@drawable/black_line" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/personaldetails"
+        android:id="@+id/giroCheckAcceptedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

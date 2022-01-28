@@ -1,5 +1,18 @@
 package sg.edu.np.pfd_ocbc;
 
+import android.content.Context;
+
+import androidx.appcompat.app.AlertDialog;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Date;
 
 public class Giro {
@@ -11,6 +24,7 @@ public class Giro {
     private String description;
     private boolean verified;
     private double giro_amount;
+    private  Context context;
 
     public int getGiro_id() {
         return giro_id;
@@ -72,6 +86,53 @@ public class Giro {
 
     public void setBiz_name(String biz_name) { this.biz_name = biz_name; }
 
-    public Giro() {
+    public Giro(Context context) {
+        this.context = context;
+    }
+
+    public void GiroAcceptance(boolean accept, RequestQueue queue){
+        String giroAcceptUri = "https://pfd-server.azurewebsites.net/updateGiroVerification";
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("giro_acc_no", this.getGiro_acc_no());
+            postData.put("giro_id", this.getGiro_id());
+            if (accept){
+                postData.put("verified", "true");
+            }
+            else {
+                postData.put("verified", "false");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, giroAcceptUri, postData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    boolean success = response.getBoolean("success");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Giro");
+                    if (success){
+                        builder.setMessage("You have successfully confirmed Giro request");
+                    }
+                    else{
+                        builder.setMessage("Giro request confirmation failed");
+                    }
+
+                    builder.setPositiveButton("OK", null);
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        queue.add(jsonObjectRequest);
     }
 }

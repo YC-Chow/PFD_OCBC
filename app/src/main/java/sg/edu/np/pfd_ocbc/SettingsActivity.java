@@ -18,9 +18,9 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        ConstraintLayout personal = findViewById(R.id.personaldetails);
+        ConstraintLayout personal = findViewById(R.id.giroCheckAcceptedButton);
 
-        ConstraintLayout notification = findViewById(R.id.notification_background);
+        ConstraintLayout notification = findViewById(R.id.giroCheckPendingButton);
 
         ConstraintLayout receiver = findViewById(R.id.receiveraccount);
 
