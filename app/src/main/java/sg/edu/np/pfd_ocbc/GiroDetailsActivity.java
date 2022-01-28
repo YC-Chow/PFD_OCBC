@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
-public class GIroDetailsActivity extends AppCompatActivity {
+public class GiroDetailsActivity extends AppCompatActivity {
 
     ImageButton back;
 

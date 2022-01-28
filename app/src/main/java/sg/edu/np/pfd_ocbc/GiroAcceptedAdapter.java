@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class GiroAcceptedAdapter extends RecyclerView.Adapter<GiroAcceptedViewHo
         holder.moreInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), GIroDetailsActivity.class);
+                Intent intent = new Intent(v.getContext(), GiroDetailsActivity.class);
                 v.getContext().startActivity(intent);
             }
         });
