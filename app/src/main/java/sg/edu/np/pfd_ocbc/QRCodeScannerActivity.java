@@ -36,6 +36,8 @@ import com.google.zxing.Result;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.regex.Pattern;
+
 public class QRCodeScannerActivity extends AppCompatActivity {
 
     private static final int PERMISSION_REQUEST_CODE = 200;
@@ -62,50 +64,51 @@ public class QRCodeScannerActivity extends AppCompatActivity {
                     @Override
                     public void run()
                     {
-                        String postUrl = "https://pfd-server.azurewebsites.net/getAccountUsingAccNo";
-
-                        JSONObject postData = new JSONObject();
-                        try {
-                            postData.put("accNo", result.getText());
-                        }catch (JSONException e)
-                        {
-                            e.printStackTrace();
-                        }
-                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    if (response.has("acc_no"))
-                                    {
-                                        String receiverAccNo = response.getString("acc_no");
-                                        String receiverName = response.getString("account_holder_name");
-                                        if (receiverName == null){
-                                            receiverName = "Unknown";
+                        String accNo = result.getText();
+                        if(Pattern.matches("([0-9]{3})-([0-9]{7})",accNo)) {
+                            String postUrl = "https://pfd-server.azurewebsites.net/getAccountUsingAccNo";
+                            JSONObject postData = new JSONObject();
+                            try {
+                                postData.put("accNo", result.getText());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        if (response.has("acc_no")) {
+                                            String receiverAccNo = response.getString("acc_no");
+                                            String receiverName = response.getString("account_holder_name");
+                                            if (receiverName == null) {
+                                                receiverName = "Unknown";
+                                            }
+                                            Intent intent = new Intent(QRCodeScannerActivity.this, AmountConfirmationActivity.class);
+                                            intent.putExtra("receiverName", receiverName);
+                                            intent.putExtra("receiverAccNo", receiverAccNo);
+                                            intent.putExtra("senderAccNo", sharedPreferences.getString("accNo", ""));
+                                            startActivity(intent);
+                                        } else {
+                                            Toast.makeText(QRCodeScannerActivity.this, "Invalid Account Number", Toast.LENGTH_SHORT).show();
                                         }
-                                        Intent intent = new Intent(QRCodeScannerActivity.this, AmountConfirmationActivity.class);
-                                        intent.putExtra("receiverName" , receiverName);
-                                        intent.putExtra("receiverAccNo", receiverAccNo);
-                                        intent.putExtra("senderAccNo", sharedPreferences.getString("accNo",""));
-                                        startActivity(intent);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                    else
-                                    {
-                                        Toast.makeText(QRCodeScannerActivity.this, "Invalid Account Number",Toast.LENGTH_SHORT).show();
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
                                 }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(QRCodeScannerActivity.this, "Error!", Toast.LENGTH_SHORT).show();
-                                error.printStackTrace();
-                            }
-                        });
-                        RequestQueue requestQueue = Volley.newRequestQueue(QRCodeScannerActivity.this);
-                        requestQueue.add(jsonObjectRequest);
-
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Toast.makeText(QRCodeScannerActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                                    error.printStackTrace();
+                                }
+                            });
+                            RequestQueue requestQueue = Volley.newRequestQueue(QRCodeScannerActivity.this);
+                            requestQueue.add(jsonObjectRequest);
+                        }
+                        else
+                        {
+                            Toast.makeText(QRCodeScannerActivity.this, "Invalid QR Code!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
