@@ -53,22 +53,53 @@ public class NotificationsActivity extends AppCompatActivity {
 
         RadioButton telegram = findViewById(R.id.telegram);
         RadioButton sms = findViewById(R.id.sms);
+        RadioButton discord = findViewById(R.id.discord);
+        RadioButton email = findViewById(R.id.emailpref);
+        RadioButton whatsapp = findViewById(R.id.whatsapp);
 
         String postUrlTelegram = "https://pfd-server.azurewebsites.net/updatePreference";
 
         if(pref.equals("sms")){
             sms.setChecked(true);
             telegram.setChecked(false);
+            discord.setChecked(false);
+            email.setChecked(false);
+            whatsapp.setChecked(false);
 
         }
-        else {
-            telegram.setChecked(true);
+        else if(pref.equals("discord")){
             sms.setChecked(false);
+            telegram.setChecked(false);
+            discord.setChecked(true);
+            email.setChecked(false);
+            whatsapp.setChecked(false);
+        }
+        else if(pref.equals("email")){
+            sms.setChecked(false);
+            telegram.setChecked(false);
+            discord.setChecked(false);
+            email.setChecked(true);
+            whatsapp.setChecked(false);
+        }
+        else if(pref.equals("whatsapp")){
+            sms.setChecked(false);
+            telegram.setChecked(false);
+            discord.setChecked(false);
+            email.setChecked(false);
+            whatsapp.setChecked(true);
+        }
+        else {
+            sms.setChecked(false);
+            telegram.setChecked(true);
+            discord.setChecked(false);
+            email.setChecked(false);
+            whatsapp.setChecked(false);
         }
 
         telegram.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 JSONObject postData = new JSONObject();
                 FirebaseUser user = mAuth.getCurrentUser();
 
@@ -101,6 +132,7 @@ public class NotificationsActivity extends AppCompatActivity {
                 });
                 RequestQueue requestQueue = Volley.newRequestQueue(NotificationsActivity.this);
                 requestQueue.add(jsonObjectRequest);
+
             }
         });
 
@@ -123,10 +155,52 @@ public class NotificationsActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         Toast.makeText(getApplicationContext(),
                                 "Preference changed to SMS", Toast.LENGTH_SHORT).show();
+
                         SharedPreferences.Editor editor = sharedPref.edit();
 
                         editor.putString("preference", "sms");
                         editor.apply();
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error yo", "onErrorResponse: ");
+
+                    }
+                });
+                RequestQueue requestQueue = Volley.newRequestQueue(NotificationsActivity.this);
+                requestQueue.add(jsonObjectRequest);
+
+
+            }
+        });
+
+        discord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject postData = new JSONObject();
+                FirebaseUser user = mAuth.getCurrentUser();
+
+
+                try{
+                    postData.put("uid", user.getUid());
+                    postData.put("preference", "discord");
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlTelegram, postData, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Toast.makeText(getApplicationContext(),
+                                "Preference changed to Discord", Toast.LENGTH_SHORT).show();
+
+                        SharedPreferences.Editor editor = sharedPref.edit();
+
+                        editor.putString("preference", "discord");
+                        editor.apply();
+
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -139,6 +213,85 @@ public class NotificationsActivity extends AppCompatActivity {
                 requestQueue.add(jsonObjectRequest);
             }
         });
+
+        email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject postData = new JSONObject();
+                FirebaseUser user = mAuth.getCurrentUser();
+
+
+                try{
+                    postData.put("uid", user.getUid());
+                    postData.put("preference", "email");
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlTelegram, postData, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Toast.makeText(getApplicationContext(),
+                                "Preference changed to Email", Toast.LENGTH_SHORT).show();
+
+                        SharedPreferences.Editor editor = sharedPref.edit();
+
+                        editor.putString("preference", "email");
+                        editor.apply();
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error yo", "onErrorResponse: ");
+
+                    }
+                });
+                RequestQueue requestQueue = Volley.newRequestQueue(NotificationsActivity.this);
+                requestQueue.add(jsonObjectRequest);
+            }
+        });
+
+        whatsapp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject postData = new JSONObject();
+                FirebaseUser user = mAuth.getCurrentUser();
+
+
+                try{
+                    postData.put("uid", user.getUid());
+                    postData.put("preference", "whatsapp");
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlTelegram, postData, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Toast.makeText(getApplicationContext(),
+                                "Preference changed to Whatsapp", Toast.LENGTH_SHORT).show();
+
+                        SharedPreferences.Editor editor = sharedPref.edit();
+
+                        editor.putString("preference", "whatsapp");
+                        editor.apply();
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error yo", "onErrorResponse: ");
+
+                    }
+                });
+                RequestQueue requestQueue = Volley.newRequestQueue(NotificationsActivity.this);
+                requestQueue.add(jsonObjectRequest);
+            }
+        });
+
+
+
 
 
     }

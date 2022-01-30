@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00FFFFFF"
-    tools:context=".TwoFactorActivity">
+    tools:context=".NotificationsActivity">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="373dp"
-        android:layout_height="165dp"
+        android:layout_width="376dp"
+        android:layout_height="360dp"
         android:layout_marginTop="32dp"
         android:background="#00330000"
         app:cardBackgroundColor="#F6F6F6"
@@ -50,6 +50,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Telegram"
+                app:buttonTint="#EF4B4C" />
+
+            <RadioButton
+                android:id="@+id/emailpref"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                app:buttonTint="#EF4B4C" />
+
+            <RadioButton
+                android:id="@+id/discord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Discord"
+                app:buttonTint="#EF4B4C" />
+
+            <RadioButton
+                android:id="@+id/whatsapp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Whatsapp"
                 app:buttonTint="#EF4B4C" />
         </RadioGroup>
 
