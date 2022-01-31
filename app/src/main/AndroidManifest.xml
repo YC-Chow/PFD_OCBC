@@ -30,9 +30,6 @@
             android:label="@string/title_activity_view_qractivity"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar.NoActionBar" />
         <activity
-            android:name=".ReceiverAccountActivity"
-            android:exported="false" />
-        <activity
             android:name=".ShowAllTransactions"
             android:exported="false"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar" />

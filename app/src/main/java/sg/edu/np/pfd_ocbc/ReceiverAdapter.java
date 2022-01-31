@@ -2,6 +2,9 @@ package sg.edu.np.pfd_ocbc;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +60,69 @@ public class ReceiverAdapter extends RecyclerView.Adapter<ReceiverVH>{
             holder.cardtype.setImageResource(R.drawable.visa_icon);
         }
 
+        String getcard = "https://pfd-server.azurewebsites.net/getAccountHolderUsingUid";
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+
+
+        JSONObject nameData = new JSONObject();
+        try {
+            nameData.put("uid", user.getUid());
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //POST api to update name
+        JsonObjectRequest nameObjectRequest = new JsonObjectRequest(Request.Method.POST, getcard, nameData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                JSONObject nameData = new JSONObject();
+                try {
+
+
+
+                    String bank_pref = response.getString("bank_pref");
+
+
+                    if(card.getAccNo().equals(bank_pref)){
+                        holder.card.setStrokeWidth(8);
+                        holder.card.setStrokeColor(Color.rgb(239, 75, 76));
+                        holder.card.invalidate();
+
+
+                    }else{
+                        holder.card.setStrokeWidth(0);
+                        holder.card.invalidate();
+                    }
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(mcontext, "Update Error",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+        RequestQueue namerequestQueue = Volley.newRequestQueue(mcontext);
+        namerequestQueue.add(nameObjectRequest);
+
+
+
 
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,9 +149,14 @@ public class ReceiverAdapter extends RecyclerView.Adapter<ReceiverVH>{
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        Intent intent = new Intent(mcontext, ReceiverAccountActivity .class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        mcontext.startActivity(intent);
+                        notifyDataSetChanged();
+
+
+
+
+
+
+
 
 
                     }
