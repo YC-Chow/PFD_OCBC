@@ -1,5 +1,6 @@
 package sg.edu.np.pfd_ocbc;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ public class ViewQRActivity extends AppCompatActivity {
     private ImageView QRCode;
     private FirebaseAuth mAuth;
     SharedPreferences accNo;
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,11 @@ public class ViewQRActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_qractivity);
         QRCode = findViewById(R.id.QRCodeImg);
 
+        progress = new ProgressDialog(this);
+        progress.setTitle("Loading");
+        progress.setMessage("Please wait for QR...");
+        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+        progress.show();
     }
 
     private Bitmap textToImageEncode(String value) throws WriterException {
@@ -102,6 +109,7 @@ public class ViewQRActivity extends AppCompatActivity {
                     try{
                         //change hello to store the account number instead.
                         bitmap = textToImageEncode(accNo);
+                        progress.dismiss();
                         QRCode.setImageBitmap(bitmap);
                     }catch (WriterException e){
                         e.printStackTrace();
