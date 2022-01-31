@@ -140,7 +140,7 @@ public class QRCodeScannerActivity extends AppCompatActivity {
         {
             optionBar.getMenu().getItem(i).setChecked(false);
         }
-        optionBar.getMenu().findItem(R.id.cardTransfer).setChecked(true);
+        optionBar.getMenu().findItem(R.id.qrTransfer).setChecked(true);
         optionBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
