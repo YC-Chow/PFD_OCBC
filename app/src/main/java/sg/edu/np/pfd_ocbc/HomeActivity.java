@@ -102,10 +102,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         mAuth =FirebaseAuth.getInstance();
 
-        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-        String ipAddress = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
-        Log.v("IP Address",ipAddress);
-
         CardView card = findViewById(R.id.cardView);
 
         card.setOnClickListener(new View.OnClickListener() {
@@ -209,12 +205,19 @@ public class HomeActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        //ip address
+        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+        String ipAddress = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
+        Log.v("IP Address",ipAddress);
+
         FirebaseUser user = mAuth.getCurrentUser();
         DBHandler dbHandler = new DBHandler(this);
 
         //Log.v("uid is:" ,user.getUid());
         String postUrlAccount = "https://pfd-server.azurewebsites.net/getAccountUsingPhoneNo";
         String postUrlTransactions = "https://pfd-server.azurewebsites.net/getTransactions";
+        String postIpAddress = "https://pfd-server.azurewebsites.net/sendIPNotification";
+
         JSONObject postData = new JSONObject();
         RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
 
@@ -232,6 +235,8 @@ public class HomeActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         mFrameLayoutBalance.startShimmer();
+
+        //request for Account details
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlAccount, postData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -279,6 +284,8 @@ public class HomeActivity extends AppCompatActivity {
                 catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                //request for Account transactions
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlTransactions, postData,  new Response.Listener <JSONObject> () {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -339,8 +346,33 @@ public class HomeActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }
 
+                        try {
+                            postData.put("IP", ipAddress);
+                            postData.put("uid", user.getUid());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        //Post IP Address for notification
+                        JsonObjectRequest nameObjectRequest = new JsonObjectRequest(Request.Method.POST, postIpAddress, postData, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+
+                                try {
+                                    String messageResult = response.getString("message");
+                                    Boolean successResult = response.getBoolean("success");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                            }
+                        });
+                        requestQueue.add(nameObjectRequest);
+                    }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
@@ -348,7 +380,6 @@ public class HomeActivity extends AppCompatActivity {
                         error.printStackTrace();
                     }
                 });
-
                 requestQueue.add(jsonObjectRequest);
             }
         }, new Response.ErrorListener() {
@@ -358,9 +389,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         requestQueue.add(jsonObjectRequest);
-
-
-
     }
 
     @Override
@@ -444,7 +472,6 @@ public class HomeActivity extends AppCompatActivity {
                     error.printStackTrace();
                 }
             });
-
             queue.add(jsonObjectRequest);
         }
     }
