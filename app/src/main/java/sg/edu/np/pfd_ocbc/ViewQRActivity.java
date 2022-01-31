@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +46,7 @@ public class ViewQRActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     SharedPreferences accNo;
     ProgressDialog progress;
+    ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,17 @@ public class ViewQRActivity extends AppCompatActivity {
         progress.setMessage("Please wait for QR...");
         progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
         progress.show();
+
+        back = findViewById(R.id.backBtnViewQR);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ViewQRActivity.this, ProfileActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private Bitmap textToImageEncode(String value) throws WriterException {
