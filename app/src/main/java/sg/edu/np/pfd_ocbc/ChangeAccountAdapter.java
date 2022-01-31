@@ -92,6 +92,8 @@ public class ChangeAccountAdapter extends RecyclerView.Adapter<ReceiverVH> {
 
                         SharedPreferences.Editor editor = sharedPref.edit();
 
+                        Log.v("hihih", "sdkggslk");
+
 
                         try {
                             String accNo = response.getString("acc_no");

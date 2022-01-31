@@ -107,6 +107,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         sharedPref = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+
         accholdersharedpref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
         mFrameLayout = findViewById(R.id.shimmerLayout);
         mFrameLayoutBalance = findViewById(R.id.shimmerLayout2);
@@ -206,7 +207,15 @@ public class HomeActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(HomeActivity.this);
 
         try{
-            postData.put("phoneNo", accholdersharedpref.getString("phoneno", ""));
+            if(!sharedPref.getString("accNo", "").equals("")){
+                postData.put("accNo", sharedPref.getString("accNo", ""));
+                Log.v("dfs", "hisa");
+                postUrlAccount = "https://pfd-server.azurewebsites.net/getAccountUsingAccNo";
+            }
+            else {
+                postData.put("phoneNo", accholdersharedpref.getString("phoneno", ""));
+            }
+
         }catch (JSONException e) {
             e.printStackTrace();
         }
