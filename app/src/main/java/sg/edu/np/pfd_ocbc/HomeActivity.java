@@ -1,11 +1,14 @@
 package sg.edu.np.pfd_ocbc;
 
 import android.Manifest;
+import android.accessibilityservice.AccessibilityService;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.nfc.cardemulation.HostNfcFService;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,6 +45,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.text.format.Formatter;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -98,8 +102,9 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         mAuth =FirebaseAuth.getInstance();
 
-        mobile_mac_address = getMacAddress();
-        Log.d("MAC Address of mobile:",mobile_mac_address);
+        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+        String ipAddress = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
+        Log.v("IP Address",ipAddress);
 
         CardView card = findViewById(R.id.cardView);
 
@@ -376,33 +381,6 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         return;
-    }
-
-    public String getMacAddress(){
-        try{
-            List<NetworkInterface> networkInterfaceList = Collections.list(NetworkInterface.getNetworkInterfaces());
-            String stringMac = "";
-            for(NetworkInterface networkInterface : networkInterfaceList)
-            {
-                if(networkInterface.getName().equalsIgnoreCase("wlon0"));
-                {
-                    for(int i = 0 ;i <networkInterface.getHardwareAddress().length; i++){
-                        String stringMacByte = Integer.toHexString(networkInterface.getHardwareAddress()[i]& 0xFF);
-                        if(stringMacByte.length() == 1)
-                        {
-                            stringMacByte = "0" +stringMacByte;
-                        }
-                        stringMac = stringMac + stringMacByte.toUpperCase() + ":";
-                    }
-                    break;
-                }
-            }
-            return stringMac;
-        }catch (SocketException e)
-        {
-            e.printStackTrace();
-        }
-        return  "0";
     }
 
     private void ValidateTransaction(Transaction transaction, DBHandler dbHandler, RequestQueue queue){
