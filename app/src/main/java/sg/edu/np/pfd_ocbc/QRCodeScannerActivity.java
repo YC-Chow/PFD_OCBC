@@ -99,6 +99,15 @@ public class QRCodeScannerActivity extends AppCompatActivity {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
                                     Toast.makeText(QRCodeScannerActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(QRCodeScannerActivity.this);
+                                    builder.setPositiveButton("Try Again", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            // User clicked OK button
+                                            dialog.dismiss();
+                                        }
+                                    });
+                                    AlertDialog dialog = builder.create();
+                                    dialog.show();
                                     error.printStackTrace();
                                 }
                             });

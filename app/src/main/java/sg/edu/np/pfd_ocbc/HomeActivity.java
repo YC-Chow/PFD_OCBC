@@ -1,11 +1,14 @@
 package sg.edu.np.pfd_ocbc;
 
 import android.Manifest;
+import android.accessibilityservice.AccessibilityService;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.nfc.cardemulation.HostNfcFService;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,6 +45,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.text.format.Formatter;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -58,6 +62,8 @@ import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -65,9 +71,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
@@ -86,13 +94,17 @@ public class HomeActivity extends AppCompatActivity {
     private ShimmerFrameLayout mFrameLayout;
     private ShimmerFrameLayout mFrameLayoutBalance;
     TextView cardBalText;
-
+    String mobile_mac_address;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         mAuth =FirebaseAuth.getInstance();
+
+        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+        String ipAddress = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
+        Log.v("IP Address",ipAddress);
 
         CardView card = findViewById(R.id.cardView);
 
@@ -374,8 +386,6 @@ public class HomeActivity extends AppCompatActivity {
         ValidateTransaction(transaction, dbHandler, queue);
 
     }
-
-
 
     @Override
     public void onBackPressed() {
