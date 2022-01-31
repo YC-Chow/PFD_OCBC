@@ -27,9 +27,11 @@ public class SettingsActivity extends AppCompatActivity {
         receiver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SettingsActivity.this, ReceiverAccountActivity.class);
+                Intent intent = new Intent(SettingsActivity.this, AccountSelectorActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.putExtra("situation", "receiveracc");
                 startActivity(intent);
+
             }
         });
 

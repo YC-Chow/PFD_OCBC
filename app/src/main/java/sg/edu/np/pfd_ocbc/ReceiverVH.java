@@ -7,13 +7,16 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
+
 public class ReceiverVH extends RecyclerView.ViewHolder {
 
 
     TextView last4digit;
     ImageView cardtype;
     TextView accno;
-    CardView card;
+    MaterialCardView card;
+    ImageView cardpic;
 
 
 
@@ -26,6 +29,7 @@ public class ReceiverVH extends RecyclerView.ViewHolder {
 
         cardtype = itemView.findViewById(R.id.cardType);
         accno = itemView.findViewById(R.id.accno);
+        cardpic = itemView.findViewById(R.id.creditcardbg);
 
     }
 }
