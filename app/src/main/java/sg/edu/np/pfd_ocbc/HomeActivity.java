@@ -58,6 +58,8 @@ import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -65,9 +67,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
@@ -86,13 +90,16 @@ public class HomeActivity extends AppCompatActivity {
     private ShimmerFrameLayout mFrameLayout;
     private ShimmerFrameLayout mFrameLayoutBalance;
     TextView cardBalText;
-
+    String mobile_mac_address;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         mAuth =FirebaseAuth.getInstance();
+
+        mobile_mac_address = getMacAddress();
+        Log.d("MAC Address of mobile:",mobile_mac_address);
 
         CardView card = findViewById(R.id.cardView);
 
@@ -366,11 +373,36 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-
-
     @Override
     public void onBackPressed() {
         return;
+    }
+
+    public String getMacAddress(){
+        try{
+            List<NetworkInterface> networkInterfaceList = Collections.list(NetworkInterface.getNetworkInterfaces());
+            String stringMac = "";
+            for(NetworkInterface networkInterface : networkInterfaceList)
+            {
+                if(networkInterface.getName().equalsIgnoreCase("wlon0"));
+                {
+                    for(int i = 0 ;i <networkInterface.getHardwareAddress().length; i++){
+                        String stringMacByte = Integer.toHexString(networkInterface.getHardwareAddress()[i]& 0xFF);
+                        if(stringMacByte.length() == 1)
+                        {
+                            stringMacByte = "0" +stringMacByte;
+                        }
+                        stringMac = stringMac + stringMacByte.toUpperCase() + ":";
+                    }
+                    break;
+                }
+            }
+            return stringMac;
+        }catch (SocketException e)
+        {
+            e.printStackTrace();
+        }
+        return  "0";
     }
 
     private void ValidateTransaction(Transaction transaction, DBHandler dbHandler, RequestQueue queue){
