@@ -55,7 +55,7 @@ public class ReceiverAdapter extends RecyclerView.Adapter<ReceiverVH>{
         Card card = cardArrayList.get(position);
 
         holder.accno.setText(card.getNameOnCard() + ", " + card.getAccNo());
-        holder.last4digit.setText(card.getCardNo().substring(card.getCardNo().length() - 4));
+        holder.last4digit.setText("XXXX XXXX XXXX " + card.getCardNo().substring(card.getCardNo().length() - 4));
         if(card.getIssuingNetwork().equals("Visa")){
             holder.cardtype.setImageResource(R.drawable.visa_icon);
         }
