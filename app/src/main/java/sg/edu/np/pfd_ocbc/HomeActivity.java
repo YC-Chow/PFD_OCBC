@@ -77,6 +77,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -371,6 +372,10 @@ public class HomeActivity extends AppCompatActivity {
                             public void onErrorResponse(VolleyError error) {
                             }
                         });
+                        nameObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                                DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,//After the set time elapses the request will timeout
+                                0,
+                                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                         requestQueue.add(nameObjectRequest);
                     }
                 }, new Response.ErrorListener() {
