@@ -78,13 +78,12 @@ public class GiroOptionsActivity extends AppCompatActivity {
             }
         });
 
-//        createGiroButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(GiroOptionsActivity.this, GiroListActivity.class);
-//                intent.putExtra("Mode" , "Pending");
-//                startActivity(intent);
-//            }
-//        });
+        createGiroButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GiroOptionsActivity.this, GiroFormActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
