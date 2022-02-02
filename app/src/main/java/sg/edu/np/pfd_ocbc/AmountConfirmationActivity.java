@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,9 +14,11 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -36,8 +40,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Calendar;
 import java.util.Date;
 
 public class AmountConfirmationActivity extends AppCompatActivity {
@@ -59,7 +65,7 @@ public class AmountConfirmationActivity extends AppCompatActivity {
 
         senderAmount = findViewById(R.id.enterTransferAmt);
         date = findViewById(R.id.date);
-        date.setText(LocalDate.now().toString());
+        date.setText(LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
         nextBtn = findViewById(R.id.nextBtnAmtConfirm);
         cancelBtn = findViewById(R.id.cancelBtnAmtConfirm);
         receiverName = findViewById(R.id.receiverName);
@@ -69,6 +75,13 @@ public class AmountConfirmationActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDateTimeDialog(date);
+            }
+        });
+
         if (user == null){
             Intent intent = new Intent(AmountConfirmationActivity.this, LoginActivity.class);
             startActivity(intent);
@@ -114,15 +127,16 @@ public class AmountConfirmationActivity extends AppCompatActivity {
                         intent.putExtra("amount", amount);
                         intent.putExtra("name", receiverName.getText().toString());
 
-                        SimpleDateFormat formatter  = new SimpleDateFormat("dd/MM/yyyy");
-                        LocalDate today = LocalDate.now();
-                        LocalDate when = LocalDate.parse(date.getText().toString(), DateTimeFormatter.ISO_LOCAL_DATE);
+
+                        LocalDateTime today = LocalDateTime.now();
+
+                        LocalDateTime when = LocalDateTime.parse(date.getText().toString(), DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT));
 
 
-                        long diff = Duration.between(today.atStartOfDay(), when.atStartOfDay()).toHours();
+                        long diff = Duration.between(today, when).toHours();
 
                         intent.putExtra("hours", diff);
-                        intent.putExtra("by", when.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
+                        intent.putExtra("by", when.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
                         startActivity(intent);
                     }
                 }catch (NumberFormatException e){
@@ -194,5 +208,34 @@ public class AmountConfirmationActivity extends AppCompatActivity {
         });
 
         queue.add(jsonObjectRequest);
+    }
+
+    private void showDateTimeDialog(final EditText date_time_in) {
+        final Calendar calendar=Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener dateSetListener=new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                calendar.set(Calendar.YEAR,year);
+                calendar.set(Calendar.MONTH,month);
+                calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+
+                TimePickerDialog.OnTimeSetListener timeSetListener=new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                        calendar.set(Calendar.MINUTE,minute);
+
+                        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("d/M/yy, h:mm a");
+
+                        date_time_in.setText(simpleDateFormat.format(calendar.getTime()));
+                    }
+                };
+
+                new TimePickerDialog(AmountConfirmationActivity.this,timeSetListener,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),false).show();
+            }
+        };
+
+        new DatePickerDialog(AmountConfirmationActivity.this,dateSetListener,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
+
     }
 }

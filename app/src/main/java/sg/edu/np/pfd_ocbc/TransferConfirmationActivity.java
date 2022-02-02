@@ -73,9 +73,15 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         senderCardNumber.setText(senderAccNum);
         receiverCardNumber.setText(receiverAccNum);
         receiverName.setText(receiveName);
-        by.setText(getIntent().getStringExtra("by"));
+        if(hours != 0){
+            by.setText("Scheduled for: " + getIntent().getStringExtra("by"));
+        }
+        else{
+            by.setText("");
+        }
 
-        Log.v("sfasa", String.valueOf(hours));
+
+
 
 
         //kicks users out if not sign in
