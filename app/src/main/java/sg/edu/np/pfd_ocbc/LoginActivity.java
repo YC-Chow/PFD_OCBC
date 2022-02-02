@@ -335,6 +335,7 @@ public class LoginActivity extends AppCompatActivity {
                     String email = response.getString("email");
                     String preference = response.getString("preference");
                     String tele = response.getString("telegram_id");
+                    String discord = response.getString("discord_id");
 
 
 
@@ -344,6 +345,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("phoneno", phoneno);
                     editor.putString("email", email);
                     editor.putString("tele", tele);
+                    editor.putString("discord", discord);
                     editor.putString("preference", preference);
 
 

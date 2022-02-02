@@ -135,16 +135,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        ConstraintLayout NFC = findViewById(R.id.Nfc);
 
-        NFC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, NfcActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
-            }
-        });
 
 
 

@@ -44,6 +44,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
         EditText changemobileno = findViewById(R.id.changemobileno);
         EditText changename = findViewById(R.id.changeusername);
         EditText changetele = findViewById(R.id.changetelegram);
+        EditText changediscord = findViewById(R.id.changediscord);
         Button save = findViewById(R.id.save);
 
         SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
@@ -51,10 +52,13 @@ public class PersonalDetailsActivity extends AppCompatActivity {
         String username = sharedPref.getString("name", "");
         String userphone = sharedPref.getString("phoneno", "");
         String usertele = sharedPref.getString("tele", "");
+        String userdiscord = sharedPref.getString("discord", "");
+
 
         changemobileno.setText(userphone);
         changename.setText(username);
         changetele.setText(usertele);
+        changediscord.setText(userdiscord);
 
         if(usertele.equals("null")){
             changetele.setText("");
@@ -77,8 +81,9 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                 String username = sharedPref.getString("name", "");
                 String userphone = sharedPref.getString("phoneno", "");
                 String usertele = sharedPref.getString("tele", "");
+                String userdiscord= sharedPref.getString("discord", "");
                 Log.d("hi", String.valueOf(changename.getText().toString().length()));
-                if (changemobileno.getText().toString().equals(userphone) && changename.getText().toString().equals(username) && changetele.getText().toString().equals(usertele)) {
+                if (changemobileno.getText().toString().equals(userphone) && changename.getText().toString().equals(username) && changetele.getText().toString().equals(usertele) && changediscord.getText().toString().equals(userdiscord)) {
                     Toast.makeText(PersonalDetailsActivity.this, "Personal Details Have Not Been Edited",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -106,6 +111,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                     FirebaseUser user = mAuth.getCurrentUser();
                     String updatename = "https://pfd-server.azurewebsites.net/updateName";
                     String postUrlTelegram = "https://pfd-server.azurewebsites.net/updateTeleId";
+                    String postUrlDiscord = "https://pfd-server.azurewebsites.net/updateDiscordId";
 
 
                     JSONObject nameData = new JSONObject();
@@ -118,11 +124,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    //If user changed both name and phone number and telegramid
-                    if ((!changemobileno.getText().toString().equals(userphone) && !changename.getText().toString().equals(username)) ||
-                            (!changetele.getText().toString().equals(usertele) && !changemobileno.getText().toString().equals(userphone)) ||
-                            (!changetele.getText().toString().equals(usertele) && !changemobileno.getText().toString().equals(userphone) && !changemobileno.getText().toString().equals(userphone))) {
-
+                    if(!changemobileno.getText().toString().equals(userphone)){
                         //POST api to update name
                         JsonObjectRequest nameObjectRequest = new JsonObjectRequest(Request.Method.POST, updatename, nameData, new Response.Listener<JSONObject>() {
                             @Override
@@ -152,12 +154,133 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                                         editor.apply();
                                         //Log.v("accNumber is",accNo);
 
-                                        //Send otp to updated number to verify that the user owns the phone number
-                                        Intent intent = new Intent(PersonalDetailsActivity.this, OtpActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                        intent.putExtra("phoneNo", changemobileno.getText().toString());
-                                        intent.putExtra("situation", "updatephoneNo");
-                                        startActivity(intent);
+                                        JSONObject postData = new JSONObject();
+
+                                        FirebaseUser user = mAuth.getCurrentUser();
+
+                                        try{
+                                            postData.put("uid", user.getUid());
+                                            postData.put("discord_id", changediscord.getText().toString());
+                                        }catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlDiscord, postData, new Response.Listener<JSONObject>() {
+                                            @Override
+                                            public void onResponse(JSONObject response) {
+                                                //Log.d("lolza",response.toString());
+                                                editor.putString("discord", changediscord.getText().toString());
+                                                editor.apply();
+                                                //Log.v("accNumber is",accNo);
+
+                                                //Send otp to updated number to verify that the user owns the phone number
+                                                Intent intent = new Intent(PersonalDetailsActivity.this, OtpActivity.class);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                intent.putExtra("phoneNo", changemobileno.getText().toString());
+                                                intent.putExtra("situation", "updatephoneNo");
+                                                startActivity(intent);
+
+
+                                            }
+                                        }, new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                Log.d("Error yo", "onErrorResponse: ");
+
+                                            }
+                                        });
+                                        RequestQueue requestQueue = Volley.newRequestQueue(PersonalDetailsActivity.this);
+                                        requestQueue.add(jsonObjectRequest);
+
+
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Log.d("Error yo", "onErrorResponse: ");
+
+                                    }
+                                });
+                                RequestQueue requestQueue = Volley.newRequestQueue(PersonalDetailsActivity.this);
+                                requestQueue.add(jsonObjectRequest);
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(PersonalDetailsActivity.this, "Update Error",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        RequestQueue namerequestQueue = Volley.newRequestQueue(PersonalDetailsActivity.this);
+                        namerequestQueue.add(nameObjectRequest);
+                    }
+                    else{
+                        //POST api to update name
+                        JsonObjectRequest nameObjectRequest = new JsonObjectRequest(Request.Method.POST, updatename, nameData, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+
+                                SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putString("name", changename.getText().toString());
+                                editor.apply();
+
+                                JSONObject postData = new JSONObject();
+
+                                FirebaseUser user = mAuth.getCurrentUser();
+
+                                try{
+                                    postData.put("uid", user.getUid());
+                                    postData.put("teleId", changetele.getText().toString());
+                                }catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlTelegram, postData, new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        //Log.d("lolza",response.toString());
+                                        editor.putString("tele", changetele.getText().toString());
+                                        editor.apply();
+                                        //Log.v("accNumber is",accNo);
+
+                                        JSONObject postData = new JSONObject();
+
+                                        FirebaseUser user = mAuth.getCurrentUser();
+
+                                        try{
+                                            postData.put("uid", user.getUid());
+                                            postData.put("discord_id", changediscord.getText().toString());
+                                        }catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlDiscord, postData, new Response.Listener<JSONObject>() {
+                                            @Override
+                                            public void onResponse(JSONObject response) {
+                                                //Log.d("lolza",response.toString());
+                                                editor.putString("discord", changediscord.getText().toString());
+                                                editor.apply();
+                                                //Log.v("accNumber is",accNo);
+
+                                                Toast.makeText(PersonalDetailsActivity.this, "Personal Details updated",
+                                                        Toast.LENGTH_SHORT).show();
+
+
+
+
+                                            }
+                                        }, new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                Log.d("Error yo", "onErrorResponse: ");
+
+                                            }
+                                        });
+                                        RequestQueue requestQueue = Volley.newRequestQueue(PersonalDetailsActivity.this);
+                                        requestQueue.add(jsonObjectRequest);
+
+
                                     }
                                 }, new Response.ErrorListener() {
                                     @Override
@@ -180,142 +303,11 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                         namerequestQueue.add(nameObjectRequest);
                     }
 
-                    //if user only changed phone number
-                    else if (!changemobileno.getText().toString().equals(userphone)) {
-                        //Send otp to updated number to verify that the user owns the phone number
-                        Intent intent = new Intent(PersonalDetailsActivity.this, OtpActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        intent.putExtra("phoneNo", changemobileno.getText().toString());
-                        intent.putExtra("situation", "updatephoneNo");
-                        startActivity(intent);
-                    }
-
-                    else if(!changetele.getText().toString().equals(usertele) && !changename.getText().toString().equals(username)){
-
-                        //POST api to update name
-                        JsonObjectRequest nameObjectRequest = new JsonObjectRequest(Request.Method.POST, updatename, nameData, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-
-                                SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putString("name", changename.getText().toString());
-                                editor.apply();
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(PersonalDetailsActivity.this, "Update Error",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        RequestQueue namerequestQueue = Volley.newRequestQueue(PersonalDetailsActivity.this);
-                        namerequestQueue.add(nameObjectRequest);
-
-                        JSONObject postData = new JSONObject();
-
-                        try{
-                            postData.put("uid", user.getUid());
-                            postData.put("teleId", changetele.getText().toString());
-                        }catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlTelegram, postData, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                //Log.d("lolza",response.toString());
-                                SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putString("tele", changetele.getText().toString());
-                                editor.apply();
-                                editor.apply();
-                                //Log.v("accNumber is",accNo);
-                                Toast.makeText(getApplicationContext(),
-                                        "Personal Details Updated", Toast.LENGTH_SHORT).show();
-
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("Error yo", "onErrorResponse: ");
-
-                            }
-                        });
-                        RequestQueue requestQueue = Volley.newRequestQueue(PersonalDetailsActivity.this);
-                        requestQueue.add(jsonObjectRequest);
-
-                    }
-                    else if(!changetele.getText().toString().equals(usertele) ){
-
-                        JSONObject postData = new JSONObject();
-
-
-                        try{
-                            postData.put("uid", user.getUid());
-                            postData.put("teleId", changetele.getText().toString());
-                        }catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrlTelegram, postData, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                //Log.d("lolza",response.toString());
-                                SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putString("tele", changetele.getText().toString());
-                                editor.apply();
-                                Toast.makeText(getApplicationContext(),
-                                        "Personal Details Updated", Toast.LENGTH_SHORT).show();
-
-
-                                editor.apply();
-                                //Log.v("accNumber is",accNo);
 
 
 
 
 
-
-
-
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("Error yo", "onErrorResponse: ");
-
-                            }
-                        });
-                        RequestQueue requestQueue = Volley.newRequestQueue(PersonalDetailsActivity.this);
-                        requestQueue.add(jsonObjectRequest);
-
-                    }
-
-                    else {
-                        //POST api to update name
-                        JsonObjectRequest nameObjectRequest = new JsonObjectRequest(Request.Method.POST, updatename, nameData, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-
-                                SharedPreferences sharedPref = getSharedPreferences("AccountHolder", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putString("name", changename.getText().toString());
-                                editor.apply();
-                                Toast.makeText(getApplicationContext(),
-                                        "Personal Details Updated", Toast.LENGTH_SHORT).show();
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(PersonalDetailsActivity.this, "Update Error",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        RequestQueue namerequestQueue = Volley.newRequestQueue(PersonalDetailsActivity.this);
-                        namerequestQueue.add(nameObjectRequest);
-                    }
 
 
 
