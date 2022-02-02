@@ -180,10 +180,6 @@ public class MobileNumberActivity extends AppCompatActivity {
                         break;
 
                     case R.id.page_2:
-
-                        Intent intent = new Intent(MobileNumberActivity.this, MobileTransferActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        startActivity(intent);
                         break;
 
                     case R.id.page_3:
@@ -191,10 +187,6 @@ public class MobileNumberActivity extends AppCompatActivity {
                         b.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(b);
                         break;
-
-
-
-
                 }
                 return false;
             }

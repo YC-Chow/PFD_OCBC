@@ -21,15 +21,20 @@ import org.json.JSONObject;
 import java.util.Date;
 
 public class Giro {
-    private String giro_id;
-    private String biz_id;
-    private String biz_name;
-    private String giro_acc_no;
-    private Date giro_date;
-    private String description;
-    private boolean verified;
-    private double giro_amount;
+
     private  Context context;
+    private String giro_id;
+    private String giro_acc_no;
+    private String referenceNo;
+    private Business business;
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
     public String getGiro_id() {
         return giro_id;
@@ -37,14 +42,6 @@ public class Giro {
 
     public void setGiro_id(String giro_id) {
         this.giro_id = giro_id;
-    }
-
-    public String getBiz_id() {
-        return biz_id;
-    }
-
-    public void setBiz_id(String biz_id) {
-        this.biz_id = biz_id;
     }
 
     public String getGiro_acc_no() {
@@ -55,47 +52,28 @@ public class Giro {
         this.giro_acc_no = giro_acc_no;
     }
 
-    public Date getGiro_date() {
-        return giro_date;
+    public String getReferenceNo() {
+        return referenceNo;
     }
 
-    public void setGiro_date(Date giro_date) {
-        this.giro_date = giro_date;
+    public void setReferenceNo(String referenceNo) {
+        this.referenceNo = referenceNo;
     }
 
-    public String getDescription() {
-        return description;
+    public Business getBusiness() {
+        return business;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setBusiness(Business business) {
+        this.business = business;
     }
-
-    public boolean isVerified() {
-        return verified;
-    }
-
-    public void setVerified(boolean verified) {
-        this.verified = verified;
-    }
-
-    public double getGiro_amount() {
-        return giro_amount;
-    }
-
-    public void setGiro_amount(double giro_amount) {
-        this.giro_amount = giro_amount;
-    }
-
-    public String getBiz_name() { return biz_name; }
-
-    public void setBiz_name(String biz_name) { this.biz_name = biz_name; }
 
     public Giro(Context context) {
         this.context = context;
     }
 
-    public void GiroAcceptance(boolean accept){
+
+    public void CancelGiro(){
         ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
@@ -103,17 +81,11 @@ public class Giro {
         progressDialog.setMessage("Please wait");
         progressDialog.show();
 
-        String giroAcceptUri = "https://pfd-server.azurewebsites.net/updateGiroVerification";
+        String giroAcceptUri = "https://pfd-server.azurewebsites.net/deleteGiro";
         JSONObject postData = new JSONObject();
         try {
             postData.put("giro_acc_no", this.getGiro_acc_no());
             postData.put("giro_id", this.getGiro_id());
-            if (accept){
-                postData.put("verified", "Accepted");
-            }
-            else {
-                postData.put("verified", "Declined");
-            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -126,12 +98,11 @@ public class Giro {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Giro");
                     if (success){
-                        builder.setMessage("You have successfully confirmed Giro request");
+                        builder.setMessage("You have successfully cancel Giro");
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(context, GiroListActivity.class);
-                                intent.putExtra("Mode", "Pending");
                                 context.startActivity(intent);
                                 ((Activity) context).finish();
                             }
@@ -147,13 +118,12 @@ public class Giro {
                         });
                     }
                     else{
-                        builder.setMessage("Giro request confirmation failed\n Do you want to try again?");
+                        builder.setMessage("Giro cancellation failed\n Do you want to try again?");
                         builder.setPositiveButton("Yes", null);
                         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(context, GiroListActivity.class);
-                                intent.putExtra("Mode", "Pending");
                                 context.startActivity(intent);
                                 ((Activity) context).finish();
                             }

@@ -33,12 +33,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class GiroListActivity extends AppCompatActivity {
 
     private ArrayList<Giro> giroList = new ArrayList<Giro>();
-    private  String Mode;
     private  TextView title;
     private ProgressDialog progressDialog;
 
@@ -49,14 +50,6 @@ public class GiroListActivity extends AppCompatActivity {
 
         ImageButton back = findViewById(R.id.giroOptBack);
         title = findViewById(R.id.giroTitle);
-
-        Mode = getIntent().getStringExtra("Mode");
-        if (Mode.equals("Pending")){
-                title.setText("Pending Giro");
-        }
-
-
-
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,13 +147,7 @@ public class GiroListActivity extends AppCompatActivity {
     private void LoadDataPart2(RequestQueue requestQueue, JSONArray accounts){
 
         String postUrl;
-
-        if (Mode.equals("Accept")){
-            postUrl = "https://pfd-server.azurewebsites.net/getAcceptedGiro";
-        }
-        else{
-            postUrl = "https://pfd-server.azurewebsites.net/getPendingGiro";
-        }
+        postUrl = "https://pfd-server.azurewebsites.net/getGiro";
 
         JSONObject postData = new JSONObject();
         try {
@@ -174,14 +161,15 @@ public class GiroListActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try {
                     JSONArray giroArray = response.getJSONArray("data");
-                    //Server function not returning an array
                     for (int i = 0; i < giroArray.length(); i++){
                         Giro giro = new Giro(GiroListActivity.this);
-                        giro.setDescription(giroArray.getJSONObject(i).getString("description"));
-                        giro.setBiz_id(giroArray.getJSONObject(i).getString("business_id"));
-                        giro.setGiro_id(giroArray.getJSONObject(i).getString("giro_id"));
                         giro.setGiro_acc_no(giroArray.getJSONObject(i).getString("giro_acc_no"));
-                        giro.setGiro_amount(giroArray.getJSONObject(i).getDouble("giro_amount"));
+                        giro.setGiro_id(giroArray.getJSONObject(i).getString("giro_id"));
+                        giro.setReferenceNo(giroArray.getJSONObject(i).getString("reference_no"));
+                        giro.setBusiness(new Business(giroArray.getJSONObject(i).getString("business_uen"),
+                                giroArray.getJSONObject(i).getString("business_name"),
+                                giroArray.getJSONObject(i).getString("business_acc_no")));
+
                         giroList.add(giro);
 
                         updateRecyclerView();
@@ -227,7 +215,7 @@ public class GiroListActivity extends AppCompatActivity {
     private void updateRecyclerView(){
         if (giroList != null){
             RecyclerView recyclerView = findViewById(R.id.giroRecyclerView);
-            GiroListAdapter adapter = new GiroListAdapter(giroList, Mode);
+            GiroListAdapter adapter = new GiroListAdapter(giroList);
             LinearLayoutManager manager = new LinearLayoutManager(this);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(manager);

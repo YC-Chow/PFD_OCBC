@@ -7,6 +7,20 @@
     tools:context=".GiroDetailsActivity">
 
     <TextView
+        android:id="@+id/textView33"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="92dp"
+        android:fontFamily="@font/poppins"
+        android:text="Account No"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/giroAccNo"
+        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView40" />
+
+    <TextView
         android:id="@+id/textView32"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,14 +37,16 @@
         android:id="@+id/textView42"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:fontFamily="@font/poppins"
         android:text="Description"
         android:textColor="#000000"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/orgName"
-        app:layout_constraintStart_toStartOf="@+id/textView40"
-        app:layout_constraintTop_toBottomOf="@+id/orgName" />
+        app:layout_constraintBottom_toTopOf="@+id/giroDetailsCancelBtn"
+        app:layout_constraintEnd_toStartOf="@+id/giroDescription"
+        app:layout_constraintHorizontal_bias="0.838"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView33"
+        app:layout_constraintVertical_bias="0.324" />
 
     <TextView
         android:id="@+id/textView40"
@@ -59,42 +75,23 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
-        android:id="@+id/giroDetailsNextBtn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/bordered_button"
-        android:fontFamily="@font/poppins"
-        android:text="Next"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:visibility="gone"
-        app:backgroundTint="#EF4B4C"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/giroDetailsCancelBtn" />
-
-    <Button
         android:id="@+id/giroDetailsCancelBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginBottom="40dp"
         android:fontFamily="@font/poppins"
         android:padding="8dp"
-        android:text="Cancel"
+        android:text="Cancel Giro"
         android:textColor="#020202"
         android:textSize="16sp"
-        android:visibility="gone"
         app:backgroundTint="#EF4B4C"
         app:cornerRadius="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/giroDetailsNextBtn"
-        app:layout_constraintEnd_toStartOf="@+id/giroDetailsNextBtn"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/giroDetailsNextBtn" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/orgName"
@@ -115,18 +112,32 @@
 
     <TextView
         android:id="@+id/giroDescription"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="60dp"
         android:background="@drawable/login_box"
         android:fontFamily="@font/poppins"
-        android:padding="10dp"
+        android:padding="20dp"
         android:text="TextView"
         android:textColor="#050505"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView42"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView42" />
+        app:layout_constraintStart_toEndOf="@id/textView42"
+        app:layout_constraintTop_toTopOf="@+id/textView42" />
+
+    <TextView
+        android:id="@+id/giroAccNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_box"
+        android:fontFamily="@font/poppins"
+        android:padding="20dp"
+        android:text="TextView"
+        android:textColor="#050505"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView33"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textView33"
+        app:layout_constraintTop_toTopOf="@+id/textView33" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

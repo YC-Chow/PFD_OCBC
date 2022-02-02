@@ -16,7 +16,7 @@ import com.google.android.material.navigation.NavigationBarView;
 public class GiroOptionsActivity extends AppCompatActivity {
 
     ConstraintLayout giroAcceptedButton;
-    ConstraintLayout giroPendingButton;
+    ConstraintLayout createGiroButton;
     ImageButton back;
 
     @Override
@@ -25,7 +25,7 @@ public class GiroOptionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_giro_options);
 
         giroAcceptedButton = findViewById(R.id.giroCheckAcceptedButton);
-        giroPendingButton = findViewById(R.id.giroCheckPendingButton);
+        createGiroButton = findViewById(R.id.giroCreateGiroButton);
         back = findViewById(R.id.giroOptBack);
 
         //Setting up bottom nav bar
@@ -74,16 +74,14 @@ public class GiroOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GiroOptionsActivity.this, GiroListActivity.class);
-                intent.putExtra("Mode" , "Accept");
                 startActivity(intent);
             }
         });
 
-        giroPendingButton.setOnClickListener(new View.OnClickListener() {
+        createGiroButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GiroOptionsActivity.this, GiroListActivity.class);
-                intent.putExtra("Mode" , "Pending");
+                Intent intent = new Intent(GiroOptionsActivity.this, GiroFormActivity.class);
                 startActivity(intent);
             }
         });

@@ -2,7 +2,9 @@ package sg.edu.np.pfd_ocbc;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,9 +17,8 @@ import com.android.volley.RequestQueue;
 public class GiroDetailsActivity extends AppCompatActivity {
 
     ImageButton back;
-    Button nextBtn, cancelBtn;
-    TextView bizName, descriptionBox;
-    private String Mode;
+    Button cancelBtn;
+    TextView bizName, descriptionBox, giroAccNo;
 
 
     @Override
@@ -26,37 +27,18 @@ public class GiroDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_giro_details);
 
         back = findViewById(R.id.giroOptBack);
-        Mode = getIntent().getStringExtra("Mode");
-        if(Mode.equals("Pending")){
-            Giro giro = new Giro(this);
-            giro.setGiro_acc_no(getIntent().getStringExtra("giroAcc"));
-            giro.setGiro_id(getIntent().getStringExtra("giroID"));
-            nextBtn = findViewById(R.id.giroDetailsNextBtn);
-            cancelBtn = findViewById(R.id.giroDetailsCancelBtn);
-            nextBtn.setVisibility(View.VISIBLE);
-            cancelBtn.setVisibility(View.VISIBLE);
-
-            nextBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    giro.GiroAcceptance(true);
-
-                }
-            });
-
-            cancelBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    giro.GiroAcceptance(false);
-                }
-            });
-        }
-
         bizName = findViewById(R.id.orgName);
+        giroAccNo = findViewById(R.id.giroAccNo);
         descriptionBox = findViewById(R.id.giroDescription);
+        cancelBtn = findViewById(R.id.giroDetailsCancelBtn);
 
+        Giro giro = new Giro(GiroDetailsActivity.this);
+        giro.setGiro_id(getIntent().getStringExtra("giroID"));
+        giro.setGiro_acc_no(getIntent().getStringExtra("giroAcc"));
         bizName.setText(getIntent().getStringExtra("bizName"));
-        descriptionBox.setText(getIntent().getStringExtra("description"));
+        descriptionBox.setText(getIntent().getStringExtra("ref_no"));
+        giroAccNo.setText(getIntent().getStringExtra("giroAcc"));
+
 
 
 
@@ -64,8 +46,27 @@ public class GiroDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GiroDetailsActivity.this, GiroListActivity.class);
-                intent.putExtra("Mode" , Mode);
                 startActivity(intent);
+                finish();
+            }
+        });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // insert giro cancel function
+                AlertDialog.Builder builder = new AlertDialog.Builder(GiroDetailsActivity.this);
+                builder.setTitle("Cancel Giro");
+                builder.setMessage("Are you sure you want to cancel this Giro");
+                builder.setNegativeButton("No", null);
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        giro.CancelGiro();
+                    }
+                });
+
+                builder.create().show();
             }
         });
     }
@@ -74,7 +75,6 @@ public class GiroDetailsActivity extends AppCompatActivity {
         super.onBackPressed();
 
         Intent intent = new Intent(GiroDetailsActivity.this, GiroListActivity.class);
-        intent.putExtra("Mode" , Mode);
         startActivity(intent);
     }
 }
