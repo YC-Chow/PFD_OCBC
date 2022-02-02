@@ -12,11 +12,9 @@ import java.util.ArrayList;
 
 public class GiroListAdapter extends RecyclerView.Adapter<GiroListVH> {
     ArrayList<Giro> data;
-    String Mode;
 
-    public GiroListAdapter(ArrayList<Giro> input, String mode){
+    public GiroListAdapter(ArrayList<Giro> input){
         data = input;
-        this.Mode = mode;
     }
 
     public GiroListVH onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -28,18 +26,16 @@ public class GiroListAdapter extends RecyclerView.Adapter<GiroListVH> {
         Giro giro = data.get(position);
 
         //temporary set to biz id, no way of getting biz name
-        holder.businessName.setText(giro.getBiz_id());
+        holder.businessName.setText(giro.getBusiness().getName());
         holder.moreInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), GiroDetailsActivity.class);
-                intent.putExtra("Mode", Mode);
                 intent.putExtra("giroID", giro.getGiro_id());
-
-                //using id, no way of getting biz name
-                intent.putExtra("bizName", giro.getBiz_id());
+                intent.putExtra("bizName", giro.getBusiness().getName());
                 intent.putExtra("giroAcc", giro.getGiro_acc_no());
-                intent.putExtra("description", giro.getDescription());
+                intent.putExtra("bizUen", giro.getBusiness().getUen());
+                intent.putExtra("ref_no", giro.getReferenceNo());
                 v.getContext().startActivity(intent);
                 ((Activity) v.getContext()).finish();
             }
