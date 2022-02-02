@@ -207,9 +207,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onStart();
 
         //ip address
-        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+        /*WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
         String ipAddress = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
-        Log.v("IP Address",ipAddress);
+        Log.v("IP Address",ipAddress);*/
 
         FirebaseUser user = mAuth.getCurrentUser();
         DBHandler dbHandler = new DBHandler(this);
@@ -348,7 +348,7 @@ public class HomeActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                        try {
+                        /*try {
                             postData.put("IP", ipAddress);
                             postData.put("uid", user.getUid());
                         } catch (JSONException e) {
@@ -376,7 +376,7 @@ public class HomeActivity extends AppCompatActivity {
                                 (int) TimeUnit.SECONDS.toMillis(10), //After the set time elapses the request will timeout
                                 0,
                                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                        requestQueue.add(nameObjectRequest);
+                        requestQueue.add(nameObjectRequest);*/
                     }
                 }, new Response.ErrorListener() {
                     @Override

@@ -8,8 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -44,6 +47,7 @@ import java.time.format.FormatStyle;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class OtpActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -131,7 +135,9 @@ public class OtpActivity extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
     void submitOTP(String phoneNo, String code, String situation){
+
         String postUrl = "https://pfd-server.azurewebsites.net/submitOTP";
+
         JSONObject postData = new JSONObject();
         try{
             postData.put("otpId", otpId);
@@ -139,7 +145,9 @@ public class OtpActivity extends AppCompatActivity {
         }catch (JSONException e) {
             e.printStackTrace();
         }
+
         Log.d("validateAccount", "sending");
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -197,7 +205,6 @@ public class OtpActivity extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-
                                 //POST api to update phone number
                                 JsonObjectRequest phoneObjectRequest = new JsonObjectRequest(Request.Method.POST, updatephoneno, phoneData, new Response.Listener<JSONObject>() {
                                     @Override
@@ -243,11 +250,18 @@ public class OtpActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(OtpActivity.this);
         requestQueue.add(jsonObjectRequest);
     }
+
     private void afterlogin(String uid){
         SharedPreferences sharedPreferences = getSharedPreferences("AccountHolder", MODE_PRIVATE);
+        //ip address
+
+        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+        String ipAddress = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
+        Log.v("IP Address",ipAddress);
 
         //Log.v("uid is:" ,user.getUid());
         String postUrlAccountHolder = "https://pfd-server.azurewebsites.net/getAccountHolderUsingUid";
+        String postIpAddress = "https://pfd-server.azurewebsites.net/sendIPNotification";
 
         JSONObject postData = new JSONObject();
         mAuth = FirebaseAuth.getInstance();
@@ -291,8 +305,32 @@ public class OtpActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                try {
+                    postData.put("IP", ipAddress);
+                    postData.put("uid", user.getUid());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
+                //Post IP Address for notification
+                JsonObjectRequest nameObjectRequest = new JsonObjectRequest(Request.Method.POST, postIpAddress, postData, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
 
+                        try {
+                            String messageResult = response.getString("message");
+                            Boolean successResult = response.getBoolean("success");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
+                RequestQueue requestQueue = Volley.newRequestQueue(OtpActivity.this);
+                requestQueue.add(nameObjectRequest);
             }
         }, new Response.ErrorListener() {
             @Override
