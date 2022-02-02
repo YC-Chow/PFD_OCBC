@@ -8,6 +8,7 @@ import android.app.VoiceInteractor;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -33,6 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 
 public class TransferConfirmationActivity extends AppCompatActivity {
@@ -56,6 +58,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtnTransactionConfirm);
         senderCardNumber = findViewById(R.id.senderAccNo);
         receiverName = findViewById(R.id.receiverName);
+        TextView by = findViewById(R.id.by);
 
         //getting values
         dbHandler = new DBHandler(this);
@@ -63,12 +66,16 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         senderAccNum = getIntent().getStringExtra("from");
         amount = getIntent().getDoubleExtra("amount", 0);
         receiveName = getIntent().getStringExtra("name");
+        long hours = getIntent().getLongExtra("hours", 0);
 
         //setting info
         transferAmt.setText("S$"+ String.format("%.2f", amount));
         senderCardNumber.setText(senderAccNum);
         receiverCardNumber.setText(receiverAccNum);
         receiverName.setText(receiveName);
+        by.setText(getIntent().getStringExtra("by"));
+
+        Log.v("sfasa", String.valueOf(hours));
 
 
         //kicks users out if not sign in
@@ -126,10 +133,12 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         else {
             transaction.setUniqueCode((new RandomString()).nextString());
         }
+        transaction.setHours(getIntent().getLongExtra("hours", 0));
         transaction.setSenderAccNo(senderCardNumber);
         transaction.setRecipientAccNo(receiverCardNumber);
         transaction.setTransactionAmt(amount);
         transaction.setRecipientName(receiveName);
+
 
         dbHandler.MakeTransaction(transaction);
         return transaction;
@@ -137,47 +146,93 @@ public class TransferConfirmationActivity extends AppCompatActivity {
 
     private void MakeTransaction(RequestQueue queue, Transaction transaction)
     {
-        String queryUrl = "https://pfd-server.azurewebsites.net/createTransaction";
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("uniqueKey", transaction.getUniqueCode());
-            postData.put("amount", String.format("%.2f", transaction.getTransactionAmt()));
-            postData.put("from", transaction.getSenderAccNo());
-            postData.put("to", transaction.getRecipientAccNo());
-        }catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
+        if(transaction.getHours() == 0){
+            String queryUrl = "https://pfd-server.azurewebsites.net/createTransaction";
+            JSONObject postData = new JSONObject();
+            try {
+                postData.put("uniqueKey", transaction.getUniqueCode());
+                postData.put("amount", String.format("%.2f", transaction.getTransactionAmt()));
+                postData.put("from", transaction.getSenderAccNo());
+                postData.put("to", transaction.getRecipientAccNo());
+            }catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, queryUrl, postData, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                if (response.has("success")){
-                    dbHandler.DeleteTransaction(transaction.getUniqueCode());
-                    SuccessDialogBuilder(transaction);
-                }
-                else {
-                    try {
-                        Toast.makeText(TransferConfirmationActivity.this, response.getString("error_message"),Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(TransferConfirmationActivity.this, HomeActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        startActivity(intent);
-                        finish();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, queryUrl, postData, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    if (response.has("success")){
+                        dbHandler.DeleteTransaction(transaction.getUniqueCode());
+                        SuccessDialogBuilder(transaction);
+                    }
+                    else {
+                        try {
+                            Toast.makeText(TransferConfirmationActivity.this, response.getString("error_message"),Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(TransferConfirmationActivity.this, HomeActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(intent);
+                            finish();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
+
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                    ErrorDialogBuilder(queue, transaction);
+                }
+            });
+
+            queue.add(jsonObjectRequest);
+        }
+        else{
+            String createtrans = "https://pfd-server.azurewebsites.net/createScheduledTransaction";
+            JSONObject postData = new JSONObject();
+            try {
+                postData.put("uniqueKey", transaction.getUniqueCode());
+                postData.put("amount", String.format("%.2f", transaction.getTransactionAmt()));
+                postData.put("from", transaction.getSenderAccNo());
+                postData.put("to", transaction.getRecipientAccNo());
+                postData.put("hours", transaction.getHours());
+            }catch (JSONException e)
+            {
+                e.printStackTrace();
             }
 
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                ErrorDialogBuilder(queue, transaction);
-            }
-        });
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, createtrans, postData, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    if (response.has("success")){
+                        dbHandler.DeleteTransaction(transaction.getUniqueCode());
+                        ScheduledSuccessDialogBuilder(transaction);
+                    }
+                    else {
+                        try {
+                            Toast.makeText(TransferConfirmationActivity.this, response.getString("error_message"),Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(TransferConfirmationActivity.this, HomeActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(intent);
+                            finish();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
 
-        queue.add(jsonObjectRequest);
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                    ErrorDialogBuilder(queue, transaction);
+                }
+            });
+
+            queue.add(jsonObjectRequest);
+        }
 
     }
 
@@ -211,6 +266,24 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
         builder.setMessage("You have transferred S$" + String.format("%.2f", transaction.getTransactionAmt()) + " to " + receiveName);
+        builder.setTitle("Transaction Success");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(TransferConfirmationActivity.this, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+                finish();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+    private void ScheduledSuccessDialogBuilder(Transaction transaction)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setMessage("You have scheduled a transaction of S$" + String.format("%.2f", transaction.getTransactionAmt()) + " to " + receiveName + " by " + getIntent().getStringExtra("by"));
         builder.setTitle("Transaction Success");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override

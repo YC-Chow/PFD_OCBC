@@ -13,6 +13,18 @@ public class Transaction {
     private String DebitOrCredit;
     private String uniqueCode;
 
+    public long getHours() {
+        return hours;
+    }
+
+    public void setHours(long hours) {
+        this.hours = hours;
+    }
+
+    private long hours;
+
+
+
     public String getUniqueCode() { return uniqueCode; }
 
     public void setUniqueCode(String uniqueCode) { this.uniqueCode = uniqueCode; }
