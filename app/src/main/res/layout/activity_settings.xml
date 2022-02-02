@@ -67,7 +67,7 @@
         app:srcCompat="@drawable/black_line" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/giroCheckPendingButton"
+        android:id="@+id/giroCreateGiroButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -118,10 +118,10 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginTop="2dp"
-        app:layout_constraintEnd_toEndOf="@+id/giroCheckPendingButton"
+        app:layout_constraintEnd_toEndOf="@+id/giroCreateGiroButton"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/giroCheckPendingButton"
-        app:layout_constraintTop_toBottomOf="@+id/giroCheckPendingButton"
+        app:layout_constraintStart_toStartOf="@+id/giroCreateGiroButton"
+        app:layout_constraintTop_toBottomOf="@+id/giroCreateGiroButton"
         app:srcCompat="@drawable/black_line" />
 
     <TextView

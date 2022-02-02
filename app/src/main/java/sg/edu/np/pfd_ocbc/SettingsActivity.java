@@ -20,7 +20,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         ConstraintLayout personal = findViewById(R.id.giroCheckAcceptedButton);
 
-        ConstraintLayout notification = findViewById(R.id.giroCheckPendingButton);
+        ConstraintLayout notification = findViewById(R.id.giroCreateGiroButton);
 
         ConstraintLayout receiver = findViewById(R.id.receiveraccount);
 
