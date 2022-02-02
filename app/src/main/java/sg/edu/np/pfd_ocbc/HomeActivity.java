@@ -373,7 +373,7 @@ public class HomeActivity extends AppCompatActivity {
                             }
                         });
                         nameObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                                DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,//After the set time elapses the request will timeout
+                                (int) TimeUnit.SECONDS.toMillis(10), //After the set time elapses the request will timeout
                                 0,
                                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                         requestQueue.add(nameObjectRequest);
