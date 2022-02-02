@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -14,6 +15,7 @@ import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
 import android.security.keystore.UserNotAuthenticatedException;
+import android.text.format.Formatter;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -307,6 +309,11 @@ public class LoginActivity extends AppCompatActivity {
 
         //Log.v("uid is:" ,user.getUid());
         String postUrlAccountHolder = "https://pfd-server.azurewebsites.net/getAccountHolderUsingUid";
+        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+        String ipAddress = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
+        Log.v("IP Address",ipAddress);
+
+        String postIpAddress = "https://pfd-server.azurewebsites.net/sendIPNotification";
 
         JSONObject postData = new JSONObject();
 
@@ -352,7 +359,32 @@ public class LoginActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                try {
+                    postData.put("IP", ipAddress);
+                    postData.put("uid", user.getUid());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
+                //Post IP Address for notification
+                JsonObjectRequest nameObjectRequest = new JsonObjectRequest(Request.Method.POST, postIpAddress, postData, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            String messageResult = response.getString("message");
+                            Boolean successResult = response.getBoolean("success");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
+                RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
+                requestQueue.add(nameObjectRequest);
             }
         }, new Response.ErrorListener() {
             @Override
