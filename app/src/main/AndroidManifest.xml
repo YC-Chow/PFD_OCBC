@@ -98,11 +98,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MobileTransferActivity"
-            android:label="@string/title_activity_mobile_transfer"
-            android:theme="@style/Theme.PFD_OCBC.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity
             android:name=".MobileNumberActivity"
             android:theme="@style/Theme.PFD_OCBC.NoActionBar" />
 
