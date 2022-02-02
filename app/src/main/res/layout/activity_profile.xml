@@ -9,39 +9,6 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/Nfc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="166dp"
-        tools:layout_editor_absoluteY="289dp">
-
-        <ImageView
-            android:id="@+id/nfcpic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_qr_code_24" />
-
-        <TextView
-            android:id="@+id/nfctext"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins"
-            android:gravity="center"
-            android:text="Nfc"
-            android:textAlignment="center"
-            android:textColor="#020202"
-            android:textSize="11sp"
-            app:layout_constraintEnd_toEndOf="@+id/nfcpic"
-            app:layout_constraintStart_toStartOf="@+id/nfcpic"
-            app:layout_constraintTop_toBottomOf="@+id/nfcpic" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/settingContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -92,10 +59,8 @@
         android:paddingBottom="30dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/QRCodeContainer"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toBottomOf="@+id/QRCodeContainer">
 
         <TextView
             android:id="@+id/mobileno"

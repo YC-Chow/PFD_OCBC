@@ -74,9 +74,10 @@
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_nfc.xml" value="0.20078125" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_nfc_receiver.xml" value="0.167578125" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_notification.xml" value="0.33" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_nric_transfer.xml" value="0.133203125" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_otp.xml" value="0.25" />
-        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_personal_details.xml" value="0.5" />
-        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_profile.xml" value="0.67" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_personal_details.xml" value="0.25" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_profile.xml" value="0.22" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_qrcode_scanner.xml" value="0.1" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_receiver_account.xml" value="0.33" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_see_all_card.xml" value="0.24863387978142076" />
@@ -85,7 +86,7 @@
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_signup.xml" value="0.151171875" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_test.xml" value="0.133203125" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_testactivity.xml" value="0.12265625" />
-        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_transfer_confirmation.xml" value="0.15390625" />
+        <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_transfer_confirmation.xml" value="0.2926829268292683" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_two_factor.xml" value="0.33" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/activity_view_qractivity.xml" value="0.1" />
         <entry key="..\:/Users/ngjin/StudioProjects/PFD_OCBC/app/src/main/res/layout/multiple_accounts_recycler.xml" value="0.3878504672897196" />

@@ -1,10 +1,12 @@
 package sg.edu.np.pfd_ocbc;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -30,6 +32,14 @@ import com.google.firebase.auth.GetTokenResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Date;
+
 public class AmountConfirmationActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -38,14 +48,18 @@ public class AmountConfirmationActivity extends AppCompatActivity {
     Button nextBtn, cancelBtn;
     TextView receiverName, recieverAccNo,senderAccNo, senderBal;
     private String receiverAccNum, senderAccNum, nameOfReceiver;
+    EditText date;
     private ProgressDialog progressDialog;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_amount_confirmation);
 
         senderAmount = findViewById(R.id.enterTransferAmt);
+        date = findViewById(R.id.date);
+        date.setText(LocalDate.now().toString());
         nextBtn = findViewById(R.id.nextBtnAmtConfirm);
         cancelBtn = findViewById(R.id.cancelBtnAmtConfirm);
         receiverName = findViewById(R.id.receiverName);
@@ -80,6 +94,7 @@ public class AmountConfirmationActivity extends AppCompatActivity {
         });
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 try {
@@ -98,6 +113,16 @@ public class AmountConfirmationActivity extends AppCompatActivity {
                         intent.putExtra("to", receiverAccNum);
                         intent.putExtra("amount", amount);
                         intent.putExtra("name", receiverName.getText().toString());
+
+                        SimpleDateFormat formatter  = new SimpleDateFormat("dd/MM/yyyy");
+                        LocalDate today = LocalDate.now();
+                        LocalDate when = LocalDate.parse(date.getText().toString(), DateTimeFormatter.ISO_LOCAL_DATE);
+
+
+                        long diff = Duration.between(today.atStartOfDay(), when.atStartOfDay()).toHours();
+
+                        intent.putExtra("hours", diff);
+                        intent.putExtra("by", when.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
                         startActivity(intent);
                     }
                 }catch (NumberFormatException e){
