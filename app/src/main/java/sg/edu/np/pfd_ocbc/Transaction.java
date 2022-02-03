@@ -12,6 +12,7 @@ public class Transaction {
     private String transactionId;
     private String DebitOrCredit;
     private String uniqueCode;
+    private String transactType;
 
     public long getHours() {
         return hours;
@@ -23,7 +24,13 @@ public class Transaction {
 
     private long hours;
 
+    public String getTransactType() {
+        return transactType;
+    }
 
+    public void setTransactType(String transactType) {
+        this.transactType = transactType;
+    }
 
     public String getUniqueCode() { return uniqueCode; }
 

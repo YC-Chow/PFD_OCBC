@@ -47,7 +47,7 @@ public class HomeTransactionAdapter extends RecyclerView.Adapter<HomeTransaction
                 }
                 String credit = transaction.getDebitOrCredit();
                 holder.TransactionAmt.setText((credit + "" + df.format(transaction.getTransactionAmt())));
-                holder.TransactionDate.setText(transaction.getTransactionDate());
+                holder.TransactionDate.setText(transaction.getTransactionDate() + ", " + transaction.getTransactType() + " " + "transaction");
             }
             else{
                 if(transaction.getSenderName().equals("null")){
@@ -58,7 +58,7 @@ public class HomeTransactionAdapter extends RecyclerView.Adapter<HomeTransaction
                 }
                 String debit = transaction.getDebitOrCredit();
                 holder.TransactionAmt.setText((debit + "" + df.format(transaction.getTransactionAmt())));
-                holder.TransactionDate.setText(transaction.getTransactionDate());
+                holder.TransactionDate.setText(transaction.getTransactionDate() + ", " + transaction.getTransactType() + " " + "transaction");
             }
     }
 
