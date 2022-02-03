@@ -27,7 +27,7 @@ public class GiroListAdapter extends RecyclerView.Adapter<GiroListVH> {
 
         //temporary set to biz id, no way of getting biz name
         holder.businessName.setText(giro.getBusiness().getName());
-        holder.moreInfoBtn.setOnClickListener(new View.OnClickListener() {
+        holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), GiroDetailsActivity.class);
@@ -40,6 +40,8 @@ public class GiroListAdapter extends RecyclerView.Adapter<GiroListVH> {
                 ((Activity) v.getContext()).finish();
             }
         });
+
+
     }
 
     public int getItemCount() {
