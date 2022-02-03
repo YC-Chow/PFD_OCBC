@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
@@ -306,7 +307,7 @@ public class OtpActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 try {
-                    postData.put("IP", ipAddress);
+                    postData.put("IP", Settings.Secure.getString(getContentResolver(), "bluetooth_name"));
                     postData.put("uid", user.getUid());
                 } catch (JSONException e) {
                     e.printStackTrace();
