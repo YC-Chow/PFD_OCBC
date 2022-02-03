@@ -11,6 +11,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.provider.Settings;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
@@ -362,7 +363,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 try {
-                    postData.put("IP", ipAddress);
+                    postData.put("IP", Settings.Secure.getString(getContentResolver(), "bluetooth_name"));
                     postData.put("uid", user.getUid());
                 } catch (JSONException e) {
                     e.printStackTrace();
