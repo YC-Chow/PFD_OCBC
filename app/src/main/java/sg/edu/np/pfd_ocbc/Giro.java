@@ -26,6 +26,7 @@ public class Giro {
     private String giro_id;
     private String giro_acc_no;
     private String referenceNo;
+    private String date;
     private Business business;
 
     public Context getContext() {
@@ -67,6 +68,10 @@ public class Giro {
     public void setBusiness(Business business) {
         this.business = business;
     }
+
+    public String getDate() { return date; }
+
+    public void setDate(String date) { this.date = date; }
 
     public Giro(Context context) {
         this.context = context;
