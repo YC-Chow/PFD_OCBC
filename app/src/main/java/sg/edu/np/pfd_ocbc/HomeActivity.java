@@ -123,6 +123,7 @@ public class HomeActivity extends AppCompatActivity {
 
         TextView acc_HolderName = findViewById(R.id.userName);
         String accHolderName = accholdersharedpref.getString("name","");
+
         acc_HolderName.setText(accHolderName);
 
         //cardDetails
@@ -149,7 +150,8 @@ public class HomeActivity extends AppCompatActivity {
         TextView cardName = findViewById(R.id.cardName);
         String NameonCard = sharedPref.getString("accName","");
         recyclerView = findViewById(R.id.transactionRV);
-        cardName.setText(NameonCard);
+        String accNo = sharedPref.getString("accNo","");
+        cardName.setText(NameonCard +  ", " + accNo);
 
 
 
