@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -40,6 +41,9 @@ public class AccountSelectorActivity extends AppCompatActivity {
         String situation = intent.getStringExtra("situation");
 
         RecyclerView recyclerView = findViewById(R.id.recycler);
+
+        ImageButton back = findViewById(R.id.accselectorback);
+
 
 
 
@@ -103,6 +107,14 @@ public class AccountSelectorActivity extends AppCompatActivity {
                         recyclerView.setAdapter(receiverAdapter);
                         recyclerView.setVisibility(View.VISIBLE);
                         recyclerView.setItemAnimator(new DefaultItemAnimator());
+                        back.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(AccountSelectorActivity.this, SettingsActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+
                     }
                     if(situation.equals("home")){
                         ChangeAccountAdapter changeAccountAdapter = new ChangeAccountAdapter(mContext, cardList);
@@ -111,6 +123,14 @@ public class AccountSelectorActivity extends AppCompatActivity {
                         recyclerView.setAdapter(changeAccountAdapter);
                         recyclerView.setVisibility(View.VISIBLE);
                         recyclerView.setItemAnimator(new DefaultItemAnimator());
+                        back.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(AccountSelectorActivity.this, HomeActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+
                     }
 
 
