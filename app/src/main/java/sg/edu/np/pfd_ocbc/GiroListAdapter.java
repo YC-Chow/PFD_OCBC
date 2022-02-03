@@ -35,6 +35,7 @@ public class GiroListAdapter extends RecyclerView.Adapter<GiroListVH> {
                 intent.putExtra("bizName", giro.getBusiness().getName());
                 intent.putExtra("giroAcc", giro.getGiro_acc_no());
                 intent.putExtra("ref_no", giro.getReferenceNo());
+                intent.putExtra("date", giro.getDate());
                 v.getContext().startActivity(intent);
                 ((Activity) v.getContext()).finish();
             }

@@ -169,6 +169,7 @@ public class GiroListActivity extends AppCompatActivity {
                         giro.setBusiness(new Business(giroArray.getJSONObject(i).getString("business_uen"),
                                 giroArray.getJSONObject(i).getString("business_name"),
                                 giroArray.getJSONObject(i).getString("business_acc_no")));
+                        giro.setDate(giroArray.getJSONObject(i).getString("giro_date").substring(0,10));
 
                         giroList.add(giro);
 

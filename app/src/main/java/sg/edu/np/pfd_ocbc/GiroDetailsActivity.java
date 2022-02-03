@@ -18,7 +18,7 @@ public class GiroDetailsActivity extends AppCompatActivity {
 
     ImageButton back;
     Button cancelBtn;
-    TextView bizName, descriptionBox, giroAccNo;
+    TextView bizName, descriptionBox, giroAccNo, giroDate;
 
 
     @Override
@@ -29,6 +29,7 @@ public class GiroDetailsActivity extends AppCompatActivity {
         back = findViewById(R.id.giroOptBack);
         bizName = findViewById(R.id.orgName);
         giroAccNo = findViewById(R.id.giroAccNo);
+        giroDate = findViewById(R.id.giroDate);
         descriptionBox = findViewById(R.id.giroDescription);
         cancelBtn = findViewById(R.id.giroDetailsCancelBtn);
 
@@ -38,7 +39,7 @@ public class GiroDetailsActivity extends AppCompatActivity {
         bizName.setText(getIntent().getStringExtra("bizName"));
         descriptionBox.setText(getIntent().getStringExtra("ref_no"));
         giroAccNo.setText(getIntent().getStringExtra("giroAcc"));
-
+        giroDate.setText(getIntent().getStringExtra("date"));
 
 
 
