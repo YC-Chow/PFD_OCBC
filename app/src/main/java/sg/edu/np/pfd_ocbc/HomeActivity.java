@@ -314,6 +314,7 @@ public class HomeActivity extends AppCompatActivity {
                                     String fromAcc = jsonObject.getString("from_acc");
                                     String date = jsonObject.getString("date").substring(0,10);
                                     Double amt = Double.parseDouble(jsonObject.getString("amount"));
+                                    String transactType = jsonObject.getString("trans_type");
 
                                     String DebitOrCredit = "";
 
@@ -331,6 +332,7 @@ public class HomeActivity extends AppCompatActivity {
                                     t.setSenderAccNo(fromAcc);
                                     t.setTransactionAmt(amt);
                                     t.setTransactionDate(date);
+                                    t.setTransactType(transactType);
                                     t.setDebitOrCredit(DebitOrCredit);
                                     transactionList.add(0,t);
 
