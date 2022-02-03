@@ -109,10 +109,10 @@ public class AccountTransferActivity extends AppCompatActivity {
                         break;
 
                     case R.id.qrTransfer:
-//                        Intent c = new Intent(AccountTransferActivity.this, QRCodeScannerActivity.class);
-//                        c.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-//                        startActivity(c);
-//                        break;
+                        Intent c = new Intent(AccountTransferActivity.this, QRCodeScannerActivity.class);
+                        c.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(c);
+                        break;
                 }
                 return false;
             }
