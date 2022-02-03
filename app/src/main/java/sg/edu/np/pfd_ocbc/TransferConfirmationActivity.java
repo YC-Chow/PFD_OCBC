@@ -66,7 +66,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         senderAccNum = getIntent().getStringExtra("from");
         amount = getIntent().getDoubleExtra("amount", 0);
         receiveName = getIntent().getStringExtra("name");
-        long hours = getIntent().getLongExtra("hours", 0);
+        int hours = getIntent().getIntExtra("hours", 0);
 
         //setting info
         transferAmt.setText("S$"+ String.format("%.2f", amount));
@@ -74,11 +74,9 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         receiverCardNumber.setText(receiverAccNum);
         receiverName.setText(receiveName);
         if(hours != 0){
-            by.setText("Scheduled for: " + getIntent().getStringExtra("by"));
+            by.setText("Transfer in: " + hours + " hours");
         }
-        else{
-            by.setText("");
-        }
+
 
 
 
@@ -139,7 +137,7 @@ public class TransferConfirmationActivity extends AppCompatActivity {
         else {
             transaction.setUniqueCode((new RandomString()).nextString());
         }
-        transaction.setHours(getIntent().getLongExtra("hours", 0));
+        transaction.setHours(getIntent().getIntExtra("hours", 0));
         transaction.setSenderAccNo(senderCardNumber);
         transaction.setRecipientAccNo(receiverCardNumber);
         transaction.setTransactionAmt(amount);
@@ -289,7 +287,12 @@ public class TransferConfirmationActivity extends AppCompatActivity {
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
-        builder.setMessage("You have scheduled a transaction of S$" + String.format("%.2f", transaction.getTransactionAmt()) + " to " + receiveName + " by " + getIntent().getStringExtra("by"));
+        if(getIntent().getIntExtra("hours", 0) > 1){
+            builder.setMessage("You have scheduled a transaction of S$" + String.format("%.2f", transaction.getTransactionAmt()) + " to " + receiveName + " in " + getIntent().getIntExtra("hours", 0) + " hours");
+        }
+        else{
+            builder.setMessage("You have scheduled a transaction of S$" + String.format("%.2f", transaction.getTransactionAmt()) + " to " + receiveName + " in " + getIntent().getIntExtra("hours", 0) + " hour");
+        }
         builder.setTitle("Transaction Success");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
