@@ -41,8 +41,8 @@ public class MobileNumberActivity extends AppCompatActivity {
 
         enterMobileNum = findViewById(R.id.customMobileNum);
         nextBtn = findViewById(R.id.nextBtnMobileNumber);
-        backBtn = findViewById(R.id.backBtnMobileNumber);
-        backBtn.setVisibility(View.GONE);
+        //backBtn = findViewById(R.id.backBtnMobileNumber);
+        //backBtn.setVisibility(View.GONE);
 
 
 
